@@ -23,11 +23,11 @@ export class AppComponent implements OnInit {
     placeholder: 'Enter text here...',
     translate: 'no',
     sanitize: false,
-    // toolbarPosition: 'top',
-    outline: true,
-    defaultFontName: 'Comic Sans MS',
-    defaultFontSize: '5',
-    // showToolbar: false,
+    toolbarPosition: 'top',
+    outline: false,
+    defaultFontName: 'Times New Roman',
+    defaultFontSize: '3',
+    showToolbar: true,
     defaultParagraphSeparator: 'p',
     customClasses: [
       {
@@ -45,8 +45,8 @@ export class AppComponent implements OnInit {
       },
     ],
     toolbarHiddenButtons: [
-      ['bold', 'italic'],
-      ['fontSize']
+      // ['bold', 'italic'],
+      // ['fontSize']
     ]
   };
 
@@ -76,6 +76,10 @@ export class AppComponent implements OnInit {
         class: 'titleText',
         tag: 'h1',
       },
+    ],
+    toolbarHiddenButtons: [
+      ['bold', 'italic'],
+      ['fontSize']
     ]
   };
 
