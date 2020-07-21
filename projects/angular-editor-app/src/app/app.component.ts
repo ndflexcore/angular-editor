@@ -18,8 +18,8 @@ export class AppComponent implements OnInit {
   config1: AngularEditorConfig = {
     editable: true,
     spellcheck: true,
-    minHeight: '5rem',
-    maxHeight: '15rem',
+    minHeight: '10rem',
+    maxHeight: '25rem',
     placeholder: 'Enter text here...',
     translate: 'no',
     sanitize: false,
