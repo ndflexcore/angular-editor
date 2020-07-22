@@ -65,11 +65,8 @@ const sen_cs: { [p: string]: string } = {
 })
 export class LangService {
     set lang(value: 'cs' | 'en') {
-        this._lang = value;
         this.switchLang(value);
     }
-
-    private _lang: 'cs' | 'en' = 'cs';
 
     get sen(): { [p: string]: string } {
         return this._sen;

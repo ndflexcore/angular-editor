@@ -4,7 +4,6 @@ import {HttpResponse} from '@angular/common/http';
 import {DOCUMENT} from '@angular/common';
 import {CustomClass} from './config';
 import {SelectOption} from './ae-select/ae-select.component';
-import {LangService} from './services/lang.service';
 
 @Component({
     selector: 'angular-editor-toolbar',
