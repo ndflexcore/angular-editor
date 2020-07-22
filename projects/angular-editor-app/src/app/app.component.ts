@@ -107,4 +107,8 @@ export class AppComponent implements OnInit {
     onChange2(event) {
         console.warn(this.form.value);
     }
+
+    onFtpNeeded(editorId: string): void {
+        console.log(`ftpNeeded, editorId: ${editorId}`);
+    }
 }

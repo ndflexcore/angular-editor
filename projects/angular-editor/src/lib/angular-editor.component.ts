@@ -78,6 +78,12 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         // tslint:disable-next-line:no-output-rename no-output-native
     @Output('focus') focusEvent: EventEmitter<FocusEvent> = new EventEmitter<FocusEvent>();
 
+    /*
+    emits to trigger Image browser dialog
+    emits the editorId of the editor which needs it
+     */
+    @Output() ftpNeeded = new EventEmitter<string>();
+
     @HostBinding('attr.tabindex') tabindex = -1;
 
     @HostListener('focus')
@@ -135,6 +141,8 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
             } else if (command === 'default') {
                 this.editorService.removeSelectedElements('h1,h2,h3,h4,h5,h6,p,pre');
                 this.onContentChange(this.textArea.nativeElement);
+            } else if (command === 'insertFtp') {
+                this.ftpNeeded.emit(this.id);
             } else {
                 this.editorService.executeCommand(command);
             }
