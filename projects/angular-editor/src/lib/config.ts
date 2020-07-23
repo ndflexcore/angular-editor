@@ -33,6 +33,10 @@ export interface AngularEditorConfig {
     outline?: boolean;
     toolbarHiddenButtons?: string[][];
     language: 'cs' | 'en';
+    imageServerUrl: string;
+    imageType: string;
+    presetWidth: number;
+    presetHeight: number;
 }
 
 export const angularEditorConfig: AngularEditorConfig = {
@@ -61,7 +65,11 @@ export const angularEditorConfig: AngularEditorConfig = {
     sanitize: true,
     toolbarPosition: 'top',
     outline: true,
-    language: 'cs'
+    language: 'cs',
+    imageServerUrl: '',
+    imageType: 'preview',
+    presetWidth: 98,
+    presetHeight: 98
     /*toolbarHiddenButtons: [
       ['bold', 'italic', 'underline', 'strikeThrough', 'superscript', 'subscript'],
       ['heading', 'fontName', 'fontSize', 'color'],

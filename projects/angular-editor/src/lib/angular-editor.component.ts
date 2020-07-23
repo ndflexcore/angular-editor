@@ -27,6 +27,7 @@ import {isDefined} from './utils';
 import {LangService} from './services/lang.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {DirectoryChild} from './common/common-interfaces';
 
 @Component({
     selector: 'angular-editor',
@@ -61,6 +62,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     @Input() config: AngularEditorConfig = angularEditorConfig;
     @Input() placeholder = '';
     @Input() tabIndex: number | null;
+    @Input() ftpLink: DirectoryChild | null;
 
     @Output() html;
 
@@ -123,6 +125,18 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     ngOnChanges(changes: SimpleChanges) {
         if (changes['config'] && changes['config'].currentValue) {
             this.langService.lang = changes['config'].currentValue['language'];
+        }
+        if (changes['ftpLink'] && changes['ftpLink'].currentValue) {
+            const ftpLink = <DirectoryChild>changes['ftpLink'].currentValue;
+            if (ftpLink.editorId === this.id) {
+                const alt = ftpLink.alt || ftpLink.name;
+                const title = ftpLink.title ? `title="${ftpLink.title}"` : '';
+                const width = ftpLink.width ? ftpLink.width : this.config.presetWidth;
+                const height = ftpLink.height ? ftpLink.height : this.config.presetHeight;
+                const src = `${this.config.imageServerUrl}/${this.config.imageType}/${width}/${height}/${ftpLink.partialWebPath}`;
+                const imageHtml = `<img src="${src}" alt="${alt}" ${title}>`;
+                this.editorService.insertHtml(imageHtml);
+            }
         }
     }
 

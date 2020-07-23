@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AngularEditorConfig} from '../../../angular-editor/src/public-api';
+import {DirectoryChild} from '../../../angular-editor/src/lib/common/common-interfaces';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 @Component({
     selector: 'app-root',
@@ -11,10 +14,12 @@ export class AppComponent implements OnInit {
     title = 'app';
 
     form: FormGroup;
+    sensForm: FormGroup;
 
     htmlContent1 = '';
     htmlContent2 = '';
     langCode: 'cs' | 'en' = 'cs';
+    selectedFtpLink: DirectoryChild;
 
     config1: AngularEditorConfig = {
         editable: true,
@@ -31,6 +36,10 @@ export class AppComponent implements OnInit {
         showToolbar: true,
         defaultParagraphSeparator: 'p',
         language: this.langCode,
+        imageServerUrl: '',
+        imageType: 'preview',
+        presetWidth: 98,
+        presetHeight: 98,
         customClasses: [
             {
                 name: 'quote',
@@ -65,6 +74,10 @@ export class AppComponent implements OnInit {
         defaultFontSize: '5',
         defaultParagraphSeparator: 'p',
         language: this.langCode,
+        imageServerUrl: '',
+        imageType: 'preview',
+        presetWidth: 98,
+        presetHeight: 98,
         customClasses: [
             {
                 name: 'quote',
@@ -86,18 +99,18 @@ export class AppComponent implements OnInit {
         ]
     };
 
+    private ngUnsubscribe: Subject<any> = new Subject<any>();
+
     constructor(private formBuilder: FormBuilder) {
+        this.createForms();
     }
 
     ngOnInit() {
-        this.form = this.formBuilder.group({
-            signature: ['', Validators.required]
-        });
         console.log(this.htmlContent1);
     }
 
     onChange(event) {
-        console.log('changed');
+        console.log(`(ngModelChange): ${event}`);
     }
 
     onBlur(event) {
@@ -105,10 +118,37 @@ export class AppComponent implements OnInit {
     }
 
     onChange2(event) {
-        console.warn(this.form.value);
+        console.log(`(ngModelChange): ${event}`);
     }
 
     onFtpNeeded(editorId: string): void {
-        console.log(`ftpNeeded, editorId: ${editorId}`);
+        this.selectedFtpLink = {
+            expandable: false,
+            fullPath: '800px-Tides_of_Vengeance_logo.png',
+            fullWebPath: '',
+            name: '800px-Tides_of_Vengeance_logo.png',
+            partialWebPath: '800px-Tides_of_Vengeance_logo.png',
+            size: '231,9 kB',
+            editorId: editorId,
+            width: 320,
+            height: 240,
+            alt: 'My inserted image ALT',
+            title: 'My inserted image TITLE'
+        };
+    }
+
+    private createForms(): void {
+        this.form = this.formBuilder.group({
+            signature: ['', Validators.required]
+        });
+        this.sensForm = this.formBuilder.group({
+            imageServerUrl: ['']
+        });
+        this.sensForm.get('imageServerUrl').valueChanges
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(res => {
+                this.config1.imageServerUrl = res;
+                this.config2.imageServerUrl = res;
+            })
     }
 }

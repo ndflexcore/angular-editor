@@ -1,33 +1,43 @@
 <div class="container">
-  <h1>Angular Editor</h1>
-  <p><a href="https://github.com/kolkov/angular-editor">Get it here</a></p>
+    <h1>Angular Editor</h1>
 
-  <label for="test_input">Test input </label>
-  <input id="test_input">
-  <br><br>
-  <angular-editor id="editor1" [(ngModel)]="htmlContent1"
-                  [config]="config1" (ngModelChange)="onChange($event)"
-                  (blur)="onBlur($event)"
-                  (ftpNeeded)="onFtpNeeded($event)"
-  >
+    <div [formGroup]="sensForm">
+        <h3>Enter app specific data</h3>
+        <label for="imageServerUrlLabel">Enter image server url</label>
+        <input id="imageServerUrlLabel" type="text" formControlName="imageServerUrl">
+    </div>
+    <br>
+    <br>
 
-  </angular-editor>
-  <p class="html">
-    HTML Output:  {{ htmlContent1 }}
-  </p>
-  <form [formGroup]="form">
-    <angular-editor autofocus="true" id="editor2" formControlName="signature"
+    <label for="test_input">Test input </label>
+    <input id="test_input">
+    <br><br>
+    <form [formGroup]="form">
+        <angular-editor id="editor1" formControlName="signature"
+                        [config]="config1" (ngModelChange)="onChange($event)"
+                        (blur)="onBlur($event)"
+                        (ftpNeeded)="onFtpNeeded($event)"
+                        [ftpLink]="selectedFtpLink"
+        >
+        </angular-editor>
+    </form>
+    <p class="html">
+        HTML Output:  {{ htmlContent1 }}
+    </p>
+
+    <p>
+        Form Value: {{ form.value.signature }}
+    </p>
+    <p>
+        Form Status: {{ form.status }}
+    </p>
+
+    <angular-editor autofocus="true" id="editor2" [(ngModel)]="htmlContent2"
                     [config]="config2" (ngModelChange)="onChange2($event)"
                     (ftpNeeded)="onFtpNeeded($event)"
+                    [ftpLink]="selectedFtpLink"
     >
-
     </angular-editor>
-  </form>
-  <p>
-    Form Value: {{ form.value.signature }}
-  </p>
-  <p>
-    Form Status: {{ form.status }}
-  </p>
+
 </div>
 
