@@ -1,4 +1,4 @@
-# AngularEditor
+# ND Flex Core AngularEditor
 Fork of @kolkov/angular-editor modified for specific needs of our company. Please use the original repo at https://github.com/kolkov/angular-editor.
 
 ## Getting Started
