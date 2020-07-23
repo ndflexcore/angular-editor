@@ -1,26 +1,5 @@
-<p align="center">
-  <img width="150px" src="https://raw.githubusercontent.com/kolkov/angular-editor/master/docs/angular-editor-logo.png?raw=true" alt="AngularEditor logo"/>
-</p>
-
 # AngularEditor
-[![npm version](https://badge.fury.io/js/%40kolkov%2Fangular-editor.svg)](https://badge.fury.io/js/%40kolkov%2Fangular-editor)
-[![demo](https://img.shields.io/badge/demo-StackBlitz-blueviolet.svg)](https://stackblitz.com/edit/angular-editor-wysiwyg)
-[![Build Status](https://travis-ci.com/kolkov/angular-editor.svg?branch=master)](https://travis-ci.com/kolkov/angular-editor)
-[![npm](https://img.shields.io/npm/dm/@kolkov/angular-editor.svg)](https://www.npmjs.com/package/@kolkov/angular-editor)
-[![](https://data.jsdelivr.com/v1/package/npm/@kolkov/angular-editor/badge?style=rounded)](https://www.jsdelivr.com/package/npm/@kolkov/angular-editor)
-[![Coverage Status](https://coveralls.io/repos/github/kolkov/angular-editor/badge.svg?branch=master)](https://coveralls.io/github/kolkov/angular-editor?branch=master)
-[![dependencies Status](https://david-dm.org/kolkov/angular-editor/status.svg)](https://david-dm.org/kolkov/angular-editor)
-[![devDependencies Status](https://david-dm.org/kolkov/angular-editor/dev-status.svg)](https://david-dm.org/kolkov/angular-editor?type=dev)
-[![codecov](https://codecov.io/gh/kolkov/angular-editor/branch/master/graph/badge.svg)](https://codecov.io/gh/kolkov/angular-editor)
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/AndreyKolkov)
-
-A simple native WYSIWYG/Rich Text editor for Angular 6-8+
-
-![Nov-27-2019 17-26-29](https://user-images.githubusercontent.com/216412/69763434-259cd800-113b-11ea-918f-0565ebce0e48.gif)
-
-
-## Demo
-[demo](https://angular-editor-wysiwyg.stackblitz.io/) | [See the code in StackBlitz](https://stackblitz.com/edit/angular-editor-wysiwyg).
+Fork of @kolkov/angular-editor modified for specific needs of our company. Please use the original repo at https://github.com/kolkov/angular-editor.
 
 ## Getting Started
 
@@ -29,15 +8,8 @@ A simple native WYSIWYG/Rich Text editor for Angular 6-8+
 Install via [npm][npm] package manager 
 
 ```bash
-npm install @kolkov/angular-editor --save
+npm install @ndflexcore/angular-editor --save
 ```
-### Versions
-
-1.0.0 and above - for Angular v8.x.x and above
-
-0.18.4 and above - for Angular v7.x.x
-
-0.15.x - for Angular v6.x.x 
 
 ### Usage
 
@@ -55,26 +27,26 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 Then in HTML
 
 ```html
-<angular-editor [placeholder]="'Enter text here...'" [(ngModel)]="htmlContent"></angular-editor>
+<angular-editor [placeholder]="'Enter text here...'" [(ngModel)]="htmlContent" (ftpNeeded)="onFtpNeeded($event)" [ftpLink]="selectedFtpLink"></angular-editor>
 ```
 
 or for usage with reactive forms
 
 ```html
-<angular-editor formControlName="htmlContent" [config]="editorConfig"></angular-editor>
+<angular-editor formControlName="htmlContent" [config]="editorConfig" (ftpNeeded)="onFtpNeeded($event)" [ftpLink]="selectedFtpLink"></angular-editor>
 ```
 
 if you using more than one editor on same page set `id` property
 
 ```html
-<angular-editor id="editor1" formControlName="htmlContent1" [config]="editorConfig"></angular-editor>
-<angular-editor id="editor2" formControlName="htmlContent2" [config]="editorConfig"></angular-editor>
+<angular-editor id="editor1" formControlName="htmlContent1" [config]="editorConfig" (ftpNeeded)="onFtpNeeded($event)" [ftpLink]="selectedFtpLink"></angular-editor>
+<angular-editor id="editor2" formControlName="htmlContent2" [config]="editorConfig" (ftpNeeded)="onFtpNeeded($event)" [ftpLink]="selectedFtpLink"></angular-editor>
 ```
 
 where
 
 ```js
-import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { AngularEditorConfig } from '@ndflexcore/angular-editor';
 
 
 editorConfig: AngularEditorConfig = {
@@ -117,6 +89,11 @@ editorConfig: AngularEditorConfig = {
     uploadWithCredentials: false,
     sanitize: true,
     toolbarPosition: 'top',
+    language: 'cs',
+    imageServerUrl: '',
+    imageType: 'preview',
+    presetWidth: 98,
+    presetHeight: 98,
     toolbarHiddenButtons: [
       ['bold', 'italic'],
       ['fontSize']
@@ -133,6 +110,7 @@ For `ngModel` to work, you must import `FormsModule` from `@angular/forms`, or f
 | [config] | `AngularEditorConfig` | `default config` | no | config for the editor |
 | placeholder | `string` | `-` | no | Set custom placeholder for input area |
 | tabIndex | `number` | `-` | no | Set Set tabindex on angular-editor |
+| ftpLink | `DirectoryChild` | `-` | no | The ftpLink (either Image or Generic File) from external browser component |
 
 ### Outputs
 
@@ -142,6 +120,7 @@ For `ngModel` to work, you must import `FormsModule` from `@angular/forms`, or f
 | (viewMode)  | Fired when switched visual and html source mode |
 | (blur)  | Fired when editor blur |
 | (focus)  | Fired when editor focus |
+| (ftpNeeded) | Fired when 'Insert Image/File from FTP' toolbar button is clicked
 
 ### Methods
  Name  | Description |
@@ -179,6 +158,11 @@ For `ngModel` to work, you must import `FormsModule` from `@angular/forms`, or f
 | customClasses  | `CustomClass[]` | `-` | no | Set array of available fonts  `[{name, class, tag},...]` |
 | outline  | `bolean` | `true` | no | Set outline of the editor if in focus |
 | toolbarHiddenButtons  | `string[][]` | `-` | no | Set of the array of button names or elements to hide |
+| language | 'cs' &#124; 'en'` | `cs` | `yes` | The language of the editor tooltips |
+| imageServerUrl | `string` | `-` | `yes` | The URL of the Image Server |
+| imageType | `string` | `preview` | `yes` | The Image Type |
+| presetWidth| `number` | 98 | `yes` | The preset width of the image, used when user does not enter one |
+| presetHeight | `number` | 98 | `yes` | The preset height of the image, used when user does not enter one |
 
 ```js
 toolbarHiddenButtons: [
@@ -232,32 +216,19 @@ angular-editor/
 
 `angular-editor-app/` - demo application
 
-## Documentation
-
-The documentation for the AngularEditor is hosted at our website [AngularEditor](https://angular-editor.kolkov.ru/)
-
-## Contributing
-
-Please read through our [contributing guidelines](https://github.com/kolkov/angular-editor/blob/master/CONTRIBUTING.md). Included are directions for opening issues, coding standards, and notes on development.
-
-Editor preferences are available in the [editor config](https://github.com/kolkov/angular-editor/blob/master/.editorconfig) for easy use in common text editors. Read more and download plugins at <http://editorconfig.org>.
-
-## Versioning
-
-For transparency into our release cycle and in striving to maintain backward compatibility, AngularEditor is maintained under [the Semantic Versioning guidelines](http://semver.org/).
-
-See [the Releases section of our project](https://github.com/kolkov/angular-editor/releases) for changelogs for each release version.
-
 ## Creators
 
 **Andrey Kolkov**
 
 * <https://github.com/kolkov>
 
-## Donate
+The Author of the original repo. Thank you Andrey and Long Life to Russia!
 
-If you like my work and I save your time you can buy me a :beer: or :pizza: [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/AndreyKolkov)
+**Petr Humplík on behalf of NetDirect s.r.o.**  
 
-[npm]: https://www.npmjs.com/package/@kolkov/angular-editor
-[demo]: https://angular-editor-wysiwyg.stackblitz.io/
-[example]: https://stackblitz.com/edit/angular-editor-wysiwyg
+* <https://github.com/ndflexcore>
+
+Author of the specifically modified version (this repo).
+
+## License
+MIT
