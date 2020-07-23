@@ -10,3 +10,6 @@ Do these steps as follows:
 * `publish:lib`
 
 or their content as described in `package.json`
+
+> **important**  
+>do not forget `--access=public`, otherwise you'll get `402 Payment Required ` 
