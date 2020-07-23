@@ -109,7 +109,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
                 this.sen = res;
-            })
+            });
     }
 
     ngOnInit() {
@@ -127,15 +127,20 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
             this.langService.lang = changes['config'].currentValue['language'];
         }
         if (changes['ftpLink'] && changes['ftpLink'].currentValue) {
-            const ftpLink = <DirectoryChild>changes['ftpLink'].currentValue;
+            const ftpLink = <DirectoryChild> changes['ftpLink'].currentValue;
             if (ftpLink.editorId === this.id) {
-                const alt = ftpLink.alt || ftpLink.name;
-                const title = ftpLink.title ? `title="${ftpLink.title}"` : '';
-                const width = ftpLink.width ? ftpLink.width : this.config.presetWidth;
-                const height = ftpLink.height ? ftpLink.height : this.config.presetHeight;
-                const src = `${this.config.imageServerUrl}/${this.config.imageType}/${width}/${height}/${ftpLink.partialWebPath}`;
-                const imageHtml = `<img src="${src}" alt="${alt}" ${title}>`;
-                this.editorService.insertHtml(imageHtml);
+                if (/\/files\//.test(ftpLink.fullWebPath)) {
+                    const linkHtml = `<a href="${ftpLink.fullWebPath}">${ftpLink.name}</a>`;
+                    this.editorService.insertHtml(linkHtml);
+                } else {
+                    const alt = ftpLink.alt || ftpLink.name;
+                    const title = ftpLink.title ? `title="${ftpLink.title}"` : '';
+                    const width = ftpLink.width ? ftpLink.width : this.config.presetWidth;
+                    const height = ftpLink.height ? ftpLink.height : this.config.presetHeight;
+                    const src = `${this.config.imageServerUrl}/${this.config.imageType}/${width}/${height}/${ftpLink.partialWebPath}`;
+                    const imageHtml = `<img src="${src}" alt="${alt}" ${title}>`;
+                    this.editorService.insertHtml(imageHtml);
+                }
             }
         }
     }
