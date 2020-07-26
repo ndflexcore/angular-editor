@@ -20,7 +20,6 @@ export interface AngularEditorConfig {
     translate?: 'yes' | 'now' | string;
     enableToolbar?: boolean;
     showToolbar?: boolean;
-    placeholder?: string;
     defaultParagraphSeparator?: string;
     defaultFontName?: string;
     defaultFontSize?: '1' | '2' | '3' | '4' | '5' | '6' | '7' | string;
@@ -50,7 +49,6 @@ export const angularEditorConfig: AngularEditorConfig = {
     translate: 'yes',
     enableToolbar: true,
     showToolbar: true,
-    placeholder: 'Enter text here...',
     defaultParagraphSeparator: '',
     defaultFontName: '',
     defaultFontSize: '',

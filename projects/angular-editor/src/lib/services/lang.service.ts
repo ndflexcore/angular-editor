@@ -27,7 +27,8 @@ const sen_en: { [p: string]: string } = {
     clearFormatting: 'Clear Formatting',
     HTMLCode: 'HTML Code',
     textColor: 'Text Color',
-    backgroundColor: 'Background Color'
+    backgroundColor: 'Background Color',
+    placeholder: 'Enter text here...'
 };
 
 const sen_cs: { [p: string]: string } = {
@@ -57,7 +58,8 @@ const sen_cs: { [p: string]: string } = {
     clearFormatting: 'Zrušit formátování',
     HTMLCode: 'HTML kód',
     textColor: 'Barva textu',
-    backgroundColor: 'Barva pozadí'
+    backgroundColor: 'Barva pozadí',
+    placeholder: 'Sem zadejte text...',
 };
 
 @Injectable({
