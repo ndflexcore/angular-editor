@@ -131,6 +131,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
             if (ftpLink.editorId === this.id) {
                 if (/\/files\//.test(ftpLink.fullWebPath)) {
                     const linkHtml = `<a href="${ftpLink.fullWebPath}">${ftpLink.name}</a>`;
+                    this.editorService.restoreSelection();
                     this.editorService.insertHtml(linkHtml);
                 } else {
                     const alt = ftpLink.alt || ftpLink.name;
@@ -139,6 +140,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                     const height = ftpLink.height ? ftpLink.height : this.config.presetHeight;
                     const src = `${this.config.imageServerUrl}/${this.config.imageType}/${width}/${height}/${ftpLink.partialWebPath}`;
                     const imageHtml = `<img src="${src}" alt="${alt}" ${title}>`;
+                    this.editorService.restoreSelection();
                     this.editorService.insertHtml(imageHtml);
                 }
             }
