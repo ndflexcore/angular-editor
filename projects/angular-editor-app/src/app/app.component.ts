@@ -131,7 +131,8 @@ export class AppComponent implements OnInit {
             width: 320,
             height: 240,
             alt: 'My inserted image ALT',
-            title: 'My inserted image TITLE'
+            title: 'My inserted image TITLE',
+            crop: true
         };
     }
 

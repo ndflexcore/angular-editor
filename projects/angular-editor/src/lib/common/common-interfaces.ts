@@ -10,5 +10,6 @@ export interface DirectoryChild {
     height?: number;
     alt?: string;
     title?: string;
+    crop?: boolean;
 }
 
