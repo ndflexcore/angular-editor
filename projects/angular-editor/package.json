@@ -10,10 +10,11 @@
     "url": "https://github.com/ndflexcore/angular-editor/issues"
   },
   "peerDependencies": {
-    "@angular/common": ">=8.0.0 <10",
-    "@angular/core": ">=8.0.0 <10",
-    "@angular/forms": ">=8.0.0 <10",
-    "@angular/platform-browser": ">=8.0.0 <10",
+    "@angular/common": ">=8.0.0 <11",
+    "@angular/core": ">=8.0.0 <11",
+    "@angular/forms": ">=8.0.0 <11",
+    "@angular/material": ">=8.0.0 <11",
+    "@angular/platform-browser": ">=8.0.0 <11",
     "rxjs": "^6.x.x"
   }
 }

@@ -13,3 +13,9 @@ export interface DirectoryChild {
     crop?: boolean;
 }
 
+export interface TableDialogResult {
+    rows: number;
+    cols: number;
+    stroke: boolean;
+}
+

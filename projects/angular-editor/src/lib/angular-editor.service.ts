@@ -3,6 +3,10 @@ import {HttpClient, HttpEvent} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {DOCUMENT} from '@angular/common';
 import {CustomClass} from './config';
+import {MatDialog} from '@angular/material';
+import {InsertTableDialogComponent} from './insert-table-dialog.component';
+import {take} from 'rxjs/operators';
+import {TableDialogResult} from './common/common-interfaces';
 
 export interface UploadResponse {
   imageUrl: string;
@@ -18,10 +22,9 @@ export class AngularEditorService {
   uploadUrl: string;
   uploadWithCredentials: boolean;
 
-  constructor(
-    private http: HttpClient,
-    @Inject(DOCUMENT) private doc: any
-  ) { }
+  constructor(private http: HttpClient, @Inject(DOCUMENT) private doc: any, private dialog: MatDialog) {
+
+  }
 
   /**
    * Executed command from editor header buttons exclude toggleEditorMode
@@ -94,6 +97,23 @@ export class AngularEditorService {
     // if (!isHTMLInserted) {
     //   throw new Error('Unable to perform the operation');
     // }
+  }
+
+    /**
+     * opens insert table dialog
+     * and inserts table on result
+     */
+  insertTable(): void {
+        const dialogRef = this.dialog.open(InsertTableDialogComponent, {
+            width: '250px',
+            data: {}
+        });
+
+        dialogRef.afterClosed()
+            .pipe(take(1))
+            .subscribe((res: TableDialogResult) => {
+                console.log(res);
+            })
   }
 
   /**

@@ -165,6 +165,8 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                 this.onContentChange(this.textArea.nativeElement);
             } else if (command === 'insertFtp') {
                 this.ftpNeeded.emit(this.id);
+            } else if (command === 'insertTable') {
+                this.editorService.insertTable();
             } else {
                 this.editorService.executeCommand(command);
             }

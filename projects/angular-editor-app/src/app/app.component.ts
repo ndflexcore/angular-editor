@@ -56,7 +56,7 @@ export class AppComponent implements OnInit {
         ],
         toolbarHiddenButtons: [
             // ['bold', 'italic'],
-            ['insertTable']
+            // ['insertTable']
         ]
     };
 
