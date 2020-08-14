@@ -39,6 +39,8 @@ export class AppComponent implements OnInit {
         imageType: 'preview',
         presetWidth: 98,
         presetHeight: 98,
+        tableClass: 'editor-table',
+        tableStrokeClass: 'editor-table-stroke',
         customClasses: [
             {
                 name: 'quote',
@@ -76,6 +78,8 @@ export class AppComponent implements OnInit {
         imageType: 'preview',
         presetWidth: 98,
         presetHeight: 98,
+        tableClass: 'editor-table',
+        tableStrokeClass: 'editor-table-stroke',
         customClasses: [
             {
                 name: 'quote',

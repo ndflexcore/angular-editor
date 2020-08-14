@@ -6,6 +6,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 @Component({
     selector: 'dialog-insert-table',
     templateUrl: 'insert-table-dialog.component.html',
+    styleUrls: ['insert-table-dialog.component.scss']
 })
 export class InsertTableDialogComponent {
 
@@ -22,9 +23,9 @@ export class InsertTableDialogComponent {
 
     ok(): void {
         const result: TableDialogResult = {
-            rows: 2,
-            cols: 3,
-            stroke: true
+            rows: this.tableForm.get('rows').value,
+            cols: this.tableForm.get('cols').value,
+            stroke: this.tableForm.get('stroke').value
         };
         this.dialogRef.close(result);
     }

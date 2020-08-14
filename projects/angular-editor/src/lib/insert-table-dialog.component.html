@@ -1,4 +1,3 @@
-
 <h1 mat-dialog-title>Vložit tabulku</h1>
 <div mat-dialog-content [formGroup]="tableForm">
     <mat-form-field>
@@ -9,6 +8,8 @@
         <mat-label>Počet sloupců</mat-label>
         <input matInput formControlName="cols" type="number">
     </mat-form-field>
+    <mat-label class="stroke-label">Ohraničení</mat-label>
+    <mat-slide-toggle formControlName="stroke"></mat-slide-toggle>
 </div>
 <div mat-dialog-actions>
     <button mat-raised-button (click)="onCancelClick()">Storno</button>

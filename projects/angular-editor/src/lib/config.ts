@@ -36,6 +36,8 @@ export interface AngularEditorConfig {
     imageType: string;
     presetWidth: number;
     presetHeight: number;
+    tableClass: string;
+    tableStrokeClass: string;
 }
 
 export const angularEditorConfig: AngularEditorConfig = {
@@ -67,7 +69,9 @@ export const angularEditorConfig: AngularEditorConfig = {
     imageServerUrl: '',
     imageType: 'preview',
     presetWidth: 98,
-    presetHeight: 98
+    presetHeight: 98,
+    tableClass: 'editor-table',
+    tableStrokeClass: 'editor-table-stroke'
     /*toolbarHiddenButtons: [
       ['bold', 'italic', 'underline', 'strikeThrough', 'superscript', 'subscript'],
       ['heading', 'fontName', 'fontSize', 'color'],
