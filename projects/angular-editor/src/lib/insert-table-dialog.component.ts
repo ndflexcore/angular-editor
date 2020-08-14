@@ -18,7 +18,7 @@ export class InsertTableDialogComponent {
     }
 
     onCancelClick(): void {
-        this.dialogRef.close();
+        this.dialogRef.close(null);
     }
 
     ok(): void {

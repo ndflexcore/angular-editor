@@ -106,7 +106,7 @@ export class AngularEditorService {
      */
     insertTable(config: AngularEditorConfig): void {
         const dialogRef = this.dialog.open(InsertTableDialogComponent, {
-            width: '250px',
+            width: '275px',
             height: 'auto',
             data: {}
         });
@@ -114,10 +114,11 @@ export class AngularEditorService {
         dialogRef.afterClosed()
             .pipe(take(1))
             .subscribe((res: TableDialogResult) => {
-                const html = AngularEditorService.createTableHtml(res, config);
-                console.log(res);
-                this.restoreSelection();
-                this.insertHtml(html);
+                if (res) {
+                    const html = AngularEditorService.createTableHtml(res, config);
+                    this.restoreSelection();
+                    this.insertHtml(html);
+                }
             });
     }
 

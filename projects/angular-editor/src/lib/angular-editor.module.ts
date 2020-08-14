@@ -27,7 +27,11 @@ import {MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, Ma
     entryComponents: [
         InsertTableDialogComponent
     ],
-    exports: [AngularEditorComponent, AngularEditorToolbarComponent]
+    exports: [
+        AngularEditorComponent,
+        AngularEditorToolbarComponent,
+        InsertTableDialogComponent
+    ]
 })
 export class AngularEditorModule {
 }
