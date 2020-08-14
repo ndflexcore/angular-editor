@@ -403,6 +403,11 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         let userSelection;
         if (this.doc.getSelection) {
             userSelection = this.doc.getSelection();
+            // console.log(userSelection); // TODO selection
+            // TODO:
+            /**
+             * here you can try to experiment with focusNode, parents, children etc - e.g. set image attributes, table stroke etc...
+             */
             this.editorService.executeInNextQueueIteration(this.editorService.saveSelection);
         }
 
