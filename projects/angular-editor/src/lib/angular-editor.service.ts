@@ -124,7 +124,7 @@ export class AngularEditorService {
     /**
      * generates HTML table string for insertion
      * @param definition
-     * @private
+     * @param config
      */
     private static createTableHtml(definition: TableDialogResult, config: AngularEditorConfig): string {
         const cls = definition.stroke ? config.tableStrokeClass : config.tableClass;
