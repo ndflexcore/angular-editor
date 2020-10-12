@@ -28,6 +28,7 @@
          (click)="exec()"
          (keyup)="exec()"
          (mouseout)="onTextAreaMouseOut($event)"
+         (paste)="editorPaste()"
     >
     </div>
     <span class="angular-editor-placeholder">{{ placeholder || sen['placeholder'] }}</span>

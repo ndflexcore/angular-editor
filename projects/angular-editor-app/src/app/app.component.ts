@@ -59,7 +59,8 @@ export class AppComponent implements OnInit {
         toolbarHiddenButtons: [
             // ['bold', 'italic'],
             // ['insertTable']
-        ]
+        ],
+        pasteEnabled: false
     };
 
     config2: AngularEditorConfig = {
@@ -98,7 +99,8 @@ export class AppComponent implements OnInit {
         toolbarHiddenButtons: [
             ['bold', 'italic'],
             ['fontSize']
-        ]
+        ],
+        pasteEnabled: false
     };
 
     private ngUnsubscribe: Subject<any> = new Subject<any>();

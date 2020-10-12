@@ -466,4 +466,12 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         html = html.replace('position: fixed;', '');
         return html;
     }
+
+    editorPaste(): boolean {
+        return this.config.pasteEnabled;
+    }
+
+    // todo: insert link
+    // rework to material dialog
+    // if not comply with https, do not allow
 }

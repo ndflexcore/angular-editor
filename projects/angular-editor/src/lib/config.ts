@@ -38,6 +38,7 @@ export interface AngularEditorConfig {
     presetHeight: number;
     tableClass: string;
     tableStrokeClass: string;
+    pasteEnabled: boolean;
 }
 
 export const angularEditorConfig: AngularEditorConfig = {
@@ -71,7 +72,8 @@ export const angularEditorConfig: AngularEditorConfig = {
     presetWidth: 98,
     presetHeight: 98,
     tableClass: 'editor-table',
-    tableStrokeClass: 'editor-table-stroke'
+    tableStrokeClass: 'editor-table-stroke',
+    pasteEnabled: true
     /*toolbarHiddenButtons: [
       ['bold', 'italic', 'underline', 'strikeThrough', 'superscript', 'subscript'],
       ['heading', 'fontName', 'fontSize', 'color'],
