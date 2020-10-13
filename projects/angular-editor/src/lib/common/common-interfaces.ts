@@ -19,3 +19,7 @@ export interface TableDialogResult {
     stroke: boolean;
 }
 
+export interface LinkDialogResult {
+    url: string;
+}
+

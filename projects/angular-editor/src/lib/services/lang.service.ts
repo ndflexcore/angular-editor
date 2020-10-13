@@ -30,7 +30,15 @@ const sen_en: { [p: string]: string } = {
     backgroundColor: 'Background Color',
     placeholder: 'Enter text here...',
     notice: 'Notice',
-    pasteDisabled: 'Pasting from clipboard is disallowed.'
+    pasteDisabled: 'Pasting from clipboard is disallowed.',
+    cancel: 'Cancel',
+    numRows: 'Number of rows',
+    numCols: 'Number of columns',
+    stroke: 'Stroke',
+    insertLinkPlaceholder: 'https://www.example.com',
+    insertLinkUrlTitle: 'Link URL',
+    insertLinkValidatorRequired: 'You must enter a value.',
+    insertLinkValidatorPattern: 'Value must be valid URL with https'
 };
 
 const sen_cs: { [p: string]: string } = {
@@ -63,7 +71,15 @@ const sen_cs: { [p: string]: string } = {
     backgroundColor: 'Barva pozadí',
     placeholder: 'Sem zadejte text...',
     notice: 'Upozornění',
-    pasteDisabled: 'Funkce vkládání ze schránky je zakázána.'
+    pasteDisabled: 'Funkce vkládání ze schránky je zakázána.',
+    cancel: 'Storno',
+    numRows: 'Počet řádků',
+    numCols: 'Počet sloupců',
+    stroke: 'Ohraničení',
+    insertLinkPlaceholder: 'https://www.neco.cz',
+    insertLinkUrlTitle: 'URL odkazu',
+    insertLinkValidatorRequired: 'Musíte zadat hodnotu.',
+    insertLinkValidatorPattern: 'Hodnota musí být platná URL na protokolu https'
 };
 
 @Injectable({

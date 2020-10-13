@@ -1,17 +1,17 @@
-<h1 mat-dialog-title>Vložit tabulku</h1>
+<h1 mat-dialog-title>{{data.title}}</h1>
 <div mat-dialog-content [formGroup]="tableForm">
     <mat-form-field>
-        <mat-label>Počet řádků</mat-label>
+        <mat-label>{{data.numRows}}</mat-label>
         <input matInput formControlName="rows" type="number">
     </mat-form-field>
     <mat-form-field>
-        <mat-label>Počet sloupců</mat-label>
+        <mat-label>{{data.numCols}}</mat-label>
         <input matInput formControlName="cols" type="number">
     </mat-form-field>
-    <mat-label class="stroke-label">Ohraničení</mat-label>
+    <mat-label class="stroke-label">{{data.stroke}}</mat-label>
     <mat-slide-toggle formControlName="stroke"></mat-slide-toggle>
 </div>
 <div mat-dialog-actions class="pull-right insert-table-actions">
-    <button mat-raised-button (click)="onCancelClick()">Storno</button>
+    <button mat-raised-button (click)="onCancelClick()">{{data.cancel}}</button>
     <button mat-raised-button color="primary" (click)="ok()" cdkFocusInitial>OK</button>
 </div>

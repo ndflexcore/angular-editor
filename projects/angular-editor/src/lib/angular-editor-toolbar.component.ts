@@ -4,6 +4,10 @@ import {HttpResponse} from '@angular/common/http';
 import {DOCUMENT} from '@angular/common';
 import {CustomClass} from './config';
 import {SelectOption} from './ae-select/ae-select.component';
+import {MatDialog} from '@angular/material';
+import {take} from 'rxjs/operators';
+import {LinkDialogResult} from './common/common-interfaces';
+import {InsertLinkDialogComponent} from './insert-link-dialog.component';
 
 @Component({
     selector: 'angular-editor-toolbar',
@@ -156,7 +160,8 @@ export class AngularEditorToolbarComponent {
     constructor(
         private r: Renderer2,
         private editorService: AngularEditorService,
-        @Inject(DOCUMENT) private doc: any
+        @Inject(DOCUMENT) private doc: any,
+        private dialog: MatDialog
     ) {
     }
 
@@ -246,7 +251,7 @@ export class AngularEditorToolbarComponent {
      * insert URL link
      */
     insertUrl() {
-        let url = 'https:\/\/';
+        let url: string;
         const selection = this.editorService.savedSelection;
         if (selection && selection.commonAncestorContainer.parentElement.nodeName === 'A') {
             const parent = selection.commonAncestorContainer.parentElement as HTMLAnchorElement;
@@ -254,10 +259,28 @@ export class AngularEditorToolbarComponent {
                 url = parent.href;
             }
         }
-        url = prompt('Insert URL link', url);
-        if (url && url !== '' && url !== 'https://') {
-            this.editorService.createLink(url);
-        }
+        const dialogRef = this.dialog.open(InsertLinkDialogComponent, {
+            width: '375px',
+            height: 'auto',
+            data: {
+                url: url,
+                cancel: this.sen['cancel'],
+                title: this.sen['insertLink'],
+                placeholder: this.sen['insertLinkPlaceholder'],
+                urlTitle: this.sen['insertLinkUrlTitle'],
+                stroke: this.sen['stroke'],
+                insertLinkValidatorRequired: this.sen['insertLinkValidatorRequired'],
+                insertLinkValidatorPattern: this.sen['insertLinkValidatorPattern']
+            }
+        });
+        dialogRef.afterClosed()
+            .pipe(take(1))
+            .subscribe((res: LinkDialogResult) => {
+                if (res) {
+                    this.editorService.restoreSelection();
+                    this.editorService.createLink(res.url);
+                }
+            });
     }
 
     /**

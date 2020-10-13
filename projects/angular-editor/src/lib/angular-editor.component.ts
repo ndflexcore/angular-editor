@@ -490,7 +490,4 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         return this.config.pasteEnabled;
     }
 
-    // todo: insert link
-    // rework to material dialog
-    // if not comply with https, do not allow
 }

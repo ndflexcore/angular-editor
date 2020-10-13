@@ -1,12 +1,13 @@
 import {Inject, Injectable} from '@angular/core';
 import {HttpClient, HttpEvent} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {DOCUMENT} from '@angular/common';
 import {AngularEditorConfig, CustomClass} from './config';
 import {MatDialog} from '@angular/material';
 import {InsertTableDialogComponent} from './insert-table-dialog.component';
-import {take} from 'rxjs/operators';
+import {take, takeUntil} from 'rxjs/operators';
 import {TableDialogResult} from './common/common-interfaces';
+import {LangService} from './services/lang.service';
 
 export interface UploadResponse {
     imageUrl: string;
@@ -21,9 +22,16 @@ export class AngularEditorService {
     selectedText: string;
     uploadUrl: string;
     uploadWithCredentials: boolean;
+    sen: { [p: string]: string };
+    private ngUnsubscribe: Subject<any> = new Subject<any>();
 
-    constructor(private http: HttpClient, @Inject(DOCUMENT) private doc: any, private dialog: MatDialog) {
-
+    constructor(private http: HttpClient, @Inject(DOCUMENT) private doc: any, private dialog: MatDialog,
+                private langService: LangService) {
+        this.langService.languageChanged
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(res => {
+                this.sen = res;
+            });
     }
 
     /**
@@ -44,12 +52,8 @@ export class AngularEditorService {
      * @param url string from UI prompt
      */
     createLink(url: string) {
-        if (!url.includes('http')) {
-            this.doc.execCommand('createlink', false, url);
-        } else {
-            const newUrl = '<a href="' + url + '" target="_blank">' + this.selectedText + '</a>';
-            this.insertHtml(newUrl);
-        }
+        const newUrl = '<a href="' + url + '" target="_blank">' + this.selectedText + '</a>';
+        this.insertHtml(newUrl);
     }
 
     /**
@@ -93,6 +97,7 @@ export class AngularEditorService {
         try {
             const isHTMLInserted = this.doc.execCommand('insertHTML', false, html);
         } catch {
+
         }
 
         // if (!isHTMLInserted) {
@@ -108,7 +113,13 @@ export class AngularEditorService {
         const dialogRef = this.dialog.open(InsertTableDialogComponent, {
             width: '275px',
             height: 'auto',
-            data: {}
+            data: {
+                cancel: this.sen['cancel'],
+                title: this.sen['insertTable'],
+                numRows: this.sen['numRows'],
+                numCols: this.sen['numCols'],
+                stroke: this.sen['stroke']
+            }
         });
 
         dialogRef.afterClosed()
