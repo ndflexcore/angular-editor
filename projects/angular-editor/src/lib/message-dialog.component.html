@@ -1,0 +1,8 @@
+<!--todo: from dlg data-->
+<h1 mat-dialog-title>{{data.title}}</h1>
+<div mat-dialog-content>
+    <mat-label>{{data.text}}</mat-label>
+</div>
+<div mat-dialog-actions class="pull-right insert-table-actions">
+    <button mat-raised-button color="primary" (click)="ok()" cdkFocusInitial>OK</button>
+</div>

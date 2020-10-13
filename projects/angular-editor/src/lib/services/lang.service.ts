@@ -28,7 +28,9 @@ const sen_en: { [p: string]: string } = {
     HTMLCode: 'HTML Code',
     textColor: 'Text Color',
     backgroundColor: 'Background Color',
-    placeholder: 'Enter text here...'
+    placeholder: 'Enter text here...',
+    notice: 'Notice',
+    pasteDisabled: 'Pasting from clipboard is disallowed.'
 };
 
 const sen_cs: { [p: string]: string } = {
@@ -60,6 +62,8 @@ const sen_cs: { [p: string]: string } = {
     textColor: 'Barva textu',
     backgroundColor: 'Barva pozadí',
     placeholder: 'Sem zadejte text...',
+    notice: 'Upozornění',
+    pasteDisabled: 'Funkce vkládání ze schránky je zakázána.'
 };
 
 @Injectable({

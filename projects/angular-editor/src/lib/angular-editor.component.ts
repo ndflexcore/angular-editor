@@ -28,6 +28,8 @@ import {LangService} from './services/lang.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {DirectoryChild} from './common/common-interfaces';
+import {MatDialog} from '@angular/material';
+import {MessageDialogComponent} from './message-dialog.component';
 
 @Component({
     selector: 'angular-editor',
@@ -101,7 +103,8 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         private cdRef: ChangeDetectorRef,
         @Attribute('tabindex') defaultTabIndex: string,
         @Attribute('autofocus') private autoFocus: any,
-        private langService: LangService
+        private langService: LangService,
+        private dialog: MatDialog
     ) {
         const parsedTabIndex = Number(defaultTabIndex);
         this.tabIndex = (parsedTabIndex || parsedTabIndex === 0) ? parsedTabIndex : null;
@@ -468,6 +471,22 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     }
 
     editorPaste(): boolean {
+        if (!this.config.pasteEnabled) {
+            const dialogRef = this.dialog.open(MessageDialogComponent, {
+                width: '275px',
+                height: 'auto',
+                data: {
+                    title: this.sen['notice'],
+                    text: this.sen['pasteDisabled']
+                }
+            });
+            dialogRef.afterClosed()
+                .pipe(takeUntil(this.ngUnsubscribe))
+                .subscribe(() => {
+                    return false;
+                })
+        }
+
         return this.config.pasteEnabled;
     }
 

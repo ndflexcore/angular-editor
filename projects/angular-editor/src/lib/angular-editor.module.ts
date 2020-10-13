@@ -6,6 +6,7 @@ import {CommonModule} from '@angular/common';
 import {AeSelectComponent} from './ae-select/ae-select.component';
 import {InsertTableDialogComponent} from './insert-table-dialog.component';
 import {MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatSlideToggleModule} from '@angular/material';
+import {MessageDialogComponent} from './message-dialog.component';
 
 @NgModule({
     imports: [
@@ -22,15 +23,18 @@ import {MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, Ma
         AngularEditorComponent,
         AngularEditorToolbarComponent,
         AeSelectComponent,
-        InsertTableDialogComponent
+        InsertTableDialogComponent,
+        MessageDialogComponent
     ],
     entryComponents: [
-        InsertTableDialogComponent
+        InsertTableDialogComponent,
+        MessageDialogComponent
     ],
     exports: [
         AngularEditorComponent,
         AngularEditorToolbarComponent,
-        InsertTableDialogComponent
+        InsertTableDialogComponent,
+        MessageDialogComponent
     ]
 })
 export class AngularEditorModule {
