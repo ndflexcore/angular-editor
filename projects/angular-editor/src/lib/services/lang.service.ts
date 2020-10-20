@@ -35,10 +35,10 @@ const sen_en: { [p: string]: string } = {
     numRows: 'Number of rows',
     numCols: 'Number of columns',
     stroke: 'Stroke',
-    insertLinkPlaceholder: 'https://www.example.com',
+    insertLinkPlaceholder: '"https://www.boo.com" or "/c/fashion"',
     insertLinkUrlTitle: 'Link URL',
     insertLinkValidatorRequired: 'You must enter a value.',
-    insertLinkValidatorPattern: 'Value must be valid URL with https'
+    insertLinkValidatorPattern: 'Invalid URL format.'
 };
 
 const sen_cs: { [p: string]: string } = {
@@ -76,10 +76,10 @@ const sen_cs: { [p: string]: string } = {
     numRows: 'Počet řádků',
     numCols: 'Počet sloupců',
     stroke: 'Ohraničení',
-    insertLinkPlaceholder: 'https://www.neco.cz',
+    insertLinkPlaceholder: '"https://www.neco.cz" nebo "/c/moda"',
     insertLinkUrlTitle: 'URL odkazu',
     insertLinkValidatorRequired: 'Musíte zadat hodnotu.',
-    insertLinkValidatorPattern: 'Hodnota musí být platná URL na protokolu https'
+    insertLinkValidatorPattern: 'Neplatný formát URL.'
 };
 
 @Injectable({

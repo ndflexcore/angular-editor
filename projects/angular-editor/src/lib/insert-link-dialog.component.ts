@@ -40,7 +40,7 @@ export class InsertLinkDialogComponent {
 
     private createForm(): void {
         this.linkForm = this.fb.group({
-            url: [this.data.url, [Validators.required, Validators.pattern(/^https:\/\/([\w\d\-]+\.)+\w{2,}(\/.+)?\/?$/)]]
+            url: [this.data.url, [Validators.required, Validators.pattern(/^(https:\/\/([\w\d\-]+\.)+\w{2,})?(\/.+)?\/?$/)]]
         });
     }
 

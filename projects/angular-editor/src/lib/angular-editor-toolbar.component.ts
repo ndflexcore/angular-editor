@@ -260,7 +260,7 @@ export class AngularEditorToolbarComponent {
             }
         }
         const dialogRef = this.dialog.open(InsertLinkDialogComponent, {
-            width: '375px',
+            width: '405px',
             height: 'auto',
             data: {
                 url: url,
