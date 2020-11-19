@@ -38,7 +38,14 @@ const sen_en: { [p: string]: string } = {
     insertLinkPlaceholder: '"https://www.boo.com" or "/c/fashion"',
     insertLinkUrlTitle: 'Link URL',
     insertLinkValidatorRequired: 'You must enter a value.',
-    insertLinkValidatorPattern: 'Invalid URL format.'
+    insertLinkValidatorPattern: 'Invalid URL format.',
+    width: 'Width',
+    height: 'Height',
+    keepRatio: 'Keep Ratio',
+    crop: 'Crop',
+    alt: 'Alt',
+    title: 'Title',
+    editImageDialogTitle: 'Image Properties'
 };
 
 const sen_cs: { [p: string]: string } = {
@@ -79,7 +86,14 @@ const sen_cs: { [p: string]: string } = {
     insertLinkPlaceholder: '"https://www.neco.cz" nebo "/c/moda"',
     insertLinkUrlTitle: 'URL odkazu',
     insertLinkValidatorRequired: 'Musíte zadat hodnotu.',
-    insertLinkValidatorPattern: 'Neplatný formát URL.'
+    insertLinkValidatorPattern: 'Neplatný formát URL.',
+    width: 'Šířka',
+    height: 'Výška',
+    keepRatio: 'Zachovat poměr stran',
+    crop: 'Ořezat',
+    alt: 'Alt',
+    title: 'Titulek',
+    editImageDialogTitle: 'Vlastnosti obrázku'
 };
 
 @Injectable({

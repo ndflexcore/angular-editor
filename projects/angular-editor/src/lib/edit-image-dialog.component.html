@@ -1,0 +1,29 @@
+<h1 mat-dialog-title>{{data.senDialogTitle}}</h1>
+<div mat-dialog-content [formGroup]="imageForm">
+    <mat-form-field>
+        <mat-label>{{data.senWidth}}</mat-label>
+        <input matInput formControlName="width" type="number" (keypress)="widthKeyPres($event)">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>{{data.senHeight}}</mat-label>
+        <input matInput formControlName="height" type="number" (keypress)="heightKeyPress($event)">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>{{data.senAlt}}</mat-label>
+        <input matInput formControlName="alt" type="text" maxlength="256">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>{{data.senTitle}}</mat-label>
+        <input matInput formControlName="title" type="text" maxlength="256">
+    </mat-form-field>
+    <div>
+        <mat-checkbox formControlName="crop">{{data.senCrop}}</mat-checkbox>
+    </div>
+    <div>
+        <mat-checkbox formControlName="keepRatio">{{data.senKeepRatio}}</mat-checkbox>
+    </div>
+</div>
+<div mat-dialog-actions class="pull-right insert-table-actions">
+    <button mat-raised-button (click)="onCancelClick()">{{data.senCancel}}</button>
+    <button mat-raised-button [disabled]="imageForm.invalid" color="primary" (click)="ok()" cdkFocusInitial>OK</button>
+</div>

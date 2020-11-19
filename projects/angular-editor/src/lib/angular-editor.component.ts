@@ -26,10 +26,12 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {isDefined} from './utils';
 import {LangService} from './services/lang.service';
 import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
-import {DirectoryChild} from './common/common-interfaces';
+import {take, takeUntil} from 'rxjs/operators';
+import {DirectoryChild, EditImageDialogData, ImageEditRequest} from './common/common-interfaces';
 import {MatDialog} from '@angular/material';
 import {MessageDialogComponent} from './message-dialog.component';
+import {randomId} from './common/helpers';
+import {EditImageDialogComponent} from './edit-image-dialog.component';
 
 @Component({
     selector: 'angular-editor',
@@ -95,6 +97,20 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         this.focus();
     }
 
+    @HostListener('click', ['$event'])
+    onClick(evt: MouseEvent) {
+        const first: EventTarget = <EventTarget>evt.composedPath()[0];
+        if (first['nodeName'] != 'IMG') return;
+
+        const request:ImageEditRequest = {
+            id: first['id'],
+            src: first['currentSrc'],
+            alt: first['alt'],
+            title: first['title']
+        }
+        this.editImageSize(request);
+    }
+
     constructor(
         private r: Renderer2,
         private editorService: AngularEditorService,
@@ -133,17 +149,25 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
             const ftpLink = <DirectoryChild> changes['ftpLink'].currentValue;
             if (ftpLink.editorId === this.id) {
                 if (/\/files\//.test(ftpLink.fullWebPath)) {
+                    /*
+                    file link
+                     */
                     const linkHtml = `<a href="${ftpLink.fullWebPath}">${ftpLink.name}</a>`;
                     this.editorService.restoreSelection();
                     this.editorService.insertHtml(linkHtml);
                 } else {
+                    /*
+                    image link
+                     */
+                    const id = randomId(this.id);
                     const alt = ftpLink.alt || ftpLink.name;
                     const title = ftpLink.title ? `title="${ftpLink.title}"` : '';
                     const width = ftpLink.width ? ftpLink.width : this.config.presetWidth;
                     const height = ftpLink.height ? ftpLink.height : this.config.presetHeight;
                     const imageType = ftpLink.crop ? `${this.config.imageType}_crop` : this.config.imageType;
                     const src = `${this.config.imageServerUrl}/${imageType}/${width}/${height}/${ftpLink.partialWebPath}`;
-                    const imageHtml = `<img src="${src}" alt="${alt}" ${title}>`;
+                    // todo: make the div wrapper conditional
+                    const imageHtml = `<img id="${id}" src="${src}" alt="${alt}" ${title}>`;
                     this.editorService.restoreSelection();
                     this.editorService.insertHtml(imageHtml);
                 }
@@ -488,6 +512,58 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         }
 
         return this.config.pasteEnabled;
+    }
+
+    private editImageSize(request: ImageEditRequest): void {
+        const m = request.src.match(/\/\d+\/\d+\//);
+        if (m && m[0]) {
+            const size = m[0].split('/').filter(f => f != '').map(m => parseInt(m));
+            const crop = /_crop\//.test(request.src);
+
+            let width = size[0];
+            let height = size[1];
+            const sourceSplit = request.src.split('/');
+            const imageName = sourceSplit[sourceSplit.length - 1];
+            const orig = `${this.config.imageServerUrl}/orig/${imageName}`;
+
+            const dialogRef = this.dialog.open(EditImageDialogComponent, {
+                width: '275px',
+                height: 'auto',
+                data: {
+                    width: width,
+                    height: height,
+                    alt: request.alt,
+                    title: request.title,
+                    crop: crop,
+                    orig: orig,
+                    senDialogTitle: this.sen['editImageDialogTitle'],
+                    senCancel: this.sen['cancel'],
+                    senWidth: this.sen['width'],
+                    senHeight: this.sen['height'],
+                    senKeepRatio: this.sen['keepRatio'],
+                    senCrop: this.sen['crop'],
+                    senAlt: this.sen['alt'],
+                    senTitle: this.sen['title']
+                }
+            });
+
+            dialogRef.afterClosed()
+                .pipe(take(1))
+                .subscribe((res: EditImageDialogData) => {
+                    if (!res) return;
+
+                    const imageType = res.crop
+                        ? `${this.config.imageType}_crop`
+                        : this.config.imageType;
+
+                    const imgEl = document.getElementById(request.id);
+                    const src = `${this.config.imageServerUrl}/${imageType}/${res.width}/${res.height}/${imageName}`;
+
+                    this.r.setAttribute(imgEl, 'src', src);
+                    this.r.setAttribute(imgEl, 'alt', res.alt);
+                    this.r.setAttribute(imgEl, 'title', res.title);
+                })
+        }
     }
 
 }

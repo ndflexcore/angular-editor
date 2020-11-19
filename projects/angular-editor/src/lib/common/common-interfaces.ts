@@ -23,3 +23,21 @@ export interface LinkDialogResult {
     url: string;
 }
 
+export interface ImageEditRequest {
+    id: string;
+    src: string;
+    alt: string;
+    title: string;
+}
+
+/*
+    used for both in/out
+ */
+export interface EditImageDialogData {
+    width: number;
+    height: number;
+    alt: string;
+    title: string;
+    crop: boolean;
+}
+

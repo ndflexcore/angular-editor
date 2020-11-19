@@ -5,9 +5,17 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {AeSelectComponent} from './ae-select/ae-select.component';
 import {InsertTableDialogComponent} from './insert-table-dialog.component';
-import {MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatSlideToggleModule} from '@angular/material';
+import {
+    MatButtonModule,
+    MatCheckboxModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSlideToggleModule
+} from '@angular/material';
 import {MessageDialogComponent} from './message-dialog.component';
 import {InsertLinkDialogComponent} from './insert-link-dialog.component';
+import {EditImageDialogComponent} from './edit-image-dialog.component';
 
 @NgModule({
     imports: [
@@ -18,7 +26,8 @@ import {InsertLinkDialogComponent} from './insert-link-dialog.component';
         MatDialogModule,
         MatInputModule,
         MatButtonModule,
-        MatSlideToggleModule
+        MatSlideToggleModule,
+        MatCheckboxModule
     ],
     declarations: [
         AngularEditorComponent,
@@ -26,19 +35,22 @@ import {InsertLinkDialogComponent} from './insert-link-dialog.component';
         AeSelectComponent,
         InsertTableDialogComponent,
         InsertLinkDialogComponent,
-        MessageDialogComponent
+        MessageDialogComponent,
+        EditImageDialogComponent
     ],
     entryComponents: [
         InsertTableDialogComponent,
         InsertLinkDialogComponent,
-        MessageDialogComponent
+        MessageDialogComponent,
+        EditImageDialogComponent
     ],
     exports: [
         AngularEditorComponent,
         AngularEditorToolbarComponent,
         InsertTableDialogComponent,
         InsertLinkDialogComponent,
-        MessageDialogComponent
+        MessageDialogComponent,
+        EditImageDialogComponent
     ]
 })
 export class AngularEditorModule {
