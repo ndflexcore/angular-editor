@@ -140,9 +140,12 @@ export class AngularEditorService {
      */
     private static createTableHtml(definition: TableDialogResult, config: AngularEditorConfig): string {
         const cls = definition.stroke ? config.tableStrokeClass : config.tableClass;
+        const widthStyle = definition.fullWidth
+            ? 'width: 100%;'
+            : 'width: auto';
         const prefix =
  `
-<table class="${cls}">
+<table style="${widthStyle}" class="${cls}">
     <tbody>
  `;
         const suffix =
@@ -154,7 +157,7 @@ export class AngularEditorService {
         for (let i = 0; i < definition.rows; i++) {
             inner += `<tr>\n`;
             for (let j = 0; j < definition.cols; j++) {
-                inner += `<td>cell</td>\n`
+                inner += `<td></td>\n`
             }
             inner += `</tr>\n`;
         }

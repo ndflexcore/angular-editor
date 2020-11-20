@@ -9,10 +9,14 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-.editor-table {
-
+table {
+    border-collapse: collapse;
 }
 
-.editor-table-stroke td {
+table td {
+    padding: 6px;
+}
+
+.table-bordered td {
     border: solid black 1px;
 }

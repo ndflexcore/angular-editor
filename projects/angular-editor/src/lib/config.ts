@@ -71,8 +71,8 @@ export const angularEditorConfig: AngularEditorConfig = {
     imageType: 'preview',
     presetWidth: 98,
     presetHeight: 98,
-    tableClass: 'editor-table',
-    tableStrokeClass: 'editor-table-stroke',
+    tableClass: '',
+    tableStrokeClass: 'table-bordered',
     pasteEnabled: true
     /*toolbarHiddenButtons: [
       ['bold', 'italic', 'underline', 'strikeThrough', 'superscript', 'subscript'],

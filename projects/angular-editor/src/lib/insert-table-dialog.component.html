@@ -9,7 +9,12 @@
         <input matInput formControlName="cols" type="number">
     </mat-form-field>
     <mat-label class="stroke-label">{{data.stroke}}</mat-label>
-    <mat-slide-toggle formControlName="stroke"></mat-slide-toggle>
+    <div>
+        <mat-checkbox formControlName="stroke">{{data.stroke}}</mat-checkbox>
+    </div>
+    <div>
+        <mat-checkbox formControlName="fullWidth">100 % šířka</mat-checkbox>
+    </div>
 </div>
 <div mat-dialog-actions class="pull-right insert-table-actions">
     <button mat-raised-button (click)="onCancelClick()">{{data.cancel}}</button>

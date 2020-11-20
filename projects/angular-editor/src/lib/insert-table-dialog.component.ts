@@ -25,7 +25,8 @@ export class InsertTableDialogComponent {
         const result: TableDialogResult = {
             rows: this.tableForm.get('rows').value,
             cols: this.tableForm.get('cols').value,
-            stroke: this.tableForm.get('stroke').value
+            stroke: this.tableForm.get('stroke').value,
+            fullWidth: this.tableForm.get('fullWidth').value
         };
         this.dialogRef.close(result);
     }
@@ -34,7 +35,8 @@ export class InsertTableDialogComponent {
         this.tableForm = this.fb.group({
             rows: [2, [Validators.required]],
             cols: [2, [Validators.required]],
-            stroke: true
+            stroke: true,
+            fullWidth: false
         });
     }
 

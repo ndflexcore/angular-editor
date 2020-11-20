@@ -17,6 +17,7 @@ export interface TableDialogResult {
     rows: number;
     cols: number;
     stroke: boolean;
+    fullWidth: boolean;
 }
 
 export interface LinkDialogResult {
