@@ -100,15 +100,19 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     @HostListener('click', ['$event'])
     onClick(evt: MouseEvent) {
         const first: EventTarget = <EventTarget>evt.composedPath()[0];
-        if (first['nodeName'] != 'IMG') return;
-
-        const request:ImageEditRequest = {
-            id: first['id'],
-            src: first['currentSrc'],
-            alt: first['alt'],
-            title: first['title']
+        if (first['nodeName'] == 'IMG') {
+            const request:ImageEditRequest = {
+                id: first['id'],
+                src: first['currentSrc'],
+                alt: first['alt'],
+                title: first['title']
+            }
+            this.editImage(request);
         }
-        this.editImageSize(request);
+        if (first['nodeName'] == 'TD') {
+            const tableId = AngularEditorComponent.getParentTableId(evt);
+            this.editTable(tableId);
+        }
     }
 
     constructor(
@@ -193,7 +197,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
             } else if (command === 'insertFtp') {
                 this.ftpNeeded.emit(this.id);
             } else if (command === 'insertTable') {
-                this.editorService.insertTable(this.config);
+                this.editorService.insertTable(this.config, this.id);
             } else {
                 this.editorService.executeCommand(command);
             }
@@ -514,7 +518,10 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         return this.config.pasteEnabled;
     }
 
-    private editImageSize(request: ImageEditRequest): void {
+    private editImage(request: ImageEditRequest): void {
+        const imgEl = document.getElementById(request.id);
+        if (!imgEl) return;
+
         const m = request.src.match(/\/\d+\/\d+\//);
         if (m && m[0]) {
             const size = m[0].split('/').filter(f => f != '').map(m => parseInt(m));
@@ -556,7 +563,6 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                         ? `${this.config.imageType}_crop`
                         : this.config.imageType;
 
-                    const imgEl = document.getElementById(request.id);
                     const src = `${this.config.imageServerUrl}/${imageType}/${res.width}/${res.height}/${imageName}`;
 
                     this.r.setAttribute(imgEl, 'src', src);
@@ -564,6 +570,22 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                     this.r.setAttribute(imgEl, 'title', res.title);
                 })
         }
+    }
+
+    private static getParentTableId(evt: MouseEvent): string {
+        const pathArray = evt.composedPath();
+        for (let i = 0; i < pathArray.length; i++) {
+            const el = pathArray[i];
+            if (el['nodeName'] === 'TABLE') {
+                return el['id'];
+            }
+        }
+        return null;
+    }
+
+    private editTable(tableId: string): void {
+        const t: HTMLTableElement = <HTMLTableElement>document.getElementById(tableId);
+        console.log(t.rows);
     }
 
 }

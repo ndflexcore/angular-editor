@@ -8,6 +8,7 @@ import {InsertTableDialogComponent} from './insert-table-dialog.component';
 import {take, takeUntil} from 'rxjs/operators';
 import {TableDialogResult} from './common/common-interfaces';
 import {LangService} from './services/lang.service';
+import {randomId} from './common/helpers';
 
 export interface UploadResponse {
     imageUrl: string;
@@ -109,7 +110,7 @@ export class AngularEditorService {
      * opens insert table dialog
      * and inserts table on result
      */
-    insertTable(config: AngularEditorConfig): void {
+    insertTable(config: AngularEditorConfig, editorId: string): void {
         const dialogRef = this.dialog.open(InsertTableDialogComponent, {
             width: '275px',
             height: 'auto',
@@ -126,7 +127,7 @@ export class AngularEditorService {
             .pipe(take(1))
             .subscribe((res: TableDialogResult) => {
                 if (res) {
-                    const html = AngularEditorService.createTableHtml(res, config);
+                    const html = AngularEditorService.createTableHtml(res, config, editorId);
                     this.restoreSelection();
                     this.insertHtml(html);
                 }
@@ -137,15 +138,17 @@ export class AngularEditorService {
      * generates HTML table string for insertion
      * @param definition
      * @param config
+     * @param id
      */
-    private static createTableHtml(definition: TableDialogResult, config: AngularEditorConfig): string {
+    private static createTableHtml(definition: TableDialogResult, config: AngularEditorConfig, id: string): string {
         const cls = definition.stroke ? config.tableStrokeClass : config.tableClass;
         const widthStyle = definition.fullWidth
             ? 'width: 100%;'
             : 'width: auto';
+        const ids = randomId(id);
         const prefix =
  `
-<table style="${widthStyle}" class="${cls}">
+<table id="${ids}" style="${widthStyle}" class="${cls}">
     <tbody>
  `;
         const suffix =
