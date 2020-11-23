@@ -590,6 +590,8 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                     this.r.setAttribute(imgEl, 'src', src);
                     this.r.setAttribute(imgEl, 'alt', res.alt);
                     this.r.setAttribute(imgEl, 'title', res.title);
+
+                    this.onContentChange(this.textArea.nativeElement);
                 })
         }
     }
@@ -654,6 +656,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                     this.r.removeClass(t, 'table-bordered');
                 }
 
+                this.onContentChange(this.textArea.nativeElement);
             })
     }
 
