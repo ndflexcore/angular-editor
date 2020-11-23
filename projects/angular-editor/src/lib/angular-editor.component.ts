@@ -27,12 +27,20 @@ import {isDefined} from './utils';
 import {LangService} from './services/lang.service';
 import {Subject} from 'rxjs';
 import {take, takeUntil} from 'rxjs/operators';
-import {DirectoryChild, EditImageDialogData, EditTableDialogResult, ImageEditRequest, SelectedObject} from './common/common-interfaces';
+import {
+    DirectoryChild,
+    EditImageDialogData,
+    EditTableDialogResult,
+    ImageEditRequest,
+    SelectedObject,
+    TableDialogResult
+} from './common/common-interfaces';
 import {MatDialog} from '@angular/material';
 import {MessageDialogComponent} from './message-dialog.component';
 import {randomId} from './common/helpers';
 import {EditImageDialogComponent} from './edit-image-dialog.component';
 import {EditTableDialogComponent} from './edit-table-dialog.component';
+import {InsertTableDialogComponent} from './insert-table-dialog.component';
 
 @Component({
     selector: 'angular-editor',
@@ -202,7 +210,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
             } else if (command === 'insertFtp') {
                 this.ftpNeeded.emit(this.id);
             } else if (command === 'insertTable') {
-                this.editorService.insertTable(this.config, this.id);
+                this.insertTable(this.config, this.id);
             } else if (command === 'editObject') {
                 this.editObject();
             } else {
@@ -536,6 +544,44 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         }
     }
 
+    /**
+     * opens insert table dialog
+     * and inserts table on result
+     */
+    insertTable(config: AngularEditorConfig, editorId: string): void {
+        const dialogRef = this.dialog.open(InsertTableDialogComponent, {
+            width: '275px',
+            height: 'auto',
+            data: {
+                cancel: this.sen['cancel'],
+                title: this.sen['insertTable'],
+                numRows: this.sen['numRows'],
+                numCols: this.sen['numCols'],
+                stroke: this.sen['stroke'],
+                senFullWidth: this.sen['fullWidth']
+            }
+        });
+
+        dialogRef.afterClosed()
+            .pipe(take(1))
+            .subscribe((res: TableDialogResult) => {
+                if (res) {
+                    const createRes = AngularEditorService.createTableHtml(res, config, editorId);
+                    const html = createRes[0];
+                    const tableId = createRes[1];
+
+                    this.editorService.restoreSelection();
+                    this.editorService.insertHtml(html);
+                    const tab: HTMLTableElement = <HTMLTableElement>document.getElementById(tableId);
+                    if (res.fullWidth) {
+                        this.r.setStyle(tab, 'width', '100%');
+                    } else {
+                        this.r.setStyle(tab, 'width', 'auto');
+                    }
+                }
+            });
+    }
+
     private editImage(): void {
         const imgEl = document.getElementById(this.selObject.id);
         const oldSrc = imgEl['currentSrc'];
@@ -591,7 +637,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                     this.r.setAttribute(imgEl, 'alt', res.alt);
                     this.r.setAttribute(imgEl, 'title', res.title);
 
-                    this.onContentChange(this.textArea.nativeElement);
+                    this.onContentChange(this.textArea.nativeElement); // todo: test if needed
                 })
         }
     }
@@ -656,7 +702,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                     this.r.removeClass(t, 'table-bordered');
                 }
 
-                this.onContentChange(this.textArea.nativeElement);
+                this.onContentChange(this.textArea.nativeElement); // todo: test if needed
             })
     }
 

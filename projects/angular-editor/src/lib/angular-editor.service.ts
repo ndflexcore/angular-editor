@@ -4,8 +4,7 @@ import {Observable, Subject} from 'rxjs';
 import {DOCUMENT} from '@angular/common';
 import {AngularEditorConfig, CustomClass} from './config';
 import {MatDialog} from '@angular/material';
-import {InsertTableDialogComponent} from './insert-table-dialog.component';
-import {take, takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
 import {TableDialogResult} from './common/common-interfaces';
 import {LangService} from './services/lang.service';
 import {randomId} from './common/helpers';
@@ -107,49 +106,18 @@ export class AngularEditorService {
     }
 
     /**
-     * opens insert table dialog
-     * and inserts table on result
-     */
-    insertTable(config: AngularEditorConfig, editorId: string): void {
-        const dialogRef = this.dialog.open(InsertTableDialogComponent, {
-            width: '275px',
-            height: 'auto',
-            data: {
-                cancel: this.sen['cancel'],
-                title: this.sen['insertTable'],
-                numRows: this.sen['numRows'],
-                numCols: this.sen['numCols'],
-                stroke: this.sen['stroke'],
-                senFullWidth: this.sen['fullWidth']
-            }
-        });
-
-        dialogRef.afterClosed()
-            .pipe(take(1))
-            .subscribe((res: TableDialogResult) => {
-                if (res) {
-                    const html = AngularEditorService.createTableHtml(res, config, editorId);
-                    this.restoreSelection();
-                    this.insertHtml(html);
-                }
-            });
-    }
-
-    /**
      * generates HTML table string for insertion
      * @param definition
      * @param config
      * @param id
      */
-    private static createTableHtml(definition: TableDialogResult, config: AngularEditorConfig, id: string): string {
+    static createTableHtml(definition: TableDialogResult, config: AngularEditorConfig, id: string): string[] {
         const cls = definition.stroke ? config.tableStrokeClass : config.tableClass;
-        const widthStyle = definition.fullWidth
-            ? 'width: 100%;'
-            : 'width: auto';
+
         const ids = randomId(id);
         const prefix =
  `
-<table id="${ids}" style="${widthStyle}" class="${cls}">
+<table id="${ids}" class="${cls}">
     <tbody>
  `;
         const suffix =
@@ -165,7 +133,7 @@ export class AngularEditorService {
             }
             inner += `</tr>\n`;
         }
-        return prefix + inner + suffix;
+        return [prefix + inner + suffix, ids];
     }
 
     /**
