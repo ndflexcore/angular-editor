@@ -27,7 +27,7 @@ import {isDefined} from './utils';
 import {LangService} from './services/lang.service';
 import {Subject} from 'rxjs';
 import {take, takeUntil} from 'rxjs/operators';
-import {DirectoryChild, EditImageDialogData, ImageEditRequest} from './common/common-interfaces';
+import {DirectoryChild, EditImageDialogData, ImageEditRequest, SelectedObject} from './common/common-interfaces';
 import {MatDialog} from '@angular/material';
 import {MessageDialogComponent} from './message-dialog.component';
 import {randomId} from './common/helpers';
@@ -60,6 +60,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     focusInstance: any;
     blurInstance: any;
     sen: { [p: string]: string };
+    selObject: SelectedObject;
     private ngUnsubscribe: Subject<any> = new Subject<any>();
 
     @Input() id = '';
@@ -101,17 +102,20 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     onClick(evt: MouseEvent) {
         const first: EventTarget = <EventTarget>evt.composedPath()[0];
         if (first['nodeName'] == 'IMG') {
-            const request:ImageEditRequest = {
+            this.selObject = {
                 id: first['id'],
-                src: first['currentSrc'],
-                alt: first['alt'],
-                title: first['title']
-            }
-            this.editImage(request);
+                nodeName: 'IMG'
+            };
         }
-        if (first['nodeName'] == 'TD') {
+        else if (first['nodeName'] == 'TD') {
             const tableId = AngularEditorComponent.getParentTableId(evt);
-            this.editTable(tableId);
+            this.selObject = {
+                id: tableId,
+                nodeName: 'TABLE'
+            }
+        }
+        else {
+            this.selObject = null;
         }
     }
 
@@ -198,6 +202,8 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                 this.ftpNeeded.emit(this.id);
             } else if (command === 'insertTable') {
                 this.editorService.insertTable(this.config, this.id);
+            } else if (command === 'editObject') {
+                this.editObject();
             } else {
                 this.editorService.executeCommand(command);
             }
@@ -518,18 +524,33 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         return this.config.pasteEnabled;
     }
 
-    private editImage(request: ImageEditRequest): void {
-        const imgEl = document.getElementById(request.id);
+    editObject(): void {
+        switch (this.selObject.nodeName) {
+            case 'IMG':
+                this.editImage();
+                break;
+            case 'TABLE':
+                this.editTable();
+                break;
+        }
+    }
+
+    private editImage(): void {
+        const imgEl = document.getElementById(this.selObject.id);
+        const oldSrc = imgEl['currentSrc'];
+        const oldAlt = imgEl['alt'];
+        const oldTitle = imgEl['title'];
+
         if (!imgEl) return;
 
-        const m = request.src.match(/\/\d+\/\d+\//);
+        const m = oldSrc.match(/\/\d+\/\d+\//);
         if (m && m[0]) {
             const size = m[0].split('/').filter(f => f != '').map(m => parseInt(m));
-            const crop = /_crop\//.test(request.src);
+            const crop = /_crop\//.test(oldSrc);
 
             let width = size[0];
             let height = size[1];
-            const sourceSplit = request.src.split('/');
+            const sourceSplit = oldSrc.split('/');
             const imageName = sourceSplit[sourceSplit.length - 1];
             const orig = `${this.config.imageServerUrl}/orig/${imageName}`;
 
@@ -539,8 +560,8 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                 data: {
                     width: width,
                     height: height,
-                    alt: request.alt,
-                    title: request.title,
+                    alt: oldAlt,
+                    title: oldTitle,
                     crop: crop,
                     orig: orig,
                     senDialogTitle: this.sen['editImageDialogTitle'],
@@ -583,8 +604,8 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         return null;
     }
 
-    private editTable(tableId: string): void {
-        const t: HTMLTableElement = <HTMLTableElement>document.getElementById(tableId);
+    private editTable(): void {
+        const t: HTMLTableElement = <HTMLTableElement>document.getElementById(this.selObject.id);
         console.log(t.rows);
     }
 

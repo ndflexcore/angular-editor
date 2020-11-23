@@ -6,7 +6,7 @@ import {CustomClass} from './config';
 import {SelectOption} from './ae-select/ae-select.component';
 import {MatDialog} from '@angular/material';
 import {take} from 'rxjs/operators';
-import {LinkDialogResult} from './common/common-interfaces';
+import {LinkDialogResult, SelectedObject} from './common/common-interfaces';
 import {InsertLinkDialogComponent} from './insert-link-dialog.component';
 
 @Component({
@@ -123,6 +123,7 @@ export class AngularEditorToolbarComponent {
     @Input() uploadUrl: string;
     @Input() showToolbar: boolean;
     @Input() fonts: SelectOption[] = [{label: '', value: ''}];
+    @Input() selObject: SelectedObject = null;
 
     @Input()
     set customClasses(classes: CustomClass[]) {

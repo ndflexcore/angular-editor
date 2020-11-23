@@ -42,3 +42,8 @@ export interface EditImageDialogData {
     crop: boolean;
 }
 
+export interface SelectedObject {
+    id: string;
+    nodeName: string;
+}
+
