@@ -119,7 +119,8 @@ export class AngularEditorService {
                 title: this.sen['insertTable'],
                 numRows: this.sen['numRows'],
                 numCols: this.sen['numCols'],
-                stroke: this.sen['stroke']
+                stroke: this.sen['stroke'],
+                senFullWidth: this.sen['fullWidth']
             }
         });
 

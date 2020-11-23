@@ -16,6 +16,7 @@ import {
 import {MessageDialogComponent} from './message-dialog.component';
 import {InsertLinkDialogComponent} from './insert-link-dialog.component';
 import {EditImageDialogComponent} from './edit-image-dialog.component';
+import {EditTableDialogComponent} from './edit-table-dialog.component';
 
 @NgModule({
     imports: [
@@ -36,13 +37,15 @@ import {EditImageDialogComponent} from './edit-image-dialog.component';
         InsertTableDialogComponent,
         InsertLinkDialogComponent,
         MessageDialogComponent,
-        EditImageDialogComponent
+        EditImageDialogComponent,
+        EditTableDialogComponent
     ],
     entryComponents: [
         InsertTableDialogComponent,
         InsertLinkDialogComponent,
         MessageDialogComponent,
-        EditImageDialogComponent
+        EditImageDialogComponent,
+        EditTableDialogComponent
     ],
     exports: [
         AngularEditorComponent,
@@ -50,7 +53,8 @@ import {EditImageDialogComponent} from './edit-image-dialog.component';
         InsertTableDialogComponent,
         InsertLinkDialogComponent,
         MessageDialogComponent,
-        EditImageDialogComponent
+        EditImageDialogComponent,
+        EditTableDialogComponent
     ]
 })
 export class AngularEditorModule {

@@ -8,12 +8,11 @@
         <mat-label>{{data.numCols}}</mat-label>
         <input matInput formControlName="cols" type="number">
     </mat-form-field>
-    <mat-label class="stroke-label">{{data.stroke}}</mat-label>
     <div>
         <mat-checkbox formControlName="stroke">{{data.stroke}}</mat-checkbox>
     </div>
     <div>
-        <mat-checkbox formControlName="fullWidth">100 % šířka</mat-checkbox>
+        <mat-checkbox formControlName="fullWidth">{{data.senFullWidth}}</mat-checkbox>
     </div>
 </div>
 <div mat-dialog-actions class="pull-right insert-table-actions">

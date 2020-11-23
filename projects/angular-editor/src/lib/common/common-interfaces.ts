@@ -20,6 +20,12 @@ export interface TableDialogResult {
     fullWidth: boolean;
 }
 
+export interface EditTableDialogResult {
+    addRows: number;
+    stroke: boolean;
+    fullWidth: boolean;
+}
+
 export interface LinkDialogResult {
     url: string;
 }

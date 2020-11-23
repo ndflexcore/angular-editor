@@ -27,11 +27,12 @@ import {isDefined} from './utils';
 import {LangService} from './services/lang.service';
 import {Subject} from 'rxjs';
 import {take, takeUntil} from 'rxjs/operators';
-import {DirectoryChild, EditImageDialogData, ImageEditRequest, SelectedObject} from './common/common-interfaces';
+import {DirectoryChild, EditImageDialogData, EditTableDialogResult, ImageEditRequest, SelectedObject} from './common/common-interfaces';
 import {MatDialog} from '@angular/material';
 import {MessageDialogComponent} from './message-dialog.component';
 import {randomId} from './common/helpers';
 import {EditImageDialogComponent} from './edit-image-dialog.component';
+import {EditTableDialogComponent} from './edit-table-dialog.component';
 
 @Component({
     selector: 'angular-editor',
@@ -606,7 +607,54 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
 
     private editTable(): void {
         const t: HTMLTableElement = <HTMLTableElement>document.getElementById(this.selObject.id);
-        console.log(t.rows);
+
+        const isBordered = /table-bordered/.test(t.className);
+        const isFullWidth = /100%/.test(t.style.width);
+
+        const firstRow = t.rows[0];
+        const numColumns = firstRow.cells.length;
+
+        const dialogRef = this.dialog.open(EditTableDialogComponent, {
+            width: '275px',
+            height: 'auto',
+            data: {
+                senDialogTitle: this.sen['editTableDialogTitle'],
+                senCancel: this.sen['cancel'],
+                senFullWidth: this.sen['fullWidth'],
+                senAddRows: this.sen['addRows'],
+                senStroke: this.sen['stroke'],
+                stroke: isBordered,
+                fullWidth: isFullWidth
+            }
+        });
+
+        dialogRef.afterClosed()
+            .pipe(take(1))
+            .subscribe((res: EditTableDialogResult) => {
+                if (!res) return;
+
+                if (res.addRows > 0) {
+                    for (let a = 0; a < res.addRows; a++) {
+                        let newRow = t.insertRow();
+                        for (let i = 0; i < numColumns; i++) {
+                            newRow.insertCell();
+                        }
+                    }
+                }
+
+                if (res.fullWidth) {
+                    this.r.setStyle(t, 'width', '100%');
+                } else {
+                    this.r.setStyle(t, 'width', 'auto');
+                }
+
+                if (res.stroke) {
+                    this.r.addClass(t, 'table-bordered');
+                } else {
+                    this.r.removeClass(t, 'table-bordered');
+                }
+
+            })
     }
 
 }

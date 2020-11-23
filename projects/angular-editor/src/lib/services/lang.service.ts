@@ -45,7 +45,10 @@ const sen_en: { [p: string]: string } = {
     crop: 'Crop',
     alt: 'Alt',
     title: 'Title',
-    editImageDialogTitle: 'Image Properties'
+    editImageDialogTitle: 'Image Properties',
+    editTableDialogTitle: 'Edit Table',
+    fullWidth: '100% width',
+    addRows: 'Add Rows bellow'
 };
 
 const sen_cs: { [p: string]: string } = {
@@ -93,7 +96,10 @@ const sen_cs: { [p: string]: string } = {
     crop: 'Ořezat',
     alt: 'Alt',
     title: 'Titulek',
-    editImageDialogTitle: 'Vlastnosti obrázku'
+    editImageDialogTitle: 'Vlastnosti obrázku',
+    editTableDialogTitle: 'Upravit tabulku',
+    fullWidth: '100% šířka',
+    addRows: 'Přidat řádky pod'
 };
 
 @Injectable({

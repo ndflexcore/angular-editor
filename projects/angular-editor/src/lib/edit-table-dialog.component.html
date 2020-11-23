@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>{{data.senDialogTitle}}</h1>
+<div mat-dialog-content [formGroup]="tableForm">
+    <mat-form-field>
+        <mat-label>{{data.senAddRows}}</mat-label>
+        <input matInput formControlName="addRows" type="number">
+    </mat-form-field>
+    <div>
+        <mat-checkbox formControlName="stroke">{{data.senStroke}}</mat-checkbox>
+    </div>
+    <div>
+        <mat-checkbox formControlName="fullWidth">{{data.senFullWidth}}</mat-checkbox>
+    </div>
+</div>
+<div mat-dialog-actions class="pull-right insert-table-actions">
+    <button mat-raised-button (click)="onCancelClick()">{{data.senCancel}}</button>
+    <button mat-raised-button color="primary" (click)="ok()" cdkFocusInitial>OK</button>
+</div>
