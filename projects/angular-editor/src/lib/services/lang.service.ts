@@ -48,7 +48,8 @@ const sen_en: { [p: string]: string } = {
     editImageDialogTitle: 'Image Properties',
     editTableDialogTitle: 'Edit Table',
     fullWidth: '100% width',
-    addRows: 'Add Rows bellow'
+    addRows: 'Add Row bellow',
+    addColumns: 'Add Column to the Right'
 };
 
 const sen_cs: { [p: string]: string } = {
@@ -99,7 +100,8 @@ const sen_cs: { [p: string]: string } = {
     editImageDialogTitle: 'Vlastnosti obrázku',
     editTableDialogTitle: 'Upravit tabulku',
     fullWidth: '100% šířka',
-    addRows: 'Přidat řádky pod'
+    addRows: 'Přidat řádek pod',
+    addColumns: 'Přidat sloupec napravo'
 };
 
 @Injectable({

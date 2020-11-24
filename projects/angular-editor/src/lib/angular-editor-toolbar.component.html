@@ -177,9 +177,20 @@
                 (click)="triggerCommand('toggleEditorMode')" [hidden]="isButtonHidden('toggleEditorMode')"
                 tabindex="-1"><i
             class='fa fa-code'></i></button>
-        <button [id]="'edit'+id" type="button" [title]="'EDIT'" class="angular-editor-button"
+    </div>
+    <div class="angular-editor-toolbar-set" *ngIf="selObject">
+        <button [id]="'edit'+id" type="button" [title]="selObject.buttonTitle" class="angular-editor-button"
+                [class.active]="selObject"
                 [disabled]="!selObject" (click)="triggerCommand('editObject')"
                 tabindex="-1"><i
             class='fa fa-pencil-square-o'></i></button>
+        <button *ngIf="selObject.nodeName === 'TABLE'" [id]="'addRow'+id" type="button" [title]="sen['addRows']" class="angular-editor-button"
+                (click)="triggerCommand('addRow')"
+                tabindex="-1"><i
+            class='fa fa-th-list'></i></button>
+        <button *ngIf="selObject.nodeName === 'TABLE'" [id]="'addColumn'+id" type="button" [title]="sen['addColumns']" class="angular-editor-button"
+                (click)="triggerCommand('addColumn')"
+                tabindex="-1"><i
+            class='fa fa-columns'></i></button>
     </div>
 </div>

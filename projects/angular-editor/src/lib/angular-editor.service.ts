@@ -114,6 +114,8 @@ export class AngularEditorService {
     static createTableHtml(definition: TableDialogResult, config: AngularEditorConfig, id: string): string[] {
         const cls = definition.stroke ? config.tableStrokeClass : config.tableClass;
 
+        const colPct = Math.round(100 / definition.cols);
+
         const ids = randomId(id);
         const prefix =
  `
@@ -129,7 +131,7 @@ export class AngularEditorService {
         for (let i = 0; i < definition.rows; i++) {
             inner += `<tr>\n`;
             for (let j = 0; j < definition.cols; j++) {
-                inner += `<td></td>\n`
+                inner += `<td style="width: ${colPct}%"></td>\n`
             }
             inner += `</tr>\n`;
         }

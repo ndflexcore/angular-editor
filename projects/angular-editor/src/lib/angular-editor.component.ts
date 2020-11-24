@@ -31,7 +31,6 @@ import {
     DirectoryChild,
     EditImageDialogData,
     EditTableDialogResult,
-    ImageEditRequest,
     SelectedObject,
     TableDialogResult
 } from './common/common-interfaces';
@@ -113,18 +112,22 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         if (first['nodeName'] == 'IMG') {
             this.selObject = {
                 id: first['id'],
-                nodeName: 'IMG'
+                nodeName: 'IMG',
+                buttonTitle: this.sen['editImageDialogTitle']
             };
         }
         else if (first['nodeName'] == 'TD') {
             const tableId = AngularEditorComponent.getParentTableId(evt);
             this.selObject = {
                 id: tableId,
-                nodeName: 'TABLE'
+                nodeName: 'TABLE',
+                buttonTitle: this.sen['editTableDialogTitle']
             }
         }
         else {
-            this.selObject = null;
+            if (evt.composedPath().map(m => m['nodeName']).indexOf('ANGULAR-EDITOR-TOOLBAR') === -1) {
+                this.selObject = null;
+            }
         }
     }
 
@@ -213,6 +216,10 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                 this.insertTable(this.config, this.id);
             } else if (command === 'editObject') {
                 this.editObject();
+            } else if (command === 'addRow') {
+                this.addTableRow();
+            } else if (command === 'addColumn') {
+                this.addTableColumn();
             } else {
                 this.editorService.executeCommand(command);
             }
@@ -653,14 +660,40 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         return null;
     }
 
+    private addTableRow(): void {
+        const t: HTMLTableElement = <HTMLTableElement>document.getElementById(this.selObject.id);
+        const firstRow = t.rows[0];
+        const numColumns = firstRow.cells.length;
+        let newRow = t.insertRow();
+        for (let i = 0; i < numColumns; i++) {
+            newRow.insertCell();
+        }
+    }
+
+    private addTableColumn(): void {
+        const t: HTMLTableElement = <HTMLTableElement>document.getElementById(this.selObject.id);
+        const numRows = t.rows.length;
+
+        for (let i = 0; i < numRows; i++) {
+            t.rows[i].insertCell();
+        }
+
+        for (let i = 0; i < numRows; i++) {
+            const numCols = t.rows[i].cells.length;
+            const width = Math.round(100 / numCols);
+
+            for (let j = 0; j < numCols; j++) {
+                let theCell = t.rows[i].cells[j];
+                this.r.setStyle(theCell, 'width', `${width}%`);
+            }
+        }
+    }
+
     private editTable(): void {
         const t: HTMLTableElement = <HTMLTableElement>document.getElementById(this.selObject.id);
 
         const isBordered = /table-bordered/.test(t.className);
         const isFullWidth = /100%/.test(t.style.width);
-
-        const firstRow = t.rows[0];
-        const numColumns = firstRow.cells.length;
 
         const dialogRef = this.dialog.open(EditTableDialogComponent, {
             width: '275px',
@@ -669,7 +702,6 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                 senDialogTitle: this.sen['editTableDialogTitle'],
                 senCancel: this.sen['cancel'],
                 senFullWidth: this.sen['fullWidth'],
-                senAddRows: this.sen['addRows'],
                 senStroke: this.sen['stroke'],
                 stroke: isBordered,
                 fullWidth: isFullWidth
@@ -680,15 +712,6 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
             .pipe(take(1))
             .subscribe((res: EditTableDialogResult) => {
                 if (!res) return;
-
-                if (res.addRows > 0) {
-                    for (let a = 0; a < res.addRows; a++) {
-                        let newRow = t.insertRow();
-                        for (let i = 0; i < numColumns; i++) {
-                            newRow.insertCell();
-                        }
-                    }
-                }
 
                 if (res.fullWidth) {
                     this.r.setStyle(t, 'width', '100%');

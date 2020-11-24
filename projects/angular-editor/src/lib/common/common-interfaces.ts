@@ -21,7 +21,6 @@ export interface TableDialogResult {
 }
 
 export interface EditTableDialogResult {
-    addRows: number;
     stroke: boolean;
     fullWidth: boolean;
 }
@@ -51,5 +50,6 @@ export interface EditImageDialogData {
 export interface SelectedObject {
     id: string;
     nodeName: string;
+    buttonTitle: string;
 }
 

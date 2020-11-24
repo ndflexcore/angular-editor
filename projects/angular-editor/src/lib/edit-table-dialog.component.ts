@@ -1,7 +1,7 @@
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Component, Inject} from '@angular/core';
-import {EditTableDialogResult, TableDialogResult} from './common/common-interfaces';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {EditTableDialogResult} from './common/common-interfaces';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
     selector: 'dialog-insert-table',
@@ -23,7 +23,6 @@ export class EditTableDialogComponent {
 
     ok(): void {
         const result: EditTableDialogResult = {
-            addRows: this.tableForm.get('addRows').value,
             stroke: this.tableForm.get('stroke').value,
             fullWidth: this.tableForm.get('fullWidth').value
         };
@@ -32,7 +31,6 @@ export class EditTableDialogComponent {
 
     private createForm(): void {
         this.tableForm = this.fb.group({
-            addRows: [0, [Validators.required]],
             stroke: this.data.stroke,
             fullWidth: this.data.fullWidth
         });
