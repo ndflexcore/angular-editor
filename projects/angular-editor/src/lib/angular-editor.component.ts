@@ -644,7 +644,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                     this.r.setAttribute(imgEl, 'alt', res.alt);
                     this.r.setAttribute(imgEl, 'title', res.title);
 
-                    this.onContentChange(this.textArea.nativeElement); // todo: test if needed
+                    this.onContentChange(this.textArea.nativeElement);
                 })
         }
     }
@@ -668,6 +668,8 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         for (let i = 0; i < numColumns; i++) {
             newRow.insertCell();
         }
+
+        this.onContentChange(this.textArea.nativeElement);
     }
 
     private addTableColumn(): void {
@@ -687,6 +689,8 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                 this.r.setStyle(theCell, 'width', `${width}%`);
             }
         }
+
+        this.onContentChange(this.textArea.nativeElement);
     }
 
     private editTable(): void {
@@ -725,7 +729,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                     this.r.removeClass(t, 'table-bordered');
                 }
 
-                this.onContentChange(this.textArea.nativeElement); // todo: test if needed
+                this.onContentChange(this.textArea.nativeElement);
             })
     }
 
