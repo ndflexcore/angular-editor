@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Inject, Input, Output, Renderer2, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Inject, Input, OnChanges, Output, Renderer2, SimpleChanges, ViewChild} from '@angular/core';
 import {AngularEditorService} from './angular-editor.service';
 import {HttpResponse} from '@angular/common/http';
 import {DOCUMENT} from '@angular/common';
@@ -15,7 +15,7 @@ import {InsertLinkDialogComponent} from './insert-link-dialog.component';
     styleUrls: ['./angular-editor-toolbar.component.scss']
 })
 
-export class AngularEditorToolbarComponent {
+export class AngularEditorToolbarComponent implements OnChanges {
     htmlMode = false;
     linkSelected = false;
     block = 'default';
@@ -24,53 +24,7 @@ export class AngularEditorToolbarComponent {
     foreColour;
     backColor;
 
-    headings: SelectOption[] = [
-        {
-            label: 'Heading 1',
-            value: 'h1',
-        },
-        {
-            label: 'Heading 2',
-            value: 'h2',
-        },
-        {
-            label: 'Heading 3',
-            value: 'h3',
-        },
-        {
-            label: 'Heading 4',
-            value: 'h4',
-        },
-        {
-            label: 'Heading 5',
-            value: 'h5',
-        },
-        {
-            label: 'Heading 6',
-            value: 'h6',
-        },
-        {
-            label: 'Heading 7',
-            value: 'h7',
-        },
-        {
-            label: 'Paragraph',
-            value: 'p',
-        },
-        {
-            label: 'Predefined',
-            value: 'pre'
-        },
-        {
-            label: 'Standard',
-            value: 'div'
-        },
-        {
-            label: 'default',
-            value: 'default'
-        }
-    ];
-
+    headings: SelectOption[] = [];
     fontSizes: SelectOption[] = [
         {
             label: '1',
@@ -385,5 +339,44 @@ export class AngularEditorToolbarComponent {
             }
         }
         return result !== undefined;
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes && changes['sen']) {
+            this.headings = [
+                {
+                    label: this.sen['h1'],
+                    value: 'h1',
+                },
+                {
+                    label: this.sen['h2'],
+                    value: 'h2',
+                },
+                {
+                    label: this.sen['h3'],
+                    value: 'h3',
+                },
+                {
+                    label: this.sen['h4'],
+                    value: 'h4',
+                },
+                {
+                    label: this.sen['h5'],
+                    value: 'h5',
+                },
+                {
+                    label: this.sen['h6'],
+                    value: 'h6',
+                },
+                {
+                    label: this.sen['p'],
+                    value: 'p',
+                },
+                {
+                    label: this.sen['default'],
+                    value: 'default'
+                }
+            ]
+        }
     }
 }
