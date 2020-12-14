@@ -49,15 +49,7 @@ const sen_en: { [p: string]: string } = {
     editTableDialogTitle: 'Edit Table',
     fullWidth: '100% width',
     addRows: 'Add Row bellow',
-    addColumns: 'Add Column to the Right',
-    h1: 'Heading 1',
-    h2: 'Heading 2',
-    h3: 'Heading 3',
-    h4: 'Heading 4',
-    h5: 'Heading 5',
-    h6: 'Heading 6',
-    p: 'Paragraph',
-    default: 'Default'
+    addColumns: 'Add Column to the Right'
 };
 
 const sen_cs: { [p: string]: string } = {
@@ -109,15 +101,7 @@ const sen_cs: { [p: string]: string } = {
     editTableDialogTitle: 'Upravit tabulku',
     fullWidth: '100% šířka',
     addRows: 'Přidat řádek pod',
-    addColumns: 'Přidat sloupec napravo',
-    h1: 'Nadpis 1',
-    h2: 'Nadpis 2',
-    h3: 'Nadpis 3',
-    h4: 'Nadpis 4',
-    h5: 'Nadpis 5',
-    h6: 'Nadpis 6',
-    p: 'Odstavec',
-    default: 'Výchozí'
+    addColumns: 'Přidat sloupec napravo'
 };
 
 @Injectable({
