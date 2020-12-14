@@ -41,6 +41,20 @@ export class AngularEditorService {
     executeCommand(command: string) {
         const commands = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'pre'];
         if (commands.includes(command)) {
+            switch (command) {
+                case 'h1': this.setFontSize('6');
+                    break;
+                case 'h2': this.setFontSize('5');
+                    break;
+                case 'h3': this.setFontSize('4');
+                    break;
+                case 'h4': this.setFontSize('3');
+                    break;
+                case 'h5': this.setFontSize('2');
+                    break;
+                case 'h6': this.setFontSize('1');
+                    break;
+            }
             this.doc.execCommand('formatBlock', false, command);
             return;
         }
