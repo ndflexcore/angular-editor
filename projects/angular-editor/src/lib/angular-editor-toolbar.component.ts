@@ -58,6 +58,7 @@ export class AngularEditorToolbarComponent {
             value: 'default'
         }
     ];
+
     fontSizes: SelectOption[] = [
         {
             label: '1',
@@ -230,8 +231,8 @@ export class AngularEditorToolbarComponent {
         });
 
         this.foreColour = this.doc.queryCommandValue('ForeColor');
-        // this.fontSize = this.doc.queryCommandValue('FontSize');
-        // this.fontName = this.doc.queryCommandValue('FontName').replace(/"/g, '');
+        this.fontSize = this.doc.queryCommandValue('FontSize');
+        this.fontName = this.doc.queryCommandValue('FontName').replace(/"/g, '');
         this.backColor = this.doc.queryCommandValue('backColor');
     }
 
