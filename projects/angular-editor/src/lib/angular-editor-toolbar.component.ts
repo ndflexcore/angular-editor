@@ -19,7 +19,7 @@ export class AngularEditorToolbarComponent {
     htmlMode = false;
     linkSelected = false;
     block = 'default';
-    fontName = 'Times New Roman';
+    fontName = 'Roboto, sans-serif';
     fontSize = '3';
     foreColour;
     backColor;

@@ -332,10 +332,12 @@ export class AngularEditorService {
         while (el.hasChildNodes()) {
             parent.insertBefore(el.firstChild, el);
         }
-        parent.removeChild(el);
+        if (parent) parent.removeChild(el);
     }
 
     removeSelectedElements(tagNames) {
+        if (!tagNames) return;
+
         const tagNamesArray = tagNames.toLowerCase().split(',');
         this.getSelectedNodes().forEach((node) => {
             if (node.nodeType === 1 &&

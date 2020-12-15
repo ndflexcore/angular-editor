@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
         sanitize: false,
         toolbarPosition: 'top',
         outline: false,
-        defaultFontName: 'Times New Roman',
+        defaultFontName: 'Roboto, sans-serif',
         defaultFontSize: '3',
         showToolbar: true,
         defaultParagraphSeparator: 'p',
@@ -41,6 +41,13 @@ export class AppComponent implements OnInit {
         presetHeight: 98,
         tableClass: '',
         tableStrokeClass: 'table-bordered',
+        fonts: [
+            {class: 'Roboto, sans-serif', name: 'Roboto, sans-serif'},
+            {class: 'arial', name: 'Arial'},
+            {class: 'times-new-roman', name: 'Times New Roman'},
+            {class: 'calibri', name: 'Calibri'},
+            {class: 'comic-sans-ms', name: 'Comic Sans MS'}
+        ],
         customClasses: [
             {
                 name: 'quote',

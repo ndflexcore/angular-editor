@@ -142,6 +142,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         private langService: LangService,
         private dialog: MatDialog
     ) {
+        this.configure();
         const parsedTabIndex = Number(defaultTabIndex);
         this.tabIndex = (parsedTabIndex || parsedTabIndex === 0) ? parsedTabIndex : null;
         this.langService.languageChanged
@@ -239,7 +240,6 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         this.focusEvent.emit(event);
         if (!this.touched || !this.changed) {
             this.editorService.executeInNextQueueIteration(() => {
-                this.configure();
                 this.touched = true;
             });
         }
@@ -456,8 +456,6 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         let userSelection;
         if (this.doc.getSelection) {
             userSelection = this.doc.getSelection();
-            // console.log(userSelection); // TODO selection
-            // TODO:
             /**
              * here you can try to experiment with focusNode, parents, children etc - e.g. set image attributes, table stroke etc...
              */
