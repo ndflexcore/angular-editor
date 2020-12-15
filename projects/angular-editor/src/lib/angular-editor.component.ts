@@ -117,11 +117,15 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
             };
         }
         else if (first['nodeName'] == 'TD') {
+            const rowIndex = <HTMLTableRowElement>first['parentElement']['rowIndex'];
+            const cellIndex = <HTMLTableCellElement>first['cellIndex'];
             const tableId = AngularEditorComponent.getParentTableId(evt);
             this.selObject = {
                 id: tableId,
                 nodeName: 'TABLE',
-                buttonTitle: this.sen['editTableDialogTitle']
+                buttonTitle: this.sen['editTableDialogTitle'],
+                rowIndex: rowIndex,
+                cellIndex: cellIndex
             }
         }
         else {
@@ -225,6 +229,8 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                 this.deleteTable();
             } else if (command === 'deleteImage') {
                 this.deleteImage();
+            } else if (command === 'deleteRow') {
+                this.deleteRow();
             } else {
                 this.editorService.executeCommand(command);
             }
@@ -658,8 +664,8 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         const i: HTMLImageElement = <HTMLImageElement>document.getElementById(this.selObject.id);
         const parent: HTMLElement = document.getElementById(this.selObject.id).parentElement;
         this.r.removeChild(parent, i);
-
         this.onContentChange(this.textArea.nativeElement);
+        this.selObject = null;
     }
 
     private static getParentTableId(evt: MouseEvent): string {
@@ -706,12 +712,19 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         this.onContentChange(this.textArea.nativeElement);
     }
 
+    private deleteRow(): void {
+        const t: HTMLTableElement = <HTMLTableElement>document.getElementById(this.selObject.id);
+        t.deleteRow(this.selObject.rowIndex);
+        if (t.rows.length === 0) this.deleteTable();
+        this.onContentChange(this.textArea.nativeElement);
+    }
+
     private deleteTable(): void {
         const t: HTMLTableElement = <HTMLTableElement>document.getElementById(this.selObject.id);
         const parent: HTMLElement = document.getElementById(this.selObject.id).parentElement;
         this.r.removeChild(parent, t);
-
         this.onContentChange(this.textArea.nativeElement);
+        this.selObject = null;
     }
 
     private editTable(): void {

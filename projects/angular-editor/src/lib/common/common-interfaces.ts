@@ -51,5 +51,7 @@ export interface SelectedObject {
     id: string;
     nodeName: string;
     buttonTitle: string;
+    rowIndex?: any;
+    cellIndex?: any;
 }
 

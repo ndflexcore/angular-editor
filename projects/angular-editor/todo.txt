@@ -1,11 +1,7 @@
 todo:
 2. table actions:
-    * delete table
-    * delete row
     * delete column
     * merge columns
-    * insert header
-    * insert footer
 
 2. Image actions
     * repeatedly increase 25 %

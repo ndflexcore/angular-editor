@@ -107,6 +107,10 @@ export class AngularEditorToolbarComponent {
             value: 'addColumn'
         },
         {
+            label: this.sen['deleteRow'],
+            value: 'deleteRow'
+        },
+        {
             label: this.sen['deleteTable'],
             value: 'deleteTable'
         }
@@ -421,10 +425,6 @@ export class AngularEditorToolbarComponent {
             }
         }
         return result !== undefined;
-    }
-
-    switchTableAction(action: string): void {
-        console.log(action);
     }
 
 }
