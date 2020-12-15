@@ -1,3 +1,4 @@
 todo:
-1. - lang to styles (set sen via langService)
 2. combos to table and image actions
+
+3. change style in combo depending on the style where I am in text

@@ -27,6 +27,7 @@ export class AngularEditorService {
 
     constructor(private http: HttpClient, @Inject(DOCUMENT) private doc: any, private dialog: MatDialog,
                 private langService: LangService) {
+        this.sen = this.langService.sen;
         this.langService.languageChanged
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {

@@ -5,9 +5,11 @@ import {DOCUMENT} from '@angular/common';
 import {CustomClass} from './config';
 import {SelectOption} from './ae-select/ae-select.component';
 import {MatDialog} from '@angular/material';
-import {take} from 'rxjs/operators';
+import {take, takeUntil} from 'rxjs/operators';
 import {LinkDialogResult, SelectedObject} from './common/common-interfaces';
 import {InsertLinkDialogComponent} from './insert-link-dialog.component';
+import {LangService} from './services/lang.service';
+import {Subject} from 'rxjs';
 
 @Component({
     selector: 'angular-editor-toolbar',
@@ -16,6 +18,7 @@ import {InsertLinkDialogComponent} from './insert-link-dialog.component';
 })
 
 export class AngularEditorToolbarComponent {
+    sen: { [p: string]: string } = this.langService.sen;
     htmlMode = false;
     linkSelected = false;
     block = 'default';
@@ -26,35 +29,35 @@ export class AngularEditorToolbarComponent {
 
     headings: SelectOption[] = [
         {
-            label: 'Nadpis 1',
+            label: this.sen['h1'],
             value: 'h1',
         },
         {
-            label: 'Nadpis 2',
+            label: this.sen['h2'],
             value: 'h2',
         },
         {
-            label: 'Nadpis 3',
+            label: this.sen['h3'],
             value: 'h3',
         },
         {
-            label: 'Nadpis 4',
+            label: this.sen['h4'],
             value: 'h4',
         },
         {
-            label: 'Nadpis 5',
+            label: this.sen['h5'],
             value: 'h5',
         },
         {
-            label: 'Nadpis 6',
+            label: this.sen['h6'],
             value: 'h6',
         },
         {
-            label: 'Odstavec',
+            label: this.sen['p'],
             value: 'p',
         },
         {
-            label: 'Výchozí',
+            label: this.sen['clear'],
             value: 'default'
         }
     ];
@@ -107,7 +110,6 @@ export class AngularEditorToolbarComponent {
         'justifyRight', 'justifyFull', 'indent', 'outdent', 'insertUnorderedList', 'insertOrderedList', 'link'];
 
     @Input() id: string;
-    @Input() sen: { [p: string]: string };
     @Input() uploadUrl: string;
     @Input() showToolbar: boolean;
     @Input() fonts: SelectOption[] = [{label: '', value: ''}];
@@ -146,12 +148,25 @@ export class AngularEditorToolbarComponent {
         return this.htmlMode || !Boolean(this.editorService.selectedText);
     }
 
+    private ngUnsubscribe: Subject<any> = new Subject<any>();
+
     constructor(
         private r: Renderer2,
         private editorService: AngularEditorService,
+        private langService: LangService,
         @Inject(DOCUMENT) private doc: any,
         private dialog: MatDialog
     ) {
+        this.langService.languageChanged
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(res => {
+                this.sen = res;
+            });
+    }
+
+    ngOnDestroy() {
+        this.ngUnsubscribe.next();
+        this.ngUnsubscribe.complete();
     }
 
     /**

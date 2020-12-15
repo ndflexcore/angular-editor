@@ -2,7 +2,6 @@
      [style.minWidth]="config.minWidth">
   <angular-editor-toolbar *ngIf="config.toolbarPosition === 'top'" #editorToolbar
                           [id]="id"
-                          [sen]="sen"
                           [uploadUrl]="config.uploadUrl"
                           [showToolbar]="config.showToolbar !== undefined ? config.showToolbar : true"
                           [fonts]="getFonts()"
@@ -36,7 +35,6 @@
   </div>
   <angular-editor-toolbar *ngIf="config.toolbarPosition === 'bottom'" #editorToolbar
                           [id]="id"
-                          [sen]="sen"
                           [uploadUrl]="config.uploadUrl"
                           [showToolbar]="config.showToolbar !== undefined ? config.showToolbar : true"
                           [fonts]="getFonts()"

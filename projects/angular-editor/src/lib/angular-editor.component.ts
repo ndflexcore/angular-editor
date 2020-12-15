@@ -505,6 +505,9 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     }
 
     ngOnDestroy() {
+        this.ngUnsubscribe.next();
+        this.ngUnsubscribe.complete();
+
         if (this.blurInstance) {
             this.blurInstance();
         }
