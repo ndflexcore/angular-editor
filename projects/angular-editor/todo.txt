@@ -1,4 +1,6 @@
 todo:
+1. actions - move combo to section to fix vertical alignment
+
 2. table actions:
     * delete column
     * merge columns
