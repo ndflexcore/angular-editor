@@ -1,4 +1,14 @@
 todo:
-2. combos to table and image actions
+2. table actions:
+    * delete table
+    * delete row
+    * delete column
+    * merge columns
+    * insert header
+    * insert footer
+
+2. Image actions
+    * repeatedly increase 25 %
+    * repeatedly decrease 25 %
 
 3. change style in combo depending on the style where I am in text

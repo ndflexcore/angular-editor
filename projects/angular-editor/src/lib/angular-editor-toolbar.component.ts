@@ -93,6 +93,22 @@ export class AngularEditorToolbarComponent {
         }
     ];
 
+    tableActions: SelectOption[] = [
+        {
+            label: this.sen['tableActions'],
+            value: null
+        },
+        {
+            label: this.sen['addRows'],
+            value: 'addRow'
+        },
+        {
+            label: this.sen['addColumns'],
+            value: 'addColumn'
+        }
+    ];
+    tableAction: string = null;
+
     customClassId = '-1';
     // tslint:disable-next-line:variable-name
     _customClasses: CustomClass[];
@@ -388,6 +404,10 @@ export class AngularEditorToolbarComponent {
             }
         }
         return result !== undefined;
+    }
+
+    switchTableAction(action: string): void {
+        console.log(action);
     }
 
 }
