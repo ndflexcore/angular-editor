@@ -184,7 +184,16 @@
                 [disabled]="!selObject" (click)="triggerCommand('editObject')"
                 tabindex="-1"><i
             class='fa fa-pencil-square-o'></i></button>
-        <ae-select *ngIf="selObject.nodeName === 'TABLE'" class="select-heading"
+        <ae-select *ngIf="selObject.nodeName === 'IMG'"
+                   class="select-heading" style="width:110px"
+                   [class.active]="selObject"
+                   [options]="imageActions"
+                   [(ngModel)]="imageAction"
+                   (change)="triggerCommand($event)"
+                   [disabled]="htmlMode"
+                   tabindex="-1"></ae-select>
+        <ae-select *ngIf="selObject.nodeName === 'TABLE'"
+                   class="select-heading" style="width:110px"
                    [class.active]="selObject"
                    [options]="tableActions"
                    [(ngModel)]="tableAction"

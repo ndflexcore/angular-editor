@@ -105,9 +105,26 @@ export class AngularEditorToolbarComponent {
         {
             label: this.sen['addColumns'],
             value: 'addColumn'
+        },
+        {
+            label: this.sen['deleteTable'],
+            value: 'deleteTable'
         }
     ];
+
+    imageActions: SelectOption[] = [
+        {
+            label: this.sen['imageActions'],
+            value: null
+        },
+        {
+            label: this.sen['deleteImage'],
+            value: 'deleteImage'
+        }
+    ];
+
     tableAction: string = null;
+    imageAction: string = null;
 
     customClassId = '-1';
     // tslint:disable-next-line:variable-name

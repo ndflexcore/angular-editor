@@ -51,6 +51,7 @@ const sen_en: { [p: string]: string } = {
     tableActions: 'Table actions',
     addRows: 'Add Row bellow',
     addColumns: 'Add Column to the Right',
+    deleteTable: 'Delete Table',
     h1: 'Heading 1',
     h2: 'Heading 2',
     h3: 'Heading 3',
@@ -58,7 +59,9 @@ const sen_en: { [p: string]: string } = {
     h5: 'Heading 5',
     h6: 'Heading 6',
     p: 'Paragraph',
-    clear: 'Default'
+    clear: 'Default',
+    imageActions: 'Image Actions',
+    deleteImage: 'Delete Image'
 };
 
 const sen_cs: { [p: string]: string } = {
@@ -112,6 +115,7 @@ const sen_cs: { [p: string]: string } = {
     tableActions: 'Akce tabulky',
     addRows: 'Přidat řádek pod',
     addColumns: 'Přidat sloupec napravo',
+    deleteTable: 'Smazat tabulku',
     h1: 'Nadpis 1',
     h2: 'Nadpis 2',
     h3: 'Nadpis 3',
@@ -119,7 +123,9 @@ const sen_cs: { [p: string]: string } = {
     h5: 'Nadpis 5',
     h6: 'Nadpis 6',
     p: 'Odstavec',
-    clear: 'Výchozí'
+    clear: 'Výchozí',
+    imageActions: 'Akce obrázku',
+    deleteImage: 'Smazat obrázek'
 };
 
 @Injectable({

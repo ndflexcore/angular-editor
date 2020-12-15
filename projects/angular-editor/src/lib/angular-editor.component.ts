@@ -221,6 +221,10 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                 this.addTableRow();
             } else if (command === 'addColumn') {
                 this.addTableColumn();
+            } else if (command === 'deleteTable') {
+                this.deleteTable();
+            } else if (command === 'deleteImage') {
+                this.deleteImage();
             } else {
                 this.editorService.executeCommand(command);
             }
@@ -650,6 +654,14 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         }
     }
 
+    private deleteImage(): void {
+        const i: HTMLImageElement = <HTMLImageElement>document.getElementById(this.selObject.id);
+        const parent: HTMLElement = document.getElementById(this.selObject.id).parentElement;
+        this.r.removeChild(parent, i);
+
+        this.onContentChange(this.textArea.nativeElement);
+    }
+
     private static getParentTableId(evt: MouseEvent): string {
         const pathArray = evt.composedPath();
         for (let i = 0; i < pathArray.length; i++) {
@@ -690,6 +702,14 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                 this.r.setStyle(theCell, 'width', `${width}%`);
             }
         }
+
+        this.onContentChange(this.textArea.nativeElement);
+    }
+
+    private deleteTable(): void {
+        const t: HTMLTableElement = <HTMLTableElement>document.getElementById(this.selObject.id);
+        const parent: HTMLElement = document.getElementById(this.selObject.id).parentElement;
+        this.r.removeChild(parent, t);
 
         this.onContentChange(this.textArea.nativeElement);
     }
