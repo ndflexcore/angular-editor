@@ -26,51 +26,38 @@ export class AngularEditorToolbarComponent {
 
     headings: SelectOption[] = [
         {
-            label: 'Heading 1',
+            label: 'Nadpis 1',
             value: 'h1',
         },
         {
-            label: 'Heading 2',
+            label: 'Nadpis 2',
             value: 'h2',
         },
         {
-            label: 'Heading 3',
+            label: 'Nadpis 3',
             value: 'h3',
         },
         {
-            label: 'Heading 4',
+            label: 'Nadpis 4',
             value: 'h4',
         },
         {
-            label: 'Heading 5',
+            label: 'Nadpis 5',
             value: 'h5',
         },
         {
-            label: 'Heading 6',
+            label: 'Nadpis 6',
             value: 'h6',
         },
         {
-            label: 'Heading 7',
-            value: 'h7',
-        },
-        {
-            label: 'Paragraph',
+            label: 'Odstavec',
             value: 'p',
         },
         {
-            label: 'Predefined',
-            value: 'pre'
-        },
-        {
-            label: 'Standard',
-            value: 'div'
-        },
-        {
-            label: 'default',
+            label: 'Výchozí',
             value: 'default'
         }
     ];
-
     fontSizes: SelectOption[] = [
         {
             label: '1',
@@ -386,4 +373,5 @@ export class AngularEditorToolbarComponent {
         }
         return result !== undefined;
     }
+
 }
