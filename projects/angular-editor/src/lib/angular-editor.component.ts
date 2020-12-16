@@ -226,7 +226,9 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
             } else if (command === 'addRowUp') {
                 this.addRow(true);
             } else if (command === 'addColumnRight') {
-                this.addColumnRight();
+                this.addColumn(false);
+            } else if (command === 'addColumnLeft') {
+                this.addColumn(true);
             } else if (command === 'deleteTable') {
                 this.deleteTable();
             } else if (command === 'deleteImage') {
@@ -694,12 +696,16 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         this.onContentChange(this.textArea.nativeElement);
     }
 
-    private addColumnRight(): void {
+    private addColumn(left: boolean): void {
         const t: HTMLTableElement = <HTMLTableElement>document.getElementById(this.selObject.id);
         const numRows = t.rows.length;
 
+        const cellIndex = left
+            ? this.selObject.cellIndex
+            : this.selObject.cellIndex + 1;
+
         for (let i = 0; i < numRows; i++) {
-            t.rows[i].insertCell(this.selObject.cellIndex + 1);
+            t.rows[i].insertCell(cellIndex);
         }
 
         for (let i = 0; i < numRows; i++) {

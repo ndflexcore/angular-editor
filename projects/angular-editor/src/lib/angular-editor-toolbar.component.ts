@@ -111,6 +111,10 @@ export class AngularEditorToolbarComponent {
             value: 'addColumnRight'
         },
         {
+            label: this.sen['addColumnLeft'],
+            value: 'addColumnLeft'
+        },
+        {
             label: this.sen['deleteRow'],
             value: 'deleteRow'
         },
