@@ -69,7 +69,7 @@ export class AppComponent implements OnInit {
             ['insertImage'],
             ['customClasses']
         ],
-        pasteEnabled: false
+        pasteEnabled: true
     };
 
     config2: AngularEditorConfig = {

@@ -71,25 +71,24 @@
             class='fa fa-list-ol'></i></button>
     </div>
     <div class="angular-editor-toolbar-set">
-
         <ae-select class="select-heading" [options]="headings"
                    [(ngModel)]="block"
                    (change)="triggerCommand(block)"
                    [disabled]="htmlMode"
                    [hidden]="isButtonHidden('heading')"
-                   tabindex="-1"></ae-select>
+                   tabindex="-1">
+        </ae-select>
     </div>
     <div class="angular-editor-toolbar-set">
-
         <ae-select class="select-font" [options]="fonts"
                    [(ngModel)]="fontName"
                    (change)="setFontName(fontName)"
                    [disabled]="htmlMode"
                    [hidden]="isButtonHidden('fontName')"
-                   tabindex="-1"></ae-select>
+                   tabindex="-1">
+        </ae-select>
     </div>
     <div class="angular-editor-toolbar-set">
-
         <ae-select class="select-font-size" [options]="fontSizes"
                    [(ngModel)]="fontSize"
                    (change)="setFontSize(fontSize)"
@@ -124,7 +123,8 @@
                    (change)="setCustomClass(customClassId)"
                    [disabled]="htmlMode"
                    [hidden]="isButtonHidden('customClasses')"
-                   tabindex="-1"></ae-select>
+                   tabindex="-1">
+        </ae-select>
     </div>
     <div class="angular-editor-toolbar-set">
         <button [id]="'link-'+id" type="button" class="angular-editor-button" (click)="insertUrl()"
@@ -182,8 +182,9 @@
         <button [id]="'edit'+id" type="button" [title]="selObject.buttonTitle" class="angular-editor-button"
                 [class.active]="selObject"
                 [disabled]="!selObject" (click)="triggerCommand('editObject')"
-                tabindex="-1"><i
-            class='fa fa-pencil-square-o'></i></button>
+                tabindex="-1"><i class='fa fa-pencil-square-o'></i></button>
+    </div>
+    <div class="angular-editor-toolbar-set" *ngIf="selObject">
         <ae-select *ngIf="selObject.nodeName === 'IMG'"
                    class="select-heading" style="width:110px"
                    [class.active]="selObject"
@@ -191,7 +192,8 @@
                    [(ngModel)]="imageAction"
                    (change)="triggerCommand($event)"
                    [disabled]="htmlMode"
-                   tabindex="-1"></ae-select>
+                   tabindex="-1">
+        </ae-select>
         <ae-select *ngIf="selObject.nodeName === 'TABLE'"
                    class="select-heading" style="width:110px"
                    [class.active]="selObject"
@@ -199,6 +201,7 @@
                    [(ngModel)]="tableAction"
                    (change)="triggerCommand($event)"
                    [disabled]="htmlMode"
-                   tabindex="-1"></ae-select>
+                   tabindex="-1">
+        </ae-select>
     </div>
 </div>
