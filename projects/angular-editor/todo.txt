@@ -1,6 +1,5 @@
 todo:
 2. table actions:
-    * insert row and column on position relative to selected cell
     * delete column
     * merge columns
 
