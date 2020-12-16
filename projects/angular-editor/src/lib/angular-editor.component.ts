@@ -222,7 +222,9 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
             } else if (command === 'editObject') {
                 this.editObject();
             } else if (command === 'addRowBellow') {
-                this.addRowBellow();
+                this.addRow(false);
+            } else if (command === 'addRowUp') {
+                this.addRow(true);
             } else if (command === 'addColumnRight') {
                 this.addColumnRight();
             } else if (command === 'deleteTable') {
@@ -679,11 +681,13 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         return null;
     }
 
-    private addRowBellow(): void {
+    private addRow(up: boolean): void {
         const t: HTMLTableElement = <HTMLTableElement>document.getElementById(this.selObject.id);
         const currentRow = t.rows[this.selObject.rowIndex];
         const numColumns = currentRow.cells.length;
-        let newRow = t.insertRow(this.selObject.rowIndex + 1);
+        let newRow = up
+            ? t.insertRow(this.selObject.rowIndex)
+            : t.insertRow(this.selObject.rowIndex + 1);
         for (let i = 0; i < numColumns; i++) {
             newRow.insertCell();
         }

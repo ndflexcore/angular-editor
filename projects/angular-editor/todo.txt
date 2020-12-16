@@ -9,3 +9,5 @@ todo:
     * repeatedly decrease 25 %
 
 3. change style in combo depending on the style where I am in text
+
+4. fix color dialog

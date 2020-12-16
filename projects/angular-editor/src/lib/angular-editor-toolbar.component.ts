@@ -103,6 +103,10 @@ export class AngularEditorToolbarComponent {
             value: 'addRowBellow'
         },
         {
+            label: this.sen['addRowUp'],
+            value: 'addRowUp'
+        },
+        {
             label: this.sen['addColumnRight'],
             value: 'addColumnRight'
         },
