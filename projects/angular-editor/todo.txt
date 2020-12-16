@@ -1,6 +1,5 @@
 todo:
 2. table actions:
-    * delete column
     * merge columns
 
 2. Image actions
@@ -10,3 +9,5 @@ todo:
 3. change style in combo depending on the style where I am in text
 
 4. fix color dialog
+
+5. fix and re-evaluate insert video functionality
