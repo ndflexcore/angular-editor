@@ -233,6 +233,8 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                 this.deleteTable();
             } else if (command === 'deleteImage') {
                 this.deleteImage();
+            } else if (command === 'deleteColumn') {
+                this.deleteColumn();
             } else if (command === 'deleteRow') {
                 this.deleteRow();
             } else {
@@ -717,7 +719,15 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                 this.r.setStyle(theCell, 'width', `${width}%`);
             }
         }
+        this.onContentChange(this.textArea.nativeElement);
+    }
 
+    private deleteColumn(): void {
+        const t: HTMLTableElement = <HTMLTableElement>document.getElementById(this.selObject.id);
+        for (let i = 0; i < t.rows.length; i++) {
+            const row = t.rows[i];
+            row.deleteCell(this.selObject.cellIndex);
+        }
         this.onContentChange(this.textArea.nativeElement);
     }
 
