@@ -221,10 +221,10 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                 this.insertTable(this.config, this.id);
             } else if (command === 'editObject') {
                 this.editObject();
-            } else if (command === 'addRow') {
-                this.addTableRow();
-            } else if (command === 'addColumn') {
-                this.addTableColumn();
+            } else if (command === 'addRowBellow') {
+                this.addRowBellow();
+            } else if (command === 'addColumnRight') {
+                this.addColumnRight();
             } else if (command === 'deleteTable') {
                 this.deleteTable();
             } else if (command === 'deleteImage') {
@@ -679,24 +679,23 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         return null;
     }
 
-    private addTableRow(): void {
+    private addRowBellow(): void {
         const t: HTMLTableElement = <HTMLTableElement>document.getElementById(this.selObject.id);
-        const firstRow = t.rows[0];
-        const numColumns = firstRow.cells.length;
-        let newRow = t.insertRow();
+        const currentRow = t.rows[this.selObject.rowIndex];
+        const numColumns = currentRow.cells.length;
+        let newRow = t.insertRow(this.selObject.rowIndex + 1);
         for (let i = 0; i < numColumns; i++) {
             newRow.insertCell();
         }
-
         this.onContentChange(this.textArea.nativeElement);
     }
 
-    private addTableColumn(): void {
+    private addColumnRight(): void {
         const t: HTMLTableElement = <HTMLTableElement>document.getElementById(this.selObject.id);
         const numRows = t.rows.length;
 
         for (let i = 0; i < numRows; i++) {
-            t.rows[i].insertCell();
+            t.rows[i].insertCell(this.selObject.cellIndex + 1);
         }
 
         for (let i = 0; i < numRows; i++) {

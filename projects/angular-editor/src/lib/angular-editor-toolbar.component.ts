@@ -99,12 +99,12 @@ export class AngularEditorToolbarComponent {
             value: null
         },
         {
-            label: this.sen['addRows'],
-            value: 'addRow'
+            label: this.sen['addRowBellow'],
+            value: 'addRowBellow'
         },
         {
-            label: this.sen['addColumns'],
-            value: 'addColumn'
+            label: this.sen['addColumnRight'],
+            value: 'addColumnRight'
         },
         {
             label: this.sen['deleteRow'],
