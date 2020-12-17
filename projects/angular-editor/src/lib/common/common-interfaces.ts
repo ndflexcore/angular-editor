@@ -29,11 +29,8 @@ export interface LinkDialogResult {
     url: string;
 }
 
-export interface ImageEditRequest {
-    id: string;
-    src: string;
-    alt: string;
-    title: string;
+export interface ColorDialogResult {
+    color: string;
 }
 
 /*

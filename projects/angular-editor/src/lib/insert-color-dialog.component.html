@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>{{data.senDialogTitle}}</h1>
+<div mat-dialog-content [formGroup]="colorForm">
+    <input matInput class="color-dialog" formControlName="color" [placeholder]="data.placeholder" type="color">
+</div>
+<div mat-dialog-actions class="pull-right insert-table-actions">
+    <button mat-raised-button (click)="onCancelClick()">{{data.senCancel}}</button>
+    <button mat-raised-button color="primary" [disabled]="colorForm.pristine || colorForm.invalid" (click)="ok()" cdkFocusInitial>OK</button>
+</div>

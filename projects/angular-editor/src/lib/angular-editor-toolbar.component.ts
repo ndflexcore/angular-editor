@@ -6,10 +6,12 @@ import {CustomClass} from './config';
 import {SelectOption} from './ae-select/ae-select.component';
 import {MatDialog} from '@angular/material';
 import {take, takeUntil} from 'rxjs/operators';
-import {LinkDialogResult, SelectedObject} from './common/common-interfaces';
+import {ColorDialogResult, LinkDialogResult, SelectedObject} from './common/common-interfaces';
 import {InsertLinkDialogComponent} from './insert-link-dialog.component';
 import {LangService} from './services/lang.service';
 import {Subject} from 'rxjs';
+import {EditTableDialogComponent} from './edit-table-dialog.component';
+import {InsertColorDialogComponent} from './insert-color-dialog.component';
 
 @Component({
     selector: 'angular-editor-toolbar',
@@ -437,6 +439,25 @@ export class AngularEditorToolbarComponent {
             }
         }
         return result !== undefined;
+    }
+
+    insertColorDialog(where: string): void {
+        const dialogRef = this.dialog.open(InsertColorDialogComponent, {
+            width: '275px',
+            height: 'auto',
+            data: {
+                senDialogTitle: this.sen['insertColorDialogTitle'],
+                senCancel: this.sen['cancel'],
+            }
+        });
+
+        dialogRef.afterClosed()
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe((res: ColorDialogResult) => {
+                if (res) {
+                    this.insertColor(res.color, where);
+                }
+            })
     }
 
 }
