@@ -5,13 +5,14 @@
         <h3>Enter app specific data</h3>
         <label for="imageServerUrlLabel">Enter image server url: </label>
         <input id="imageServerUrlLabel" type="text" formControlName="imageServerUrl">
+        <br>
+        <br>
+        <label for="extensionsApiUrl">Extensions API url: </label>
+        <input id="extensionsApiUrl" type="text" formControlName="extensionsApiUrl">
     </div>
     <br>
     <br>
 
-    <label for="test_input">Test input: </label>
-    <input id="test_input">
-    <br><br>
     <form [formGroup]="form">
         <angular-editor id="editor1" formControlName="signature"
                         [config]="config1" (ngModelChange)="onChange($event)"

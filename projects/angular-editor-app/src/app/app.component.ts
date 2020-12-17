@@ -36,6 +36,7 @@ export class AppComponent implements OnInit {
         defaultParagraphSeparator: 'p',
         language: this.langCode,
         imageServerUrl: '',
+        extensionsApiUrl: '',
         imageType: 'preview',
         presetWidth: 98,
         presetHeight: 98,
@@ -85,6 +86,7 @@ export class AppComponent implements OnInit {
         defaultParagraphSeparator: 'p',
         language: this.langCode,
         imageServerUrl: '',
+        extensionsApiUrl: '',
         imageType: 'preview',
         presetWidth: 98,
         presetHeight: 98,
@@ -156,13 +158,20 @@ export class AppComponent implements OnInit {
             signature: ['', Validators.required]
         });
         this.sensForm = this.formBuilder.group({
-            imageServerUrl: ['']
+            imageServerUrl: [''],
+            extensionsApiUrl: ['']
         });
         this.sensForm.get('imageServerUrl').valueChanges
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
                 this.config1.imageServerUrl = res;
                 this.config2.imageServerUrl = res;
+            });
+        this.sensForm.get('extensionsApiUrl').valueChanges
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(res => {
+                this.config1.extensionsApiUrl = res;
+                this.config2.extensionsApiUrl = res;
             })
     }
 }

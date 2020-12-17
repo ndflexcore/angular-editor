@@ -33,6 +33,7 @@ export interface AngularEditorConfig {
     toolbarHiddenButtons?: string[][];
     language: 'cs' | 'en';
     imageServerUrl: string;
+    extensionsApiUrl: string;
     imageType: string;
     presetWidth: number;
     presetHeight: number;
@@ -63,6 +64,7 @@ export const angularEditorConfig: AngularEditorConfig = {
     outline: true,
     language: 'cs',
     imageServerUrl: '',
+    extensionsApiUrl: '',
     imageType: 'preview',
     presetWidth: 98,
     presetHeight: 98,
