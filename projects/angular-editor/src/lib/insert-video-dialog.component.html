@@ -2,7 +2,7 @@
 <div mat-dialog-content [formGroup]="videoForm">
     <mat-form-field class="mat-full-width">
         <mat-label>{{data.urlLabel}}</mat-label>
-        <input matInput formControlName="url" [placeholder]="data.placeholder" type="text">
+        <input matInput formControlName="url" placeholder="https://www.youtube.com/watch?v=54LEywabkl4" type="text">
         <mat-error *ngIf="videoForm.dirty && videoForm.invalid">{{getErrorMessage()}}</mat-error>
     </mat-form-field>
     <div>
@@ -11,5 +11,5 @@
 </div>
 <div mat-dialog-actions class="pull-right insert-table-actions">
     <button mat-raised-button (click)="onCancelClick()">{{data.senCancel}}</button>
-    <button mat-raised-button color="primary" [disabled]="videoForm.pristine || videoForm.invalid" (click)="ok()" cdkFocusInitial>OK</button>
+    <button mat-raised-button color="primary" [disabled]="videoForm.pristine || videoForm.invalid" (click)="ok()">OK</button>
 </div>

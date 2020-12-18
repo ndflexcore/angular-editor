@@ -791,7 +791,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
 
     insertVideoDialog(): void {
         const dialogRef = this.dialog.open(InsertVideoDialogComponent, {
-            width: '375px',
+            width: '555px',
             height: 'auto',
             data: {
                 senDialogTitle: this.sen['insertVideoDialogTitle'],
