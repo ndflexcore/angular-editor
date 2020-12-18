@@ -4,7 +4,7 @@ import {ColorDialogResult} from './common/common-interfaces';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
-    selector: 'dialog-insert-link',
+    selector: 'dialog-insert-color',
     templateUrl: 'insert-color-dialog.component.html',
     styleUrls: ['insert-table-dialog.component.scss']
 })

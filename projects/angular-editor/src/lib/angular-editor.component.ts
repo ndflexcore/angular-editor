@@ -32,7 +32,7 @@ import {
     EditImageDialogData,
     EditTableDialogResult,
     SelectedObject,
-    TableDialogResult
+    TableDialogResult, VideoDialogResult
 } from './common/common-interfaces';
 import {MatDialog} from '@angular/material';
 import {MessageDialogComponent} from './message-dialog.component';
@@ -40,6 +40,7 @@ import {randomId} from './common/helpers';
 import {EditImageDialogComponent} from './edit-image-dialog.component';
 import {EditTableDialogComponent} from './edit-table-dialog.component';
 import {InsertTableDialogComponent} from './insert-table-dialog.component';
+import {InsertVideoDialogComponent} from './insert-video-dialog.component';
 
 @Component({
     selector: 'angular-editor',
@@ -219,6 +220,8 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                 this.ftpNeeded.emit(this.id);
             } else if (command === 'insertTable') {
                 this.insertTable(this.config, this.id);
+            } else if (command === 'insertVideo') {
+                this.insertVideoDialog();
             } else if (command === 'editObject') {
                 this.editObject();
             } else if (command === 'addRowBellow') {
@@ -783,6 +786,31 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                 }
 
                 this.onContentChange(this.textArea.nativeElement);
+            })
+    }
+
+    insertVideoDialog(): void {
+        const dialogRef = this.dialog.open(InsertVideoDialogComponent, {
+            width: '375px',
+            height: 'auto',
+            data: {
+                senDialogTitle: this.sen['insertVideoDialogTitle'],
+                insertVideoValidatorRequired: this.sen['insertVideoValidatorRequired'],
+                insertVideoValidatorPattern: this.sen['insertVideoValidatorPattern'],
+                urlLabel: this.sen['insertVideoUrlLabel'],
+                origSizeLabel: this.sen['insertVideoUseOrigSize'],
+                senCancel: this.sen['cancel'],
+            }
+        });
+
+        dialogRef.afterClosed()
+            .pipe(take(1))
+            .subscribe((res: VideoDialogResult) => {
+                if (res && res.videoHtml) {
+                    this.editorService.insertHtml(res.videoHtml);
+
+                    this.onContentChange(this.textArea.nativeElement);
+                }
             })
     }
 

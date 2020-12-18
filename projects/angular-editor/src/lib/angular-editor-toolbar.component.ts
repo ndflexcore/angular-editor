@@ -10,7 +10,6 @@ import {ColorDialogResult, LinkDialogResult, SelectedObject} from './common/comm
 import {InsertLinkDialogComponent} from './insert-link-dialog.component';
 import {LangService} from './services/lang.service';
 import {Subject} from 'rxjs';
-import {EditTableDialogComponent} from './edit-table-dialog.component';
 import {InsertColorDialogComponent} from './insert-color-dialog.component';
 
 @Component({
@@ -339,23 +338,6 @@ export class AngularEditorToolbarComponent {
     }
 
     /**
-     * insert Video link
-     */
-    insertVideo() {
-        this.execute.emit('');
-        const url = prompt('Insert Video link', `https://`);
-        if (url && url !== '' && url !== `https://`) {
-            this.editorService.insertVideo(url);
-        }
-    }
-
-    /** insert color */
-    insertColor(color: string, where: string) {
-        this.editorService.insertColor(color, where);
-        this.execute.emit('');
-    }
-
-    /**
      * set font Name/family
      * @param foreColor string
      */
@@ -458,6 +440,12 @@ export class AngularEditorToolbarComponent {
                     this.insertColor(res.color, where);
                 }
             })
+    }
+
+    /** insert color */
+    private insertColor(color: string, where: string) {
+        this.editorService.insertColor(color, where);
+        this.execute.emit('');
     }
 
 }

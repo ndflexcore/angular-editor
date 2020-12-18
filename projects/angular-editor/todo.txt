@@ -1,15 +1,20 @@
 todo:
 - fix and re-evaluate insert video functionality
-    * do the same way as in
-        /clanek/135/outlet-–-slevy-az-70-%25-na-znackove-oblec
-        /v/1266020/kesu-orechy
+
++ remove entryComponents section
 
 - table actions:
     * merge columns
 
 - Image actions
+    * image padding
+    * image float
     * repeatedly increase 25 %
     * repeatedly decrease 25 %
+
+- Link improvements
+    * link properties - reuse insert link dialog
+    * target
 
 - change style in combo depending on the style where I am in text
 

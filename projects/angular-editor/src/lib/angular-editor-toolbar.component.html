@@ -144,7 +144,7 @@
             class="fa fa-file-image-o"></i>
         </button>
         <button [id]="'insertVideo-'+id" type="button" class="angular-editor-button"
-                (click)="insertVideo()" [title]="sen['insertVideo']" [disabled]="htmlMode"
+                (click)="triggerCommand('insertVideo')" [title]="sen['insertVideo']" [disabled]="htmlMode"
                 [hidden]="isButtonHidden('insertVideo')"
                 tabindex="-1"><i
             class="fa fa-video-camera"></i></button>

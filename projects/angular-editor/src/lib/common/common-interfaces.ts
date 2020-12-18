@@ -33,6 +33,10 @@ export interface ColorDialogResult {
     color: string;
 }
 
+export interface VideoDialogResult {
+    videoHtml: string;
+}
+
 /*
     used for both in/out
  */

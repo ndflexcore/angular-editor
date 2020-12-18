@@ -18,6 +18,7 @@ import {InsertLinkDialogComponent} from './insert-link-dialog.component';
 import {EditImageDialogComponent} from './edit-image-dialog.component';
 import {EditTableDialogComponent} from './edit-table-dialog.component';
 import {InsertColorDialogComponent} from './insert-color-dialog.component';
+import {InsertVideoDialogComponent} from './insert-video-dialog.component';
 
 @NgModule({
     imports: [
@@ -38,6 +39,7 @@ import {InsertColorDialogComponent} from './insert-color-dialog.component';
         InsertTableDialogComponent,
         InsertLinkDialogComponent,
         InsertColorDialogComponent,
+        InsertVideoDialogComponent,
         MessageDialogComponent,
         EditImageDialogComponent,
         EditTableDialogComponent
@@ -46,6 +48,7 @@ import {InsertColorDialogComponent} from './insert-color-dialog.component';
         InsertTableDialogComponent,
         InsertLinkDialogComponent,
         InsertColorDialogComponent,
+        InsertVideoDialogComponent,
         MessageDialogComponent,
         EditImageDialogComponent,
         EditTableDialogComponent
@@ -55,6 +58,7 @@ import {InsertColorDialogComponent} from './insert-color-dialog.component';
         AngularEditorToolbarComponent,
         InsertTableDialogComponent,
         InsertColorDialogComponent,
+        InsertVideoDialogComponent,
         InsertLinkDialogComponent,
         MessageDialogComponent,
         EditImageDialogComponent,
