@@ -3,12 +3,19 @@ import {Component, Inject, OnDestroy} from '@angular/core';
 import {VideoDialogResult} from './common/common-interfaces';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Subject} from 'rxjs';
+import {finalize, take, takeUntil} from 'rxjs/operators';
+import {HttpClient} from '@angular/common/http';
 
 type VideoKind = 'youtube' | 'vimeo';
 
 interface HashResult {
     kind: VideoKind,
     hash: string;
+}
+
+interface VideoInfo {
+    width: number;
+    height: number;
 }
 
 @Component({
@@ -19,12 +26,12 @@ interface HashResult {
 export class InsertVideoDialogComponent implements OnDestroy {
 
     videoForm: FormGroup;
-    width: number;
-    height: number;
+    videoInfo: VideoInfo;
+    gettingSize: boolean;
     private ngUnsubscribe: Subject<any> = new Subject<any>();
 
     constructor(public dialogRef: MatDialogRef<InsertVideoDialogComponent>,
-                @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder) {
+                @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder, private http: HttpClient) {
         this.createForm();
     }
 
@@ -45,7 +52,7 @@ export class InsertVideoDialogComponent implements OnDestroy {
     ok(): void {
         let url = this.videoForm.get('url').value;
         const hashResult: HashResult = InsertVideoDialogComponent.getVideoHash(url);
-        const html = InsertVideoDialogComponent.createVideoHtml(hashResult.kind, hashResult.hash);
+        const html = this.createVideoHtml(hashResult.kind, hashResult.hash);
 
         const result: VideoDialogResult = {
             videoHtml: html
@@ -64,18 +71,69 @@ export class InsertVideoDialogComponent implements OnDestroy {
             useOrigSize: [false]
         });
         this.videoForm.get('useOrigSize').valueChanges
-            .pipe()
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(res => {
+                const url = this.videoForm.get('url').value;
+                const hashResult = InsertVideoDialogComponent.getVideoHash(url);
+                if (url && res && hashResult) {
+                    this.getVideoSize(hashResult);
+                }
+            })
     }
 
-    private static createVideoHtml(kind: VideoKind, hash: string): string {
+    private getVideoSize(hashResult: HashResult): void {
+        this.gettingSize = true;
+        const apiUrlPrefix = this.data.apiUrlPrefix;
+        if (hashResult.kind === 'youtube') {
+            let apiUrl = `${apiUrlPrefix}/youtube-video-info?hash=${hashResult.hash}`;
+            this.http.get<string>(apiUrl)
+                .pipe(
+                    take(1),
+                    finalize(() => this.gettingSize = false)
+                )
+                .subscribe(res => {
+                    const result = JSON.parse(res);
+                    console.log(result);
+                    if (result['thumbnail_width'] && result['thumbnail_height']) {
+                        this.videoInfo = {
+                            width: result['thumbnail_width'],
+                            height: result['thumbnail_height']
+                        }
+                    }
+                })
+        }
+        if (hashResult.kind === 'vimeo') {
+            let apiUrl = `${apiUrlPrefix}/vimeo-video-info?hash=${hashResult.hash}`;
+            this.http.get<string>(apiUrl)
+                .pipe(
+                    take(1),
+                    finalize(() => this.gettingSize = false)
+                )
+                .subscribe(res => {
+                    const result = JSON.parse(res);
+                    console.log(result);
+                    if (result['height'] && result['width']) {
+                        this.videoInfo = {
+                            width: result['width'],
+                            height: result['height']
+                        }
+                    }
+                })
+        }
+    }
+
+    private createVideoHtml(kind: VideoKind, hash: string): string {
+        const size = this.videoInfo
+            ? `width="${this.videoInfo.width}" height="${this.videoInfo.height}"`
+            : '';
         if (kind === 'youtube') {
             return `
-                <iframe src="https://www.youtube.com/embed/${hash}" frameborder="0" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/${hash}" ${size} frameborder="0" allowfullscreen></iframe>
                 `;
         }
         if (kind === 'vimeo') {
             return `
-                <iframe src="https://player.vimeo.com/video/${hash}" frameborder="0" allowfullscreen></iframe>
+                <iframe src="https://player.vimeo.com/video/${hash}" ${size} frameborder="0" allowfullscreen></iframe>
                 `;
         }
         return null;

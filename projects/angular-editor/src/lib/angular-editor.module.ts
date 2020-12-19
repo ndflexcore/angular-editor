@@ -10,7 +10,7 @@ import {
     MatCheckboxModule,
     MatDialogModule,
     MatFormFieldModule,
-    MatInputModule,
+    MatInputModule, MatProgressSpinnerModule,
     MatSlideToggleModule
 } from '@angular/material';
 import {MessageDialogComponent} from './message-dialog.component';
@@ -30,7 +30,8 @@ import {InsertVideoDialogComponent} from './insert-video-dialog.component';
         MatInputModule,
         MatButtonModule,
         MatSlideToggleModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatProgressSpinnerModule
     ],
     declarations: [
         AngularEditorComponent,

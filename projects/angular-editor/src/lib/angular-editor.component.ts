@@ -800,6 +800,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                 urlLabel: this.sen['insertVideoUrlLabel'],
                 origSizeLabel: this.sen['insertVideoUseOrigSize'],
                 senCancel: this.sen['cancel'],
+                apiUrlPrefix: this.config.extensionsApiUrl
             }
         });
 
