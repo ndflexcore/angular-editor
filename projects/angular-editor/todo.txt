@@ -1,4 +1,6 @@
 todo:
+- svae selection and restore selection before/after video insert
+
 - remove cdkFocusInitial from all dialogs
 
 + remove entryComponents section
