@@ -808,6 +808,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
             .pipe(take(1))
             .subscribe((res: VideoDialogResult) => {
                 if (res && res.videoHtml) {
+                    this.editorService.restoreSelection();
                     this.editorService.insertHtml(res.videoHtml);
 
                     this.onContentChange(this.textArea.nativeElement);
