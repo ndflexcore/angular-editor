@@ -6,6 +6,7 @@ todo:
 + remove entryComponents section
 
 - table actions:
+    * set column width to fixed in px
     * merge columns
 
 - Image actions
