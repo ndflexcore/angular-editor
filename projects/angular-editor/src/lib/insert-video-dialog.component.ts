@@ -2,11 +2,12 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Component, Inject, OnDestroy} from '@angular/core';
 import {VideoDialogResult} from './common/common-interfaces';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Subject} from 'rxjs';
+import {merge, Subject} from 'rxjs';
 import {finalize, take, takeUntil} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 
 type VideoKind = 'youtube' | 'vimeo';
+type SizeMode = 'auto' | 'manual';
 
 interface HashResult {
     kind: VideoKind,
@@ -28,6 +29,7 @@ export class InsertVideoDialogComponent implements OnDestroy {
     videoForm: FormGroup;
     videoInfo: VideoInfo;
     gettingSize: boolean;
+    sizeMode: SizeMode;
     private ngUnsubscribe: Subject<any> = new Subject<any>();
 
     constructor(public dialogRef: MatDialogRef<InsertVideoDialogComponent>,
@@ -68,20 +70,37 @@ export class InsertVideoDialogComponent implements OnDestroy {
     private createForm(): void {
         this.videoForm = this.fb.group({
             url: [this.data.url, [Validators.required, Validators.pattern(/^https:\/\/([\w\d\-]+\.)+\w{2,}/)]],
-            useOrigSize: [false]
+            sizeMode: [null, [Validators.required]],
+            manWidth: [{value: 240, disabled: true}, [Validators.required]],
+            manHeight: [{value: 180, disabled: true}, [Validators.required]],
         });
-        this.videoForm.get('useOrigSize').valueChanges
+        this.videoForm.get('sizeMode').valueChanges
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
                 const url = this.videoForm.get('url').value;
                 const hashResult = InsertVideoDialogComponent.getVideoHash(url);
-                if (url && res && hashResult) {
-                    this.getVideoSize(hashResult);
+
+                if (url && hashResult && res === 'auto') {
+                    this.sizeMode = 'auto';
+                    this.enableManualSizeControls(false);
+                    this.getVideoSizeAuto(hashResult);
                 }
+                if (url && hashResult && res === 'manual') {
+                    this.sizeMode = 'manual';
+                    this.enableManualSizeControls(true);
+                }
+            });
+        merge(
+            this.videoForm.get('manWidth').valueChanges,
+            this.videoForm.get('manHeight').valueChanges
+        )
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(() => {
+                this.getVideoSizeManual();
             })
     }
 
-    private getVideoSize(hashResult: HashResult): void {
+    private getVideoSizeAuto(hashResult: HashResult): void {
         this.gettingSize = true;
         const apiUrlPrefix = this.data.apiUrlPrefix;
         if (hashResult.kind === 'youtube') {
@@ -93,7 +112,6 @@ export class InsertVideoDialogComponent implements OnDestroy {
                 )
                 .subscribe(res => {
                     const result = JSON.parse(res);
-                    console.log(result);
                     if (result['thumbnail_width'] && result['thumbnail_height']) {
                         this.videoInfo = {
                             width: result['thumbnail_width'],
@@ -111,7 +129,6 @@ export class InsertVideoDialogComponent implements OnDestroy {
                 )
                 .subscribe(res => {
                     const result = JSON.parse(res);
-                    console.log(result);
                     if (result['height'] && result['width']) {
                         this.videoInfo = {
                             width: result['width'],
@@ -119,6 +136,23 @@ export class InsertVideoDialogComponent implements OnDestroy {
                         }
                     }
                 })
+        }
+    }
+
+    private getVideoSizeManual(): void {
+        this.videoInfo = {
+            width: this.videoForm.get('manWidth').value,
+            height: this.videoForm.get('manHeight').value
+        }
+    }
+
+    private enableManualSizeControls(enable: boolean): void {
+        if (enable) {
+            this.videoForm.get('manWidth').enable();
+            this.videoForm.get('manHeight').enable();
+        } else {
+            this.videoForm.get('manWidth').disable();
+            this.videoForm.get('manHeight').disable();
         }
     }
 

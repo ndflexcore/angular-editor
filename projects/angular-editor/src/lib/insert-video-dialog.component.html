@@ -5,14 +5,26 @@
         <input matInput formControlName="url" placeholder="https://www.youtube.com/watch?v=54LEywabkl4" type="text">
         <mat-error *ngIf="videoForm.dirty && videoForm.invalid">{{getErrorMessage()}}</mat-error>
     </mat-form-field>
-    <div>
-        <mat-checkbox formControlName="useOrigSize">
+    <mat-radio-group class="example-radio-group"
+        formControlName="sizeMode">
+        <mat-radio-button class="example-radio-button" [value]="'auto'">
             {{data.origSizeLabel}}
-            <ng-container *ngIf="videoInfo">
+            <ng-container *ngIf="videoInfo && sizeMode === 'auto'">
                 ({{videoInfo?.width}}x{{videoInfo?.height}})
             </ng-container>
-        </mat-checkbox>
-    </div>
+        </mat-radio-button>
+        <mat-radio-button class="example-radio-button" [value]="'manual'">
+            {{data.manualSizeLabel}}
+        </mat-radio-button>
+    </mat-radio-group>
+    <mat-form-field class="size-field">
+        <mat-label>w</mat-label>
+        <input matInput formControlName="manWidth" type="number">
+    </mat-form-field>
+    <mat-form-field class="size-field">
+        <mat-label>h</mat-label>
+        <input matInput formControlName="manHeight" type="number">
+    </mat-form-field>
 </div>
 <div mat-dialog-actions class="pull-right insert-table-actions">
     <button mat-raised-button (click)="onCancelClick()">{{data.senCancel}}</button>

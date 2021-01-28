@@ -32,3 +32,18 @@
     left: 50%;
     top: 50%;
 }
+
+.example-radio-group {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+}
+
+.example-radio-button {
+    margin: 5px;
+}
+
+.size-field {
+    margin-left: 16px;
+    width: 100px;
+}

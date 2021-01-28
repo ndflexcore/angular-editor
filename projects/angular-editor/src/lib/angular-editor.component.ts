@@ -799,6 +799,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                 insertVideoValidatorPattern: this.sen['insertVideoValidatorPattern'],
                 urlLabel: this.sen['insertVideoUrlLabel'],
                 origSizeLabel: this.sen['insertVideoUseOrigSize'],
+                manualSizeLabel: this.sen['insertVideoUseManualSize'],
                 senCancel: this.sen['cancel'],
                 apiUrlPrefix: this.config.extensionsApiUrl
             }
