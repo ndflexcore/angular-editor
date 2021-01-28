@@ -1,8 +1,15 @@
 <h1 mat-dialog-title>{{data.senDialogTitle}}</h1>
-<div mat-dialog-content [formGroup]="colorForm">
-    <input matInput class="color-dialog" formControlName="color" [placeholder]="data.placeholder" type="color">
+<div mat-dialog-content>
+    <input
+        [value]="color"
+        [style.background]="color"
+        [cpOutputFormat]="'hex'"
+        [cpPosition]="'top'"
+        [cpPresetLabel]="data.senPresetColors"
+        [cpPresetColors]="['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']"
+        [(colorPicker)]="color"/>
 </div>
 <div mat-dialog-actions class="pull-right insert-table-actions">
     <button mat-raised-button (click)="onCancelClick()">{{data.senCancel}}</button>
-    <button mat-raised-button color="primary" [disabled]="colorForm.pristine || colorForm.invalid" (click)="ok()" cdkFocusInitial>OK</button>
+    <button mat-raised-button color="primary" (click)="ok()" cdkFocusInitial>OK</button>
 </div>

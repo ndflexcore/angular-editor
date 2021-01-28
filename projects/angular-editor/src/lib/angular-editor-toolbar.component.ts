@@ -432,6 +432,7 @@ export class AngularEditorToolbarComponent {
             height: 'auto',
             data: {
                 senDialogTitle: this.sen['insertColorDialogTitle'],
+                senPresetColors: this.sen['presetColors'],
                 senCancel: this.sen['cancel'],
             }
         });

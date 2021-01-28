@@ -19,6 +19,7 @@ import {EditImageDialogComponent} from './edit-image-dialog.component';
 import {EditTableDialogComponent} from './edit-table-dialog.component';
 import {InsertColorDialogComponent} from './insert-color-dialog.component';
 import {InsertVideoDialogComponent} from './insert-video-dialog.component';
+import {ColorPickerModule} from 'ngx-color-picker';
 
 @NgModule({
     imports: [
@@ -32,7 +33,8 @@ import {InsertVideoDialogComponent} from './insert-video-dialog.component';
         MatSlideToggleModule,
         MatCheckboxModule,
         MatProgressSpinnerModule,
-        MatRadioModule
+        MatRadioModule,
+        ColorPickerModule
     ],
     declarations: [
         AngularEditorComponent,

@@ -1,7 +1,6 @@
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Component, Inject} from '@angular/core';
 import {ColorDialogResult} from './common/common-interfaces';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
     selector: 'dialog-insert-color',
@@ -10,11 +9,10 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 })
 export class InsertColorDialogComponent {
 
-    colorForm: FormGroup;
+    color: string = '#000000';
 
     constructor(public dialogRef: MatDialogRef<InsertColorDialogComponent>,
-                @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder) {
-        this.createForm();
+                @Inject(MAT_DIALOG_DATA) public data: any) {
     }
 
     onCancelClick(): void {
@@ -23,15 +21,9 @@ export class InsertColorDialogComponent {
 
     ok(): void {
         const result: ColorDialogResult = {
-            color: this.colorForm.get('color').value,
+            color: this.color,
         };
         this.dialogRef.close(result);
-    }
-
-    private createForm(): void {
-        this.colorForm = this.fb.group({
-            color: ['', [Validators.required]]
-        });
     }
 
 }

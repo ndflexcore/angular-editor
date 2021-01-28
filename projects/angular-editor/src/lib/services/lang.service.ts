@@ -73,7 +73,8 @@ const sen_en: { [p: string]: string } = {
     clear: 'Default',
     imageActions: 'Image Actions',
     deleteImage: 'Delete Image',
-    openInNewWindow: 'Open in new window'
+    openInNewWindow: 'Open in new window',
+    presetColors: 'Preset colors'
 };
 
 const sen_cs: { [p: string]: string } = {
@@ -149,7 +150,8 @@ const sen_cs: { [p: string]: string } = {
     clear: 'Výchozí',
     imageActions: 'Akce obrázku',
     deleteImage: 'Smazat obrázek',
-    openInNewWindow: 'Otevřít v novém okně'
+    openInNewWindow: 'Otevřít v novém okně',
+    presetColors: 'Přednastavené barvy'
 };
 
 @Injectable({
