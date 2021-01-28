@@ -25,8 +25,11 @@ export interface EditTableDialogResult {
     fullWidth: boolean;
 }
 
+export type LinkTargetType = '_blank' | '_self';
+
 export interface LinkDialogResult {
     url: string;
+    target: LinkTargetType
 }
 
 export interface ColorDialogResult {

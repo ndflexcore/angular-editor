@@ -6,7 +6,7 @@ import {CustomClass} from './config';
 import {SelectOption} from './ae-select/ae-select.component';
 import {MatDialog} from '@angular/material';
 import {take, takeUntil} from 'rxjs/operators';
-import {ColorDialogResult, LinkDialogResult, SelectedObject} from './common/common-interfaces';
+import {ColorDialogResult, LinkDialogResult, LinkTargetType, SelectedObject} from './common/common-interfaces';
 import {InsertLinkDialogComponent} from './insert-link-dialog.component';
 import {LangService} from './services/lang.service';
 import {Subject} from 'rxjs';
@@ -306,11 +306,13 @@ export class AngularEditorToolbarComponent {
      */
     insertUrl() {
         let url: string;
+        let target: LinkTargetType;
         const selection = this.editorService.savedSelection;
         if (selection && selection.commonAncestorContainer.parentElement.nodeName === 'A') {
             const parent = selection.commonAncestorContainer.parentElement as HTMLAnchorElement;
             if (parent.href !== '') {
                 url = parent.href;
+                target = <LinkTargetType>parent.target
             }
         }
         const dialogRef = this.dialog.open(InsertLinkDialogComponent, {
@@ -318,11 +320,12 @@ export class AngularEditorToolbarComponent {
             height: 'auto',
             data: {
                 url: url,
+                target: target,
                 cancel: this.sen['cancel'],
                 title: this.sen['insertLink'],
                 placeholder: this.sen['insertLinkPlaceholder'],
                 urlTitle: this.sen['insertLinkUrlTitle'],
-                stroke: this.sen['stroke'],
+                openInNewWindow: this.sen['openInNewWindow'],
                 insertLinkValidatorRequired: this.sen['insertLinkValidatorRequired'],
                 insertLinkValidatorPattern: this.sen['insertLinkValidatorPattern']
             }
@@ -332,7 +335,7 @@ export class AngularEditorToolbarComponent {
             .subscribe((res: LinkDialogResult) => {
                 if (res) {
                     this.editorService.restoreSelection();
-                    this.editorService.createLink(res.url);
+                    this.editorService.createLink(res.url, res.target);
                 }
             });
     }

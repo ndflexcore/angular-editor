@@ -5,7 +5,7 @@ import {DOCUMENT} from '@angular/common';
 import {AngularEditorConfig, CustomClass} from './config';
 import {MatDialog} from '@angular/material';
 import {takeUntil} from 'rxjs/operators';
-import {TableDialogResult} from './common/common-interfaces';
+import {LinkTargetType, TableDialogResult} from './common/common-interfaces';
 import {LangService} from './services/lang.service';
 import {randomId} from './common/helpers';
 
@@ -51,9 +51,10 @@ export class AngularEditorService {
     /**
      * Create URL link
      * @param url string from UI prompt
+     * @param target
      */
-    createLink(url: string) {
-        const newUrl = '<a href="' + url + '" target="_blank">' + this.selectedText + '</a>';
+    createLink(url: string, target: LinkTargetType) {
+        const newUrl = `<a href="${url}" target="${target}" rel="noopener">${this.selectedText}</a>`;
         this.insertHtml(newUrl);
     }
 

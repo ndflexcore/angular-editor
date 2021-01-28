@@ -71,7 +71,8 @@ const sen_en: { [p: string]: string } = {
     p: 'Paragraph',
     clear: 'Default',
     imageActions: 'Image Actions',
-    deleteImage: 'Delete Image'
+    deleteImage: 'Delete Image',
+    openInNewWindow: 'Open in new window'
 };
 
 const sen_cs: { [p: string]: string } = {
@@ -145,7 +146,8 @@ const sen_cs: { [p: string]: string } = {
     p: 'Odstavec',
     clear: 'Výchozí',
     imageActions: 'Akce obrázku',
-    deleteImage: 'Smazat obrázek'
+    deleteImage: 'Smazat obrázek',
+    openInNewWindow: 'Otevřít v novém okně'
 };
 
 @Injectable({

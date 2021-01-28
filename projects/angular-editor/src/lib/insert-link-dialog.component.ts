@@ -34,13 +34,18 @@ export class InsertLinkDialogComponent {
     ok(): void {
         const result: LinkDialogResult = {
             url: this.linkForm.get('url').value,
+            target: this.linkForm.get('openInNew').value
+                ? '_blank'
+                : '_self'
         };
         this.dialogRef.close(result);
     }
 
     private createForm(): void {
+        const newWindow = this.data.target === '_blank';
         this.linkForm = this.fb.group({
-            url: [this.data.url, [Validators.required, Validators.pattern(/^(https:\/\/([\w\d\-]+\.)+\w{2,})?(\/.+)?\/?$/)]]
+            url: [this.data.url, [Validators.required, Validators.pattern(/^(https:\/\/([\w\d\-]+\.)+\w{2,})?(\/.+)?\/?$/)]],
+            openInNew: [newWindow]
         });
     }
 
