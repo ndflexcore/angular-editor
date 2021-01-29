@@ -70,7 +70,8 @@ export class AppComponent implements OnInit {
             ['insertImage'],
             ['customClasses']
         ],
-        pasteEnabled: true
+        pasteEnabled: true,
+        customColorPalette: ['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']
     };
 
     config2: AngularEditorConfig = {
@@ -111,7 +112,8 @@ export class AppComponent implements OnInit {
             ['bold', 'italic'],
             ['fontSize']
         ],
-        pasteEnabled: false
+        pasteEnabled: false,
+        customColorPalette: ['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']
     };
 
     private ngUnsubscribe: Subject<any> = new Subject<any>();

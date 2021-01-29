@@ -40,6 +40,7 @@ export interface AngularEditorConfig {
     tableClass: string;
     tableStrokeClass: string;
     pasteEnabled: boolean;
+    customColorPalette: string[]
 }
 
 export const angularEditorConfig: AngularEditorConfig = {
@@ -70,7 +71,8 @@ export const angularEditorConfig: AngularEditorConfig = {
     presetHeight: 98,
     tableClass: '',
     tableStrokeClass: 'table-bordered',
-    pasteEnabled: true
+    pasteEnabled: true,
+    customColorPalette: []
     /*toolbarHiddenButtons: [
       ['bold', 'italic', 'underline', 'strikeThrough', 'superscript', 'subscript'],
       ['heading', 'fontName', 'fontSize', 'color'],

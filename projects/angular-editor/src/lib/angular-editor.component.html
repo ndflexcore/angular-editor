@@ -10,6 +10,7 @@
                           [defaultFontSize]="config.defaultFontSize"
                           [hiddenButtons]="config.toolbarHiddenButtons"
                           [selObject]="selObject"
+                          [customColorPalette]="config.customColorPalette"
                           (execute)="executeCommand($event)"></angular-editor-toolbar>
 
   <div class="angular-editor-wrapper" #editorWrapper>
@@ -42,5 +43,7 @@
                           [defaultFontName]="config.defaultFontName"
                           [defaultFontSize]="config.defaultFontSize"
                           [hiddenButtons]="config.toolbarHiddenButtons"
+                          [selObject]="selObject"
+                          [customColorPalette]="config.customColorPalette"
                           (execute)="executeCommand($event)"></angular-editor-toolbar>
 </div>

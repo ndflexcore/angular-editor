@@ -164,6 +164,7 @@ export class AngularEditorToolbarComponent {
     @Input() showToolbar: boolean;
     @Input() fonts: SelectOption[] = [{label: '', value: ''}];
     @Input() selObject: SelectedObject = null;
+    @Input() customColorPalette: string[] = [];
 
     @Input()
     set customClasses(classes: CustomClass[]) {
@@ -434,6 +435,7 @@ export class AngularEditorToolbarComponent {
                 senDialogTitle: this.sen['insertColorDialogTitle'],
                 senPresetColors: this.sen['presetColors'],
                 senCancel: this.sen['cancel'],
+                customColorPalette: this.customColorPalette
             }
         });
 

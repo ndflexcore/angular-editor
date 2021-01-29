@@ -1,12 +1,13 @@
 <h1 mat-dialog-title>{{data.senDialogTitle}}</h1>
 <div mat-dialog-content>
     <input
+        class="color-input"
         [value]="color"
         [style.background]="color"
         [cpOutputFormat]="'hex'"
         [cpPosition]="'top'"
         [cpPresetLabel]="data.senPresetColors"
-        [cpPresetColors]="['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']"
+        [cpPresetColors]="data.customColorPalette"
         [(colorPicker)]="color"/>
 </div>
 <div mat-dialog-actions class="pull-right insert-table-actions">
