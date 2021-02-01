@@ -9,15 +9,13 @@
   "bugs": {
     "url": "https://github.com/ndflexcore/angular-editor/issues"
   },
-  "dependencies": {
-    "ngx-color-picker": "11.0.0"
-  },
   "peerDependencies": {
     "@angular/common": ">=8.0.0 <11",
     "@angular/core": ">=8.0.0 <11",
     "@angular/forms": ">=8.0.0 <11",
     "@angular/material": ">=8.0.0 <11",
     "@angular/platform-browser": ">=8.0.0 <11",
+    "ngx-color-picker": "11.0.0",
     "rxjs": "^6.x.x"
   }
 }
