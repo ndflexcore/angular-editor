@@ -4,7 +4,7 @@ import {HttpResponse} from '@angular/common/http';
 import {DOCUMENT} from '@angular/common';
 import {CustomClass} from './config';
 import {SelectOption} from './ae-select/ae-select.component';
-import {MatDialog} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import {take, takeUntil} from 'rxjs/operators';
 import {ColorDialogResult, LinkDialogResult, LinkTargetType, SelectedObject} from './common/common-interfaces';
 import {InsertLinkDialogComponent} from './insert-link-dialog.component';

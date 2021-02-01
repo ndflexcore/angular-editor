@@ -5,14 +5,15 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {AeSelectComponent} from './ae-select/ae-select.component';
 import {InsertTableDialogComponent} from './insert-table-dialog.component';
-import {
-    MatButtonModule,
-    MatCheckboxModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule, MatProgressSpinnerModule, MatRadioModule, MatSelectModule,
-    MatSlideToggleModule
-} from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {MessageDialogComponent} from './message-dialog.component';
 import {InsertLinkDialogComponent} from './insert-link-dialog.component';
 import {EditImageDialogComponent} from './edit-image-dialog.component';

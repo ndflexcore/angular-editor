@@ -34,7 +34,7 @@ import {
     SelectedObject,
     TableDialogResult, VideoDialogResult
 } from './common/common-interfaces';
-import {MatDialog} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import {MessageDialogComponent} from './message-dialog.component';
 import {randomId} from './common/helpers';
 import {EditImageDialogComponent} from './edit-image-dialog.component';
