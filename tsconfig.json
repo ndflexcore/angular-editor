@@ -26,5 +26,8 @@
         "dist/angular-editor/*"
       ]
     }
-  }
+  },
+    "angularCompilerOptions": {
+        "enableIvy": false
+    }
 }
