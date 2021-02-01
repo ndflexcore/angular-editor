@@ -74,7 +74,11 @@ const sen_en: { [p: string]: string } = {
     imageActions: 'Image Actions',
     deleteImage: 'Delete Image',
     openInNewWindow: 'Open in new window',
-    presetColors: 'Preset colors'
+    presetColors: 'Preset colors',
+    verticalCellAlignment: 'Vertical cell alignment',
+    vAlignTop: 'Top',
+    vAlignMiddle: 'Middle',
+    vAlignBottom: 'Bottom'
 };
 
 const sen_cs: { [p: string]: string } = {
@@ -151,7 +155,11 @@ const sen_cs: { [p: string]: string } = {
     imageActions: 'Akce obrázku',
     deleteImage: 'Smazat obrázek',
     openInNewWindow: 'Otevřít v novém okně',
-    presetColors: 'Přednastavené barvy'
+    presetColors: 'Přednastavené barvy',
+    verticalCellAlignment: 'Svislé zarovnání buněk',
+    vAlignTop: 'Nahoru',
+    vAlignMiddle: 'Doprostřed',
+    vAlignBottom: 'Dolů'
 };
 
 @Injectable({

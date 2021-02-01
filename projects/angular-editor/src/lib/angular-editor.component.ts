@@ -585,7 +585,11 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                 numRows: this.sen['numRows'],
                 numCols: this.sen['numCols'],
                 stroke: this.sen['stroke'],
-                senFullWidth: this.sen['fullWidth']
+                senFullWidth: this.sen['fullWidth'],
+                senVerticalCellAlignment: this.sen['verticalCellAlignment'],
+                senVAlignTop: this.sen['vAlignTop'],
+                senVAlignMiddle: this.sen['vAlignMiddle'],
+                senVAlignBottom: this.sen['vAlignBottom']
             }
         });
 
@@ -604,6 +608,12 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                         this.r.setStyle(tab, 'width', '100%');
                     } else {
                         this.r.setStyle(tab, 'width', 'auto');
+                    }
+                    for (let i = 0; i < tab.rows.length; i++) {
+                        let row = tab.rows[i];
+                        for (let j = 0; j < row.cells.length; j++) {
+                            this.r.setStyle(row.cells[j], 'vertical-align', res.vAlign);
+                        }
                     }
                 }
             });
@@ -754,6 +764,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
 
         const isBordered = /table-bordered/.test(t.className);
         const isFullWidth = /100%/.test(t.style.width);
+        const vAlign = t.rows[0].cells[0].style.verticalAlign;
 
         const dialogRef = this.dialog.open(EditTableDialogComponent, {
             width: '275px',
@@ -764,7 +775,12 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                 senFullWidth: this.sen['fullWidth'],
                 senStroke: this.sen['stroke'],
                 stroke: isBordered,
-                fullWidth: isFullWidth
+                fullWidth: isFullWidth,
+                senVerticalCellAlignment: this.sen['verticalCellAlignment'],
+                senVAlignTop: this.sen['vAlignTop'],
+                senVAlignMiddle: this.sen['vAlignMiddle'],
+                senVAlignBottom: this.sen['vAlignBottom'],
+                vAlign: vAlign
             }
         });
 
@@ -783,6 +799,13 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                     this.r.addClass(t, 'table-bordered');
                 } else {
                     this.r.removeClass(t, 'table-bordered');
+                }
+
+                for (let i = 0; i < t.rows.length; i++) {
+                    let row = t.rows[i];
+                    for (let j = 0; j < row.cells.length; j++) {
+                        this.r.setStyle(row.cells[j], 'vertical-align', res.vAlign);
+                    }
                 }
 
                 this.onContentChange(this.textArea.nativeElement);

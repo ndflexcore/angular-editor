@@ -10,7 +10,7 @@ import {
     MatCheckboxModule,
     MatDialogModule,
     MatFormFieldModule,
-    MatInputModule, MatProgressSpinnerModule, MatRadioModule,
+    MatInputModule, MatProgressSpinnerModule, MatRadioModule, MatSelectModule,
     MatSlideToggleModule
 } from '@angular/material';
 import {MessageDialogComponent} from './message-dialog.component';
@@ -34,7 +34,8 @@ import {ColorPickerModule} from 'ngx-color-picker';
         MatCheckboxModule,
         MatProgressSpinnerModule,
         MatRadioModule,
-        ColorPickerModule
+        ColorPickerModule,
+        MatSelectModule
     ],
     declarations: [
         AngularEditorComponent,

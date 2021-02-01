@@ -14,6 +14,14 @@
     <div>
         <mat-checkbox formControlName="fullWidth">{{data.senFullWidth}}</mat-checkbox>
     </div>
+    <mat-form-field class="vertical-alignment-select">
+        <mat-label>{{this.data.senVerticalCellAlignment}}</mat-label>
+        <mat-select formControlName="vAlign">
+            <mat-option *ngFor="let option of vAlignOptions" [value]="option.value">
+                {{option.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
 </div>
 <div mat-dialog-actions class="pull-right insert-table-actions">
     <button mat-raised-button (click)="onCancelClick()">{{data.cancel}}</button>

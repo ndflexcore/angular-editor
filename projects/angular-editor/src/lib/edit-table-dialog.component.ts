@@ -11,6 +11,11 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 export class EditTableDialogComponent {
 
     tableForm: FormGroup;
+    vAlignOptions = [
+        { name: this.data.senVAlignTop, value: 'top' },
+        { name: this.data.senVAlignMiddle, value: 'middle' },
+        { name: this.data.senVAlignBottom, value: 'bottom' }
+    ];
 
     constructor(public dialogRef: MatDialogRef<EditTableDialogComponent>,
                 @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder) {
@@ -24,7 +29,8 @@ export class EditTableDialogComponent {
     ok(): void {
         const result: EditTableDialogResult = {
             stroke: this.tableForm.get('stroke').value,
-            fullWidth: this.tableForm.get('fullWidth').value
+            fullWidth: this.tableForm.get('fullWidth').value,
+            vAlign: this.tableForm.get('vAlign').value
         };
         this.dialogRef.close(result);
     }
@@ -32,7 +38,8 @@ export class EditTableDialogComponent {
     private createForm(): void {
         this.tableForm = this.fb.group({
             stroke: this.data.stroke,
-            fullWidth: this.data.fullWidth
+            fullWidth: this.data.fullWidth,
+            vAlign: [this.data.vAlign]
         });
     }
 

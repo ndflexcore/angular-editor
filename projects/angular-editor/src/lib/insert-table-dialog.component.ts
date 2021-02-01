@@ -11,6 +11,11 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 export class InsertTableDialogComponent {
 
     tableForm: FormGroup;
+    vAlignOptions = [
+        { name: this.data.senVAlignTop, value: 'top' },
+        { name: this.data.senVAlignMiddle, value: 'middle' },
+        { name: this.data.senVAlignBottom, value: 'bottom' }
+    ];
 
     constructor(public dialogRef: MatDialogRef<InsertTableDialogComponent>,
                 @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder) {
@@ -26,7 +31,8 @@ export class InsertTableDialogComponent {
             rows: this.tableForm.get('rows').value,
             cols: this.tableForm.get('cols').value,
             stroke: this.tableForm.get('stroke').value,
-            fullWidth: this.tableForm.get('fullWidth').value
+            fullWidth: this.tableForm.get('fullWidth').value,
+            vAlign: this.tableForm.get('vAlign').value
         };
         this.dialogRef.close(result);
     }
@@ -36,7 +42,8 @@ export class InsertTableDialogComponent {
             rows: [2, [Validators.required]],
             cols: [2, [Validators.required]],
             stroke: true,
-            fullWidth: false
+            fullWidth: false,
+            vAlign: ['top']
         });
     }
 

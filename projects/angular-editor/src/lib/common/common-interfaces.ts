@@ -13,16 +13,20 @@ export interface DirectoryChild {
     crop?: boolean;
 }
 
+export type VerticalCellAlignment = 'top' | 'middle' | 'bottom';
+
 export interface TableDialogResult {
     rows: number;
     cols: number;
     stroke: boolean;
     fullWidth: boolean;
+    vAlign: VerticalCellAlignment;
 }
 
 export interface EditTableDialogResult {
     stroke: boolean;
     fullWidth: boolean;
+    vAlign: VerticalCellAlignment;
 }
 
 export type LinkTargetType = '_blank' | '_self';
