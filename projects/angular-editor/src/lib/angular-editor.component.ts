@@ -192,7 +192,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                     const height = ftpLink.height ? ftpLink.height : this.config.presetHeight;
                     const imageType = ftpLink.crop ? `${this.config.imageType}_crop` : this.config.imageType;
                     const src = `${this.config.imageServerUrl}/${imageType}/${width}/${height}/${ftpLink.partialWebPath}`;
-                    // todo: make the div wrapper conditional
+
                     const imageHtml = `<img id="${id}" src="${src}" alt="${alt}" ${title}>`;
                     this.editorService.restoreSelection();
                     this.editorService.insertHtml(imageHtml);
