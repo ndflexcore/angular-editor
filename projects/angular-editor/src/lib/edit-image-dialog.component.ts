@@ -19,7 +19,11 @@ export class EditImageDialogComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.measureOriginal(this.data.orig);
+        if (!this.data.oldImageBrowser) {
+            this.measureOriginal(this.data.orig);
+        } else {
+            this.ratio = this.data.width.replace('px', '') / this.data.height.replace('px', '');
+        }
     }
 
     onCancelClick(): void {
@@ -62,9 +66,16 @@ export class EditImageDialogComponent implements OnInit {
     }
 
     private createForm(): void {
+        const width = this.data.oldImageBrowser
+            ? this.data.width.replace('px', '')
+            : this.data.width;
+        const height = this.data.oldImageBrowser
+            ? this.data.height.replace('px', '')
+            : this.data.height;
+
         this.imageForm = this.fb.group({
-            width: [this.data.width, [Validators.required]],
-            height: [this.data.height, [Validators.required]],
+            width: [width, [Validators.required]],
+            height: [height, [Validators.required]],
             alt: [this.data.alt, [Validators.required]],
             title: [this.data.title],
             crop: [this.data.crop],

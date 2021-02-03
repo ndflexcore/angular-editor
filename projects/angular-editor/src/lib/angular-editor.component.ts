@@ -28,7 +28,7 @@ import {LangService} from './services/lang.service';
 import {Subject} from 'rxjs';
 import {take, takeUntil} from 'rxjs/operators';
 import {
-    DirectoryChild,
+    DirectoryChild, DirectoryChildOldImageServer,
     EditImageDialogData,
     EditTableDialogResult,
     SelectedObject,
@@ -70,6 +70,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     blurInstance: any;
     sen: { [p: string]: string };
     selObject: SelectedObject;
+    private oldImageBrowser: boolean = false;
     private ngUnsubscribe: Subject<any> = new Subject<any>();
 
     @Input() id = '';
@@ -77,6 +78,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     @Input() placeholder = '';
     @Input() tabIndex: number | null;
     @Input() ftpLink: DirectoryChild | null;
+    @Input() ftpLinkCk : DirectoryChildOldImageServer | null;
 
     @Output() html;
 
@@ -197,6 +199,29 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                     this.editorService.restoreSelection();
                     this.editorService.insertHtml(imageHtml);
                 }
+            }
+        }
+        if (changes['ftpLinkCk'] && changes['ftpLinkCk'].currentValue) {
+            this.oldImageBrowser = true;
+            const ftpLink = <DirectoryChildOldImageServer> changes['ftpLinkCk'].currentValue;
+            switch (ftpLink.type) {
+                case 'file':
+                    const linkHtml = `<a href="${ftpLink.fullPath}">${ftpLink.title}</a>`;
+                    this.editorService.restoreSelection();
+                    this.editorService.insertHtml(linkHtml);
+                    break;
+                case 'image':
+                    const id = randomId(this.id);
+                    const alt = ftpLink.alt;
+                    const title = `title="${ftpLink.title}"`;
+                    const width = ftpLink.width ? ftpLink.width : this.config.presetWidth;
+                    const height = ftpLink.height ? ftpLink.height : this.config.presetHeight;
+                    const src = `${ftpLink.fullPath}`;
+
+                    const imageHtml = `<img id="${id}" style="width: ${width}px;height:${height}px" src="${src}" alt="${alt}" ${title}>`;
+                    this.editorService.restoreSelection();
+                    this.editorService.insertHtml(imageHtml);
+                    break;
             }
         }
     }
@@ -563,7 +588,8 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     editObject(): void {
         switch (this.selObject.nodeName) {
             case 'IMG':
-                this.editImage();
+                if (this.oldImageBrowser) this.editImageOld();
+                else this.editImage();
                 break;
             case 'TABLE':
                 this.editTable();
@@ -621,11 +647,11 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
 
     private editImage(): void {
         const imgEl = document.getElementById(this.selObject.id);
+        if (!imgEl) return;
+
         const oldSrc = imgEl['currentSrc'];
         const oldAlt = imgEl['alt'];
         const oldTitle = imgEl['title'];
-
-        if (!imgEl) return;
 
         const m = oldSrc.match(/\/\d+\/\d+\//);
         if (m && m[0]) {
@@ -642,6 +668,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                 width: '275px',
                 height: 'auto',
                 data: {
+                    oldImageBrowser: false,
                     width: width,
                     height: height,
                     alt: oldAlt,
@@ -655,7 +682,8 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                     senKeepRatio: this.sen['keepRatio'],
                     senCrop: this.sen['crop'],
                     senAlt: this.sen['alt'],
-                    senTitle: this.sen['title']
+                    senTitle: this.sen['title'],
+                    senSetValueAndEnter: this.sen['setValueAndEnter']
                 }
             });
 
@@ -677,6 +705,52 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                     this.onContentChange(this.textArea.nativeElement);
                 })
         }
+    }
+
+    private editImageOld(): void {
+        const imgEl = document.getElementById(this.selObject.id);
+        if (!imgEl) return;
+
+        const oldAlt = imgEl['alt'];
+        const oldTitle = imgEl['title'];
+        let width = imgEl.style.width;
+        let height = imgEl.style.height;
+
+        const dialogRef = this.dialog.open(EditImageDialogComponent, {
+            width: '275px',
+            height: 'auto',
+            data: {
+                oldImageBrowser: true,
+                width: width,
+                height: height,
+                alt: oldAlt,
+                title: oldTitle,
+                crop: null,
+                orig: null,
+                senDialogTitle: this.sen['editImageDialogTitle'],
+                senCancel: this.sen['cancel'],
+                senWidth: this.sen['width'],
+                senHeight: this.sen['height'],
+                senKeepRatio: this.sen['keepRatio'],
+                senCrop: this.sen['crop'],
+                senAlt: this.sen['alt'],
+                senTitle: this.sen['title'],
+                senSetValueAndEnter: this.sen['setValueAndEnter']
+            }
+        });
+
+        dialogRef.afterClosed()
+            .pipe(take(1))
+            .subscribe((res: EditImageDialogData) => {
+                if (!res) return;
+
+                this.r.setAttribute(imgEl, 'alt', res.alt);
+                this.r.setAttribute(imgEl, 'title', res.title);
+                this.r.setStyle(imgEl, 'width', `${res.width}px`);
+                this.r.setStyle(imgEl, 'height', `${res.height}px`);
+
+                this.onContentChange(this.textArea.nativeElement);
+            })
     }
 
     private deleteImage(): void {

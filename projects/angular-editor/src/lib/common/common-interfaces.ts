@@ -1,3 +1,5 @@
+export type FtpLinkType = 'file' | 'image';
+
 export interface DirectoryChild {
     name: string;
     fullPath: string;
@@ -11,6 +13,16 @@ export interface DirectoryChild {
     alt?: string;
     title?: string;
     crop?: boolean;
+}
+
+export interface DirectoryChildOldImageServer {
+    editorId: string;
+    alt: string;
+    title: string;
+    height: number;
+    width: number;
+    fullPath: string;
+    type: FtpLinkType
 }
 
 export type VerticalCellAlignment = 'top' | 'middle' | 'bottom';

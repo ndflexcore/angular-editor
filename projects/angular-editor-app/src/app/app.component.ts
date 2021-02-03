@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AngularEditorConfig} from '../../../angular-editor/src/public-api';
-import {DirectoryChild} from '../../../angular-editor/src/lib/common/common-interfaces';
+import {DirectoryChild, DirectoryChildOldImageServer} from '../../../angular-editor/src/lib/common/common-interfaces';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 
@@ -20,6 +20,7 @@ export class AppComponent implements OnInit {
     htmlContent2 = '';
     langCode: 'cs' | 'en' = 'cs';
     selectedFtpLink: DirectoryChild;
+    selectedFtpLinkOldStyle: DirectoryChildOldImageServer;
 
     config1: AngularEditorConfig = {
         editable: true,
@@ -153,6 +154,27 @@ export class AppComponent implements OnInit {
             title: 'My inserted image TITLE',
             crop: true
         };
+    }
+
+    onFtpNeeded2(editorId: string): void {
+        // this.selectedFtpLinkOldStyle = {
+        //     editorId: editorId,
+        //     type: 'file',
+        //     fullPath: 'https://img.marocz002.scostry.cz/files/dokumenty/OP2021.pdf',
+        //     title: 'some title old style',
+        //     alt: null,
+        //     width: null,
+        //     height: null
+        // }
+        this.selectedFtpLinkOldStyle = {
+            editorId: editorId,
+            type: 'image',
+            fullPath: 'https://img.marocz002.scostry.cz/fotocache/mid/images/produkty/313472/zehnder-aura-radiator-trubkovy-rovny-se-stredovym-pripojenim-1500-x-500-mm-407-w-chrom.jpg',
+            title: 'some title old style',
+            alt: 'some alt old style',
+            width: 200,
+            height: 200
+        }
     }
 
     private createForms(): void {

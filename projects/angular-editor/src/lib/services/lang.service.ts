@@ -78,7 +78,8 @@ const sen_en: { [p: string]: string } = {
     verticalCellAlignment: 'Vertical cell alignment',
     vAlignTop: 'Top',
     vAlignMiddle: 'Middle',
-    vAlignBottom: 'Bottom'
+    vAlignBottom: 'Bottom',
+    setValueAndEnter: 'Set value and press Enter'
 };
 
 const sen_cs: { [p: string]: string } = {
@@ -159,7 +160,8 @@ const sen_cs: { [p: string]: string } = {
     verticalCellAlignment: 'Svislé zarovnání buněk',
     vAlignTop: 'Nahoru',
     vAlignMiddle: 'Doprostřed',
-    vAlignBottom: 'Dolů'
+    vAlignBottom: 'Dolů',
+    setValueAndEnter: 'Nastavte hodnotu a stiskněte Enter'
 };
 
 @Injectable({
