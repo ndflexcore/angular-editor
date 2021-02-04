@@ -2,11 +2,11 @@
 <div mat-dialog-content [formGroup]="imageForm">
     <mat-form-field>
         <mat-label>{{data.senWidth}}</mat-label>
-        <input matInput formControlName="width" [title]="data.senSetValueAndEnter" type="number" (keypress)="widthKeyPres($event)">
+        <input matInput formControlName="width" [title]="data.senSetValueAndEnter" type="number" (input)="widthKeyPres()">
     </mat-form-field>
     <mat-form-field>
         <mat-label>{{data.senHeight}}</mat-label>
-        <input matInput formControlName="height" [title]="data.senSetValueAndEnter" type="number" (keypress)="heightKeyPress($event)">
+        <input matInput formControlName="height" [title]="data.senSetValueAndEnter" type="number" (input)="heightKeyPress()">
     </mat-form-field>
     <mat-form-field>
         <mat-label>{{data.senAlt}}</mat-label>
