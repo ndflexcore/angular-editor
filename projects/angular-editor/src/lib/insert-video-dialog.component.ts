@@ -177,7 +177,7 @@ export class InsertVideoDialogComponent implements OnDestroy {
         let match;
         if (/youtube.com/.test(url)) {
             match = url.match(/https:\/\/www.youtube.com\/watch\?(?<video>v=.*)/);
-            const hashMatch = match['groups']['video'].match(/v=(?<hash>[a-zA-Z0-9]*)/);
+            const hashMatch = match['groups']['video'].match(/v=(?<hash>[a-zA-Z0-9_-]*)/);
             const hash = hashMatch['groups']['hash'];
             return {kind: 'youtube', hash: hash};
         }
