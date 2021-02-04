@@ -1,17 +1,20 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {EditImageDialogData, TableDialogResult} from './common/common-interfaces';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'dialog-edit-image',
     templateUrl: 'edit-image-dialog.component.html',
     styleUrls: ['edit-image-dialog.component.scss']
 })
-export class EditImageDialogComponent implements OnInit {
+export class EditImageDialogComponent implements OnInit, OnDestroy {
 
     imageForm: FormGroup;
     private ratio: number;
+    private ngUnsubscribe: Subject<any> = new Subject<any>();
 
     constructor(public dialogRef: MatDialogRef<EditImageDialogComponent>,
                 @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder) {
@@ -24,6 +27,11 @@ export class EditImageDialogComponent implements OnInit {
         } else {
             this.ratio = this.data.width.replace('px', '') / this.data.height.replace('px', '');
         }
+    }
+
+    ngOnDestroy(): void {
+        this.ngUnsubscribe.next();
+        this.ngUnsubscribe.complete();
     }
 
     onCancelClick(): void {
@@ -77,6 +85,13 @@ export class EditImageDialogComponent implements OnInit {
             crop: [this.data.crop],
             keepRatio: [true]
         });
+
+        this.imageForm.get('keepRatio').valueChanges
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(res => {
+                if (!res) return;
+                this.recountHeight();
+            })
     }
 
     private measureOriginal(imageSrc: string): void {
