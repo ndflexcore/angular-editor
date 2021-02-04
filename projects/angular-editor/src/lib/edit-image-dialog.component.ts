@@ -45,7 +45,7 @@ export class EditImageDialogComponent implements OnInit {
         this.recountHeight()
     }
 
-    heightKeyPress(evt: KeyboardEvent): void {
+    heightKeyPress(): void {
         this.recountWidth()
     }
 

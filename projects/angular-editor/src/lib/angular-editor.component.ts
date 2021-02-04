@@ -682,8 +682,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                     senKeepRatio: this.sen['keepRatio'],
                     senCrop: this.sen['crop'],
                     senAlt: this.sen['alt'],
-                    senTitle: this.sen['title'],
-                    senSetValueAndEnter: this.sen['setValueAndEnter']
+                    senTitle: this.sen['title']
                 }
             });
 
@@ -734,8 +733,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                 senKeepRatio: this.sen['keepRatio'],
                 senCrop: this.sen['crop'],
                 senAlt: this.sen['alt'],
-                senTitle: this.sen['title'],
-                senSetValueAndEnter: this.sen['setValueAndEnter']
+                senTitle: this.sen['title']
             }
         });
 
