@@ -710,8 +710,8 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         const imgEl = document.getElementById(this.selObject.id);
         if (!imgEl) return;
 
-        const oldAlt = imgEl['alt'];
-        const oldTitle = imgEl['title'];
+        const oldAlt = this.ftpLinkCk.alt;
+        const oldTitle = this.ftpLinkCk.title;
         let width = imgEl.style.width;
         let height = imgEl.style.height;
 
