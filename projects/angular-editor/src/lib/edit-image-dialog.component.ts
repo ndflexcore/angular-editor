@@ -42,13 +42,13 @@ export class EditImageDialogComponent implements OnInit {
     }
 
     widthKeyPres(evt: KeyboardEvent): void {
-        if (evt.code === 'Enter') {
+        if (evt.key === 'Enter') {
             this.recountHeight()
         }
     }
 
     heightKeyPress(evt: KeyboardEvent): void {
-        if (evt.code === 'Enter') {
+        if (evt.key === 'Enter') {
             this.recountWidth()
         }
     }
