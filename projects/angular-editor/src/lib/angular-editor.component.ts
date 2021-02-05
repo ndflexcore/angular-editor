@@ -665,7 +665,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
             const orig = `${this.config.imageServerUrl}/orig/${imageName}`;
 
             const dialogRef = this.dialog.open(EditImageDialogComponent, {
-                width: '275px',
+                width: '475px',
                 height: 'auto',
                 data: {
                     oldImageBrowser: false,
@@ -716,7 +716,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         let height = imgEl.style.height;
 
         const dialogRef = this.dialog.open(EditImageDialogComponent, {
-            width: '275px',
+            width: '475px',
             height: 'auto',
             data: {
                 oldImageBrowser: true,
