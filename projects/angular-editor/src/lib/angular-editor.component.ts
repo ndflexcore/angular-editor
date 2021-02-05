@@ -204,24 +204,26 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         if (changes['ftpLinkCk'] && changes['ftpLinkCk'].currentValue) {
             this.oldImageBrowser = true;
             const ftpLink = <DirectoryChildOldImageServer> changes['ftpLinkCk'].currentValue;
-            switch (ftpLink.type) {
-                case 'file':
-                    const linkHtml = `<a href="${ftpLink.fullPath}">${ftpLink.title}</a>`;
-                    this.editorService.restoreSelection();
-                    this.editorService.insertHtml(linkHtml);
-                    break;
-                case 'image':
-                    const id = randomId(this.id);
-                    const alt = ftpLink.alt;
-                    const title = `title="${ftpLink.title}"`;
-                    const width = ftpLink.width ? ftpLink.width : this.config.presetWidth;
-                    const height = ftpLink.height ? ftpLink.height : this.config.presetHeight;
-                    const src = `${ftpLink.fullPath}`;
+            if (ftpLink.editorId === this.id) {
+                switch (ftpLink.type) {
+                    case 'file':
+                        const linkHtml = `<a href="${ftpLink.fullPath}">${ftpLink.title}</a>`;
+                        this.editorService.restoreSelection();
+                        this.editorService.insertHtml(linkHtml);
+                        break;
+                    case 'image':
+                        const id = randomId(this.id);
+                        const alt = ftpLink.alt;
+                        const title = `title="${ftpLink.title}"`;
+                        const width = ftpLink.width ? ftpLink.width : this.config.presetWidth;
+                        const height = ftpLink.height ? ftpLink.height : this.config.presetHeight;
+                        const src = `${ftpLink.fullPath}`;
 
-                    const imageHtml = `<img id="${id}" style="width: ${width}px;height:${height}px" src="${src}" alt="${alt}" ${title}>`;
-                    this.editorService.restoreSelection();
-                    this.editorService.insertHtml(imageHtml);
-                    break;
+                        const imageHtml = `<img id="${id}" style="width: ${width}px;height:${height}px" src="${src}" alt="${alt}" ${title}>`;
+                        this.editorService.restoreSelection();
+                        this.editorService.insertHtml(imageHtml);
+                        break;
+                }
             }
         }
     }
