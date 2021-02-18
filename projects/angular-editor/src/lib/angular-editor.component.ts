@@ -41,6 +41,7 @@ import {EditImageDialogComponent} from './edit-image-dialog.component';
 import {EditTableDialogComponent} from './edit-table-dialog.component';
 import {InsertTableDialogComponent} from './insert-table-dialog.component';
 import {InsertVideoDialogComponent} from './insert-video-dialog.component';
+import {SelectOption} from './ae-select/ae-select.component';
 
 @Component({
     selector: 'angular-editor',
@@ -65,11 +66,11 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     focused = false;
     touched = false;
     changed = false;
-
     focusInstance: any;
     blurInstance: any;
     sen: { [p: string]: string };
     selObject: SelectedObject;
+    editorFonts: SelectOption[] = [{label: '', value: ''}];
     private oldImageBrowser: boolean = false;
     private ngUnsubscribe: Subject<any> = new Subject<any>();
 
@@ -171,6 +172,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes['config'] && changes['config'].currentValue) {
+            this.editorFonts = this.getFonts();
             this.langService.lang = changes['config'].currentValue['language'];
         }
         if (changes['ftpLink'] && changes['ftpLink'].currentValue) {
