@@ -256,6 +256,8 @@ export class AngularEditorToolbarComponent {
      */
     setupButtons(): void {
         const selection: Selection = window.getSelection();
+        if (!selection.anchorNode || !selection.focusNode) return;
+
         let shouldEnable = selection.anchorNode.parentElement.nodeName === 'A'
             && selection.focusNode.parentElement.nodeName === 'A'
             && selection.anchorNode['data'] === selection.focusNode['data']
