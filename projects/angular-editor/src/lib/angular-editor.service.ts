@@ -1,4 +1,4 @@
-import {Inject, Injectable} from '@angular/core';
+import {EventEmitter, Inject, Injectable} from '@angular/core';
 import {HttpClient, HttpEvent} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {DOCUMENT} from '@angular/common';
@@ -23,6 +23,7 @@ export class AngularEditorService {
     uploadUrl: string;
     uploadWithCredentials: boolean;
     sen: { [p: string]: string };
+    intervalEmitter: EventEmitter<any> = new EventEmitter<any>();
     private ngUnsubscribe: Subject<any> = new Subject<any>();
 
     constructor(private http: HttpClient, @Inject(DOCUMENT) private doc: any, private dialog: MatDialog,

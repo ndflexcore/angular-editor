@@ -125,7 +125,7 @@
             <i class="fa fa-link"></i>
         </button>
         <button [id]="'unlink-'+id" type="button" class="angular-editor-button" (click)="triggerCommand('unlink')"
-                [title]="sen['unlink']" [disabled]="htmlMode || !linkSelected" [hidden]="isButtonHidden('unlink')"
+                [title]="sen['unlink']" [disabled]="htmlMode || unLinkDisabled" [hidden]="isButtonHidden('unlink')"
                 tabindex="-1">
             <i class="fa fa-chain-broken"></i>
         </button>

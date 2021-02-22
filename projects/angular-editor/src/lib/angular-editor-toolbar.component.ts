@@ -21,7 +21,7 @@ import {InsertColorDialogComponent} from './insert-color-dialog.component';
 export class AngularEditorToolbarComponent {
     sen: { [p: string]: string } = this.langService.sen;
     htmlMode = false;
-    linkSelected = false;
+    unLinkDisabled = true;
     block = 'default';
     fontName = 'Roboto, sans-serif';
     fontSize = '3';
@@ -213,6 +213,11 @@ export class AngularEditorToolbarComponent {
             .subscribe(res => {
                 this.sen = res;
             });
+        this.editorService.intervalEmitter
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(() => {
+                this.setupButtons();
+            })
     }
 
     ngOnDestroy() {
@@ -247,13 +252,26 @@ export class AngularEditorToolbarComponent {
     }
 
     /**
+     * Set-up buttons on toolbar, on timer interval tick, when other methods fail / are inconvenient
+     */
+    setupButtons(): void {
+        const selection: Selection = window.getSelection();
+        let shouldEnable = selection.anchorNode.parentElement.nodeName === 'A'
+            && selection.focusNode.parentElement.nodeName === 'A'
+            && selection.anchorNode['data'] === selection.focusNode['data']
+            && selection.anchorNode['data'].length > 0
+            && selection.type === 'Range';
+        this.unLinkDisabled = !shouldEnable;
+    }
+
+    /**
      * trigger highlight editor buttons when cursor moved or positioning in block
      */
     triggerBlocks(nodes: Node[]) {
         if (!this.showToolbar) {
             return;
         }
-        this.linkSelected = nodes.findIndex(x => x.nodeName === 'A') > -1;
+
         let found = false;
         this.select.forEach(y => {
             const node = nodes.find(x => x.nodeName === y);

@@ -71,6 +71,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     sen: { [p: string]: string };
     selObject: SelectedObject;
     editorFonts: SelectOption[] = [{label: '', value: ''}];
+    timerHandle: any;
     private oldImageBrowser: boolean = false;
     private ngUnsubscribe: Subject<any> = new Subject<any>();
 
@@ -161,6 +162,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     }
 
     ngOnInit() {
+        this.timerHandle = setInterval(() => this.editorService.intervalEmitter.emit(), 666);
         this.config.toolbarPosition = this.config.toolbarPosition ? this.config.toolbarPosition : angularEditorConfig.toolbarPosition;
     }
 
@@ -553,6 +555,8 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     }
 
     ngOnDestroy() {
+        clearInterval(this.timerHandle);
+
         this.ngUnsubscribe.next();
         this.ngUnsubscribe.complete();
 
