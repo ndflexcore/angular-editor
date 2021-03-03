@@ -1,6 +1,6 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {LinkDialogResult} from './common/common-interfaces';
+import {FtpRequest, LinkDialogResult} from './common/common-interfaces';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AngularEditorService} from './angular-editor.service';
 import {Subject} from 'rxjs';
@@ -37,7 +37,11 @@ export class InsertLinkDialogComponent implements OnInit, OnDestroy {
     }
 
     requireFtpDialog(): void {
-        this.editorService.ftpLinkRequired.emit(this.data.editorId);
+        const ftpRequest: FtpRequest = {
+            editorId: this.data.editorId,
+            presetFiles: true
+        }
+        this.editorService.ftpLinkRequired.emit(ftpRequest);
     }
 
     getErrorMessage() {
