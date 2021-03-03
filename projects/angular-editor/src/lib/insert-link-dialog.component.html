@@ -3,6 +3,9 @@
     <mat-form-field class="mat-full-width">
         <mat-label>{{data.urlTitle}}</mat-label>
         <input matInput formControlName="url" [placeholder]="data.placeholder" type="text">
+        <button mat-button matSuffix (click)="requireFtpDialog()">
+            <mat-icon>folder</mat-icon>
+        </button>
         <mat-error *ngIf="linkForm.dirty && linkForm.invalid">{{getErrorMessage()}}</mat-error>
     </mat-form-field>
     <div>

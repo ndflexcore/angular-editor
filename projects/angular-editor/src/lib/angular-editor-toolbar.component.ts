@@ -340,6 +340,7 @@ export class AngularEditorToolbarComponent {
             width: '405px',
             height: 'auto',
             data: {
+                editorId: this.id,
                 url: url,
                 target: target,
                 cancel: this.sen['cancel'],

@@ -158,6 +158,11 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
             .subscribe(res => {
                 this.sen = res;
             });
+        this.editorService.ftpLinkRequired
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe((res) => {
+                this.ftpNeeded.emit(res);
+            })
     }
 
     ngOnInit() {
@@ -183,9 +188,13 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                     /*
                     file link
                      */
-                    const linkHtml = `<a href="${ftpLink.fullWebPath}">${ftpLink.name}</a>`;
-                    this.editorService.restoreSelection();
-                    this.editorService.insertHtml(linkHtml);
+                    if (!this.editorService.linkDialogOpen) {
+                        const linkHtml = `<a href="${ftpLink.fullWebPath}">${ftpLink.name}</a>`;
+                        this.editorService.restoreSelection();
+                        this.editorService.insertHtml(linkHtml);
+                    } else {
+                        this.editorService.ftpLinkGiven.emit(ftpLink.fullWebPath);
+                    }
                 } else {
                     /*
                     image link
@@ -209,9 +218,13 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
             if (ftpLink.editorId === this.id) {
                 switch (ftpLink.type) {
                     case 'file':
-                        const linkHtml = `<a href="${ftpLink.fullPath}">${ftpLink.title}</a>`;
-                        this.editorService.restoreSelection();
-                        this.editorService.insertHtml(linkHtml);
+                        if (!this.editorService.linkDialogOpen) {
+                            const linkHtml = `<a href="${ftpLink.fullPath}">${ftpLink.title}</a>`;
+                            this.editorService.restoreSelection();
+                            this.editorService.insertHtml(linkHtml);
+                        } else {
+                            this.editorService.ftpLinkGiven.emit(ftpLink.fullPath);
+                        }
                         break;
                     case 'image':
                         const id = randomId(this.id);

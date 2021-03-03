@@ -21,6 +21,7 @@ import {EditTableDialogComponent} from './edit-table-dialog.component';
 import {InsertColorDialogComponent} from './insert-color-dialog.component';
 import {InsertVideoDialogComponent} from './insert-video-dialog.component';
 import {ColorPickerModule} from 'ngx-color-picker';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
     imports: [
@@ -36,7 +37,8 @@ import {ColorPickerModule} from 'ngx-color-picker';
         MatProgressSpinnerModule,
         MatRadioModule,
         ColorPickerModule,
-        MatSelectModule
+        MatSelectModule,
+        MatIconModule
     ],
     declarations: [
         AngularEditorComponent,

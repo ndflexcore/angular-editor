@@ -24,6 +24,16 @@ export class AngularEditorService {
     uploadWithCredentials: boolean;
     sen: { [p: string]: string };
     intervalEmitter: EventEmitter<any> = new EventEmitter<any>();
+    ftpLinkRequired: EventEmitter<any> = new EventEmitter<string>();
+    ftpLinkGiven: EventEmitter<string> = new EventEmitter<string>();
+    private _linkDialogOpen: boolean = false;
+    get linkDialogOpen(): boolean {
+        return this._linkDialogOpen;
+    }
+
+    set linkDialogOpen(value: boolean) {
+        this._linkDialogOpen = value;
+    }
     private ngUnsubscribe: Subject<any> = new Subject<any>();
 
     constructor(private http: HttpClient, @Inject(DOCUMENT) private doc: any, private dialog: MatDialog,

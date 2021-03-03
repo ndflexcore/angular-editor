@@ -16,8 +16,8 @@ export class AppComponent implements OnInit {
     form: FormGroup;
     sensForm: FormGroup;
 
-    htmlContent1 = `<img id="editor1_46934" src="https://img.flexsrv.scdev.cz/preview_crop/320/240/800px-Tides_of_Vengeance_logo.png" alt="My inserted image ALT" title="My inserted image TITLE">`;
-    htmlContent2 = `<img id="editor2_69576" style="width: 200px;height:200px" src="https://img.marocz002.scostry.cz/fotocache/mid/images/produkty/313472/zehnder-aura-radiator-trubkovy-rovny-se-stredovym-pripojenim-1500-x-500-mm-407-w-chrom.jpg" alt="some alt old style" title="some title old style">`;
+    htmlContent1 = ''; //`<img id="editor1_46934" src="https://img.flexsrv.scdev.cz/preview_crop/320/240/800px-Tides_of_Vengeance_logo.png" alt="My inserted image ALT" title="My inserted image TITLE">`;
+    htmlContent2 = ''; //`<img id="editor2_69576" style="width: 200px;height:200px" src="https://img.marocz002.scostry.cz/fotocache/mid/images/produkty/313472/zehnder-aura-radiator-trubkovy-rovny-se-stredovym-pripojenim-1500-x-500-mm-407-w-chrom.jpg" alt="some alt old style" title="some title old style">`;
     langCode: 'cs' | 'en' = 'cs';
     selectedFtpLink: DirectoryChild;
     selectedFtpLinkOldStyle: DirectoryChildOldImageServer;
@@ -66,8 +66,6 @@ export class AppComponent implements OnInit {
             },
         ],
         toolbarHiddenButtons: [
-            // ['bold', 'italic'],
-            // ['insertTable']
             ['insertImage'],
             ['customClasses']
         ],
@@ -83,7 +81,8 @@ export class AppComponent implements OnInit {
         maxHeight: '15rem',
         translate: 'no',
         sanitize: true,
-        toolbarPosition: 'bottom',
+        toolbarPosition: 'top',
+        outline: false,
         defaultFontName: 'Roboto, sans-serif',
         defaultFontSize: '5',
         defaultParagraphSeparator: 'p',
@@ -118,8 +117,8 @@ export class AppComponent implements OnInit {
             },
         ],
         toolbarHiddenButtons: [
-            ['bold', 'italic'],
-            ['fontSize']
+            ['insertImage'],
+            ['customClasses']
         ],
         pasteEnabled: false,
         customColorPalette: ['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)'],
@@ -133,57 +132,70 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log(this.htmlContent1);
+        // console.log(this.htmlContent1);
     }
 
     onChange(event) {
-        console.log(`(ngModelChange): ${event}`);
+        // console.log(`(ngModelChange): ${event}`);
     }
 
     onBlur(event) {
-        console.log('blur ' + event);
+        // console.log('blur ' + event);
     }
 
     onChange2(event) {
-        console.log(`(ngModelChange): ${event}`);
+        // console.log(`(ngModelChange): ${event}`);
     }
 
     onFtpNeeded(editorId: string): void {
+        // simulates file
         this.selectedFtpLink = {
-            expandable: false,
-            fullPath: '800px-Tides_of_Vengeance_logo.png',
-            fullWebPath: '',
-            name: '800px-Tides_of_Vengeance_logo.png',
-            partialWebPath: '800px-Tides_of_Vengeance_logo.png',
-            size: '231,9 kB',
             editorId: editorId,
-            width: 320,
-            height: 240,
-            alt: 'My inserted image ALT',
-            title: 'My inserted image TITLE',
-            crop: true
-        };
+            expandable: false,
+            fullPath: '',
+            fullWebPath: 'https://img.flexsrv.scdev.cz/files/manualy/manual.pdf',
+            name: '',
+            partialWebPath: '',
+            size: ''
+        }
+        // simulates image
+        // this.selectedFtpLink = {
+        //     expandable: false,
+        //     fullPath: '800px-Tides_of_Vengeance_logo.png',
+        //     fullWebPath: '',
+        //     name: '800px-Tides_of_Vengeance_logo.png',
+        //     partialWebPath: '800px-Tides_of_Vengeance_logo.png',
+        //     size: '231,9 kB',
+        //     editorId: editorId,
+        //     width: 320,
+        //     height: 240,
+        //     alt: 'My inserted image ALT',
+        //     title: 'My inserted image TITLE',
+        //     crop: true
+        // };
     }
 
     onFtpNeeded2(editorId: string): void {
-        // this.selectedFtpLinkOldStyle = {
-        //     editorId: editorId,
-        //     type: 'file',
-        //     fullPath: 'https://img.marocz002.scostry.cz/files/dokumenty/OP2021.pdf',
-        //     title: 'some title old style',
-        //     alt: null,
-        //     width: null,
-        //     height: null
-        // }
+        // simulates file
         this.selectedFtpLinkOldStyle = {
             editorId: editorId,
-            type: 'image',
-            fullPath: 'https://img.marocz002.scostry.cz/fotocache/mid/images/produkty/313472/zehnder-aura-radiator-trubkovy-rovny-se-stredovym-pripojenim-1500-x-500-mm-407-w-chrom.jpg',
+            type: 'file',
+            fullPath: 'https://img.marocz002.scostry.cz/files/dokumenty/OP2021.pdf',
             title: 'some title old style',
-            alt: 'some alt old style',
-            width: 200,
-            height: 200
+            alt: null,
+            width: null,
+            height: null
         }
+        // simulates image
+        // this.selectedFtpLinkOldStyle = {
+        //     editorId: editorId,
+        //     type: 'image',
+        //     fullPath: 'https://img.marocz002.scostry.cz/fotocache/mid/images/produkty/313472/zehnder-aura-radiator-trubkovy-rovny-se-stredovym-pripojenim-1500-x-500-mm-407-w-chrom.jpg',
+        //     title: 'some title old style',
+        //     alt: 'some alt old style',
+        //     width: 200,
+        //     height: 200
+        // }
     }
 
     private createForms(): void {
