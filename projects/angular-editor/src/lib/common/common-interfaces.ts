@@ -75,8 +75,3 @@ export interface SelectedObject {
     cellIndex?: any;
 }
 
-export interface FtpRequest {
-    editorId: string;
-    presetFiles: boolean;
-}
-

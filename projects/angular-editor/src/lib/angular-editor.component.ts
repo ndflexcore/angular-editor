@@ -30,7 +30,7 @@ import {take, takeUntil} from 'rxjs/operators';
 import {
     DirectoryChild, DirectoryChildOldImageServer,
     EditImageDialogData,
-    EditTableDialogResult, FtpRequest,
+    EditTableDialogResult,
     SelectedObject,
     TableDialogResult, VideoDialogResult
 } from './common/common-interfaces';
@@ -101,7 +101,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     emits to trigger Image browser dialog
     emits the editorId of the editor which needs it
      */
-    @Output() ftpNeeded: EventEmitter<FtpRequest> = new EventEmitter<FtpRequest>();
+    @Output() ftpNeeded = new EventEmitter<string>();
 
     @HostBinding('attr.tabindex') tabindex = -1;
 
@@ -259,11 +259,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                 this.editorService.removeSelectedElements('h1,h2,h3,h4,h5,h6,p,pre');
                 this.onContentChange(this.textArea.nativeElement);
             } else if (command === 'insertFtp') {
-                const ftpRequest: FtpRequest = {
-                    editorId: this.id,
-                    presetFiles: false
-                }
-                this.ftpNeeded.emit(ftpRequest);
+                this.ftpNeeded.emit(this.id);
             } else if (command === 'insertTable') {
                 this.insertTable(this.config, this.id);
             } else if (command === 'insertVideo') {
