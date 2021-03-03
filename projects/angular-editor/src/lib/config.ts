@@ -40,7 +40,8 @@ export interface AngularEditorConfig {
     tableClass: string;
     tableStrokeClass: string;
     pasteEnabled: boolean;
-    customColorPalette: string[]
+    customColorPalette: string[];
+    useOldImageBrowser: boolean;
 }
 
 export const angularEditorConfig: AngularEditorConfig = {
@@ -72,7 +73,8 @@ export const angularEditorConfig: AngularEditorConfig = {
     tableClass: '',
     tableStrokeClass: 'table-bordered',
     pasteEnabled: true,
-    customColorPalette: []
+    customColorPalette: [],
+    useOldImageBrowser: false
     /*toolbarHiddenButtons: [
       ['bold', 'italic', 'underline', 'strikeThrough', 'superscript', 'subscript'],
       ['heading', 'fontName', 'fontSize', 'color'],

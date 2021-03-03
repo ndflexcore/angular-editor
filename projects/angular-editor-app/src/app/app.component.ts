@@ -16,8 +16,8 @@ export class AppComponent implements OnInit {
     form: FormGroup;
     sensForm: FormGroup;
 
-    htmlContent1 = '';
-    htmlContent2 = '';
+    htmlContent1 = `<img id="editor1_46934" src="https://img.flexsrv.scdev.cz/preview_crop/320/240/800px-Tides_of_Vengeance_logo.png" alt="My inserted image ALT" title="My inserted image TITLE">`;
+    htmlContent2 = `<img id="editor2_69576" style="width: 200px;height:200px" src="https://img.marocz002.scostry.cz/fotocache/mid/images/produkty/313472/zehnder-aura-radiator-trubkovy-rovny-se-stredovym-pripojenim-1500-x-500-mm-407-w-chrom.jpg" alt="some alt old style" title="some title old style">`;
     langCode: 'cs' | 'en' = 'cs';
     selectedFtpLink: DirectoryChild;
     selectedFtpLinkOldStyle: DirectoryChildOldImageServer;
@@ -72,7 +72,8 @@ export class AppComponent implements OnInit {
             ['customClasses']
         ],
         pasteEnabled: true,
-        customColorPalette: ['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']
+        customColorPalette: ['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)'],
+        useOldImageBrowser: false
     };
 
     config2: AngularEditorConfig = {
@@ -121,7 +122,8 @@ export class AppComponent implements OnInit {
             ['fontSize']
         ],
         pasteEnabled: false,
-        customColorPalette: ['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']
+        customColorPalette: ['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)'],
+        useOldImageBrowser: true
     };
 
     private ngUnsubscribe: Subject<any> = new Subject<any>();
@@ -186,7 +188,7 @@ export class AppComponent implements OnInit {
 
     private createForms(): void {
         this.form = this.formBuilder.group({
-            signature: ['', Validators.required]
+            signature: [this.htmlContent1, Validators.required]
         });
         this.sensForm = this.formBuilder.group({
             imageServerUrl: [''],

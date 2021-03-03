@@ -72,7 +72,6 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     selObject: SelectedObject;
     editorFonts: SelectOption[] = [{label: '', value: ''}];
     timerHandle: any;
-    private oldImageBrowser: boolean = false;
     private ngUnsubscribe: Subject<any> = new Subject<any>();
 
     @Input() id = '';
@@ -206,7 +205,6 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
             }
         }
         if (changes['ftpLinkCk'] && changes['ftpLinkCk'].currentValue) {
-            this.oldImageBrowser = true;
             const ftpLink = <DirectoryChildOldImageServer> changes['ftpLinkCk'].currentValue;
             if (ftpLink.editorId === this.id) {
                 switch (ftpLink.type) {
@@ -596,7 +594,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     editObject(): void {
         switch (this.selObject.nodeName) {
             case 'IMG':
-                if (this.oldImageBrowser) this.editImageOld();
+                if (this.config.useOldImageBrowser) this.editImageOld();
                 else this.editImage();
                 break;
             case 'TABLE':
@@ -718,8 +716,8 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         const imgEl = document.getElementById(this.selObject.id);
         if (!imgEl) return;
 
-        const oldAlt = this.ftpLinkCk.alt;
-        const oldTitle = this.ftpLinkCk.title;
+        const oldAlt = imgEl['alt'];
+        const oldTitle = imgEl['title'];
         let width = imgEl.style.width;
         let height = imgEl.style.height;
 
