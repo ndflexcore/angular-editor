@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AngularEditorConfig} from '../../../angular-editor/src/public-api';
-import {DirectoryChild, DirectoryChildOldImageServer} from '../../../angular-editor/src/lib/common/common-interfaces';
+import {DirectoryChild, DirectoryChildOldImageServer, FtpRequest} from '../../../angular-editor/src/lib/common/common-interfaces';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 
@@ -147,10 +147,10 @@ export class AppComponent implements OnInit {
         // console.log(`(ngModelChange): ${event}`);
     }
 
-    onFtpNeeded(editorId: string): void {
+    onFtpNeeded(ftpRequest: FtpRequest): void {
         // simulates file
         this.selectedFtpLink = {
-            editorId: editorId,
+            editorId: ftpRequest.editorId,
             expandable: false,
             fullPath: '',
             fullWebPath: 'https://img.flexsrv.scdev.cz/files/manualy/manual.pdf',
@@ -166,7 +166,7 @@ export class AppComponent implements OnInit {
         //     name: '800px-Tides_of_Vengeance_logo.png',
         //     partialWebPath: '800px-Tides_of_Vengeance_logo.png',
         //     size: '231,9 kB',
-        //     editorId: editorId,
+        //     editorId: ftpRequest.editorId,
         //     width: 320,
         //     height: 240,
         //     alt: 'My inserted image ALT',
@@ -175,10 +175,10 @@ export class AppComponent implements OnInit {
         // };
     }
 
-    onFtpNeeded2(editorId: string): void {
+    onFtpNeeded2(ftpRequest: FtpRequest): void {
         // simulates file
         this.selectedFtpLinkOldStyle = {
-            editorId: editorId,
+            editorId: ftpRequest.editorId,
             type: 'file',
             fullPath: 'https://img.marocz002.scostry.cz/files/dokumenty/OP2021.pdf',
             title: 'some title old style',
@@ -188,7 +188,7 @@ export class AppComponent implements OnInit {
         }
         // simulates image
         // this.selectedFtpLinkOldStyle = {
-        //     editorId: editorId,
+        //     editorId: ftpRequest.editorId,
         //     type: 'image',
         //     fullPath: 'https://img.marocz002.scostry.cz/fotocache/mid/images/produkty/313472/zehnder-aura-radiator-trubkovy-rovny-se-stredovym-pripojenim-1500-x-500-mm-407-w-chrom.jpg',
         //     title: 'some title old style',

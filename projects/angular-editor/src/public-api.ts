@@ -15,3 +15,4 @@ export * from './lib/message-dialog.component';
 export * from './lib/edit-image-dialog.component';
 export * from './lib/edit-table-dialog.component';
 export * from './lib/insert-table-dialog.component';
+export * from './lib/common/common-interfaces';

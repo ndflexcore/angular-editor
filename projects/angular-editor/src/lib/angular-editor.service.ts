@@ -5,7 +5,7 @@ import {DOCUMENT} from '@angular/common';
 import {AngularEditorConfig, CustomClass} from './config';
 import { MatDialog } from '@angular/material/dialog';
 import {takeUntil} from 'rxjs/operators';
-import {LinkTargetType, TableDialogResult} from './common/common-interfaces';
+import {FtpRequest, LinkTargetType, TableDialogResult} from './common/common-interfaces';
 import {LangService} from './services/lang.service';
 import {randomId} from './common/helpers';
 
@@ -24,7 +24,7 @@ export class AngularEditorService {
     uploadWithCredentials: boolean;
     sen: { [p: string]: string };
     intervalEmitter: EventEmitter<any> = new EventEmitter<any>();
-    ftpLinkRequired: EventEmitter<any> = new EventEmitter<string>();
+    ftpLinkRequired: EventEmitter<FtpRequest> = new EventEmitter<FtpRequest>();
     ftpLinkGiven: EventEmitter<string> = new EventEmitter<string>();
     private _linkDialogOpen: boolean = false;
     get linkDialogOpen(): boolean {
