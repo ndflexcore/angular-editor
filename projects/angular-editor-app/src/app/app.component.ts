@@ -149,58 +149,58 @@ export class AppComponent implements OnInit {
 
     onFtpNeeded(ftpRequest: FtpRequest): void {
         // simulates file
-        this.selectedFtpLink = {
-            editorId: ftpRequest.editorId,
-            expandable: false,
-            fullPath: '',
-            fullWebPath: 'https://img.flexsrv.scdev.cz/files/manualy/manual.pdf',
-            name: '',
-            partialWebPath: '',
-            size: ''
-        }
-        // simulates image
         // this.selectedFtpLink = {
-        //     expandable: false,
-        //     fullPath: '800px-Tides_of_Vengeance_logo.png',
-        //     fullWebPath: '',
-        //     name: '800px-Tides_of_Vengeance_logo.png',
-        //     partialWebPath: '800px-Tides_of_Vengeance_logo.png',
-        //     size: '231,9 kB',
         //     editorId: ftpRequest.editorId,
-        //     width: 320,
-        //     height: 240,
-        //     alt: 'My inserted image ALT',
-        //     title: 'My inserted image TITLE',
-        //     crop: true
-        // };
+        //     expandable: false,
+        //     fullPath: '',
+        //     fullWebPath: 'https://img.flexsrv.scdev.cz/files/manualy/manual.pdf',
+        //     name: '',
+        //     partialWebPath: '',
+        //     size: ''
+        // }
+        // simulates image
+        this.selectedFtpLink = {
+            expandable: false,
+            fullPath: '800px-Tides_of_Vengeance_logo.png',
+            fullWebPath: '',
+            name: '800px-Tides_of_Vengeance_logo.png',
+            partialWebPath: '800px-Tides_of_Vengeance_logo.png',
+            size: '231,9 kB',
+            editorId: ftpRequest.editorId,
+            width: 320,
+            height: 240,
+            alt: 'My inserted image ALT',
+            title: 'My inserted image TITLE',
+            crop: true
+        };
     }
 
     onFtpNeeded2(ftpRequest: FtpRequest): void {
         // simulates file
-        this.selectedFtpLinkOldStyle = {
-            editorId: ftpRequest.editorId,
-            type: 'file',
-            fullPath: 'https://img.marocz002.scostry.cz/files/dokumenty/OP2021.pdf',
-            title: 'some title old style',
-            alt: null,
-            width: null,
-            height: null
-        }
-        // simulates image
         // this.selectedFtpLinkOldStyle = {
         //     editorId: ftpRequest.editorId,
-        //     type: 'image',
-        //     fullPath: 'https://img.marocz002.scostry.cz/fotocache/mid/images/produkty/313472/zehnder-aura-radiator-trubkovy-rovny-se-stredovym-pripojenim-1500-x-500-mm-407-w-chrom.jpg',
+        //     type: 'file',
+        //     fullPath: 'https://img.marocz002.scostry.cz/files/dokumenty/OP2021.pdf',
         //     title: 'some title old style',
-        //     alt: 'some alt old style',
-        //     width: 200,
-        //     height: 200
+        //     alt: null,
+        //     width: null,
+        //     height: null
         // }
+        // simulates image
+        this.selectedFtpLinkOldStyle = {
+            editorId: ftpRequest.editorId,
+            type: 'image',
+            fullPath: 'https://img.marocz002.scostry.cz/fotocache/mid/images/produkty/313472/zehnder-aura-radiator-trubkovy-rovny-se-stredovym-pripojenim-1500-x-500-mm-407-w-chrom.jpg',
+            title: 'some title old style',
+            alt: 'some alt old style',
+            width: 200,
+            height: 200
+        }
     }
 
     private createForms(): void {
         this.form = this.formBuilder.group({
-            signature: [this.htmlContent1, Validators.required]
+            html: [this.htmlContent1, Validators.required]
         });
         this.sensForm = this.formBuilder.group({
             imageServerUrl: [''],

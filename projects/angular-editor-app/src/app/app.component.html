@@ -14,7 +14,7 @@
     <br>
 
     <form [formGroup]="form">
-        <angular-editor id="editor1" formControlName="signature"
+        <angular-editor id="editor1" formControlName="html"
                         [config]="config1" (ngModelChange)="onChange($event)"
                         (blur)="onBlur($event)"
                         (ftpNeeded)="onFtpNeeded($event)"
@@ -23,7 +23,7 @@
         </angular-editor>
     </form>
     <p>
-        Form Value: {{ form.value.signature }}
+        Form Value: {{ form.value.html }}
     </p>
     <p>
         Form Status: {{ form.status }}
