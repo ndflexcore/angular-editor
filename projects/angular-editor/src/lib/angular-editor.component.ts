@@ -57,8 +57,8 @@ import {SelectOption} from './ae-select/ae-select.component';
 })
 export class AngularEditorComponent implements OnInit, ControlValueAccessor, AfterViewInit, OnChanges, OnDestroy {
 
-    private onChange: (value: string) => void;
-    private onTouched: () => void;
+    onChange: (value: string) => void;
+    onTouched: () => void;
 
     modeVisual = true;
     showPlaceholder = false;
