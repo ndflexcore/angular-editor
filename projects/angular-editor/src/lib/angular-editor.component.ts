@@ -775,11 +775,13 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     }
 
     private deleteImage(): void {
-        const i: HTMLImageElement = <HTMLImageElement>document.getElementById(this.selObject.id);
-        const parent: HTMLElement = document.getElementById(this.selObject.id).parentElement;
-        this.r.removeChild(parent, i);
-        this.onContentChange(this.textArea.nativeElement);
-        this.selObject = null;
+        try {
+            const i: HTMLImageElement = <HTMLImageElement>document.getElementById(this.selObject.id);
+            i.remove();
+            this.onContentChange(this.textArea.nativeElement);
+        } finally {
+            this.selObject = null;
+        }
     }
 
     private static getParentTableId(evt: MouseEvent): string {
@@ -847,11 +849,13 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     }
 
     private deleteTable(): void {
-        const t: HTMLTableElement = <HTMLTableElement>document.getElementById(this.selObject.id);
-        const parent: HTMLElement = document.getElementById(this.selObject.id).parentElement;
-        this.r.removeChild(parent, t);
-        this.onContentChange(this.textArea.nativeElement);
-        this.selObject = null;
+        try {
+            const t: HTMLTableElement = <HTMLTableElement>document.getElementById(this.selObject.id);
+            t.remove();
+            this.onContentChange(this.textArea.nativeElement);
+        } finally {
+            this.selObject = null;
+        }
     }
 
     private editTable(): void {
