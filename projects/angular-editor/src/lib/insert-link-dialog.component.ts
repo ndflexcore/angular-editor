@@ -78,7 +78,7 @@ export class InsertLinkDialogComponent implements OnInit, OnDestroy {
     private createForm(): void {
         const newWindow = this.data.target === '_blank';
         this.linkForm = this.fb.group({
-            url: [this.data.url, [Validators.required, Validators.pattern(/^(https:\/\/([\w\d\-]+\.)+\w{2,})?(\/.+)?\/?$/)]],
+            url: [this.data.url, [Validators.required, Validators.pattern(/(^(https:\/\/([\w\d\-]+\.)+\w{2,})?(\/.+)?\/?$)|(^mailto:[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*(\+[_a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*)?@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,8})$)/)]],
             openInNew: [newWindow]
         });
     }
