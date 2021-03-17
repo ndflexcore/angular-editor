@@ -31,8 +31,7 @@ import {
     DirectoryChild, DirectoryChildOldImageServer,
     EditImageDialogData,
     EditTableDialogResult, FtpRequest,
-    SelectedObject,
-    TableDialogResult, VideoDialogResult
+    SelectedObject, TableDialogResult, VideoDialogResult
 } from './common/common-interfaces';
 import { MatDialog } from '@angular/material/dialog';
 import {MessageDialogComponent} from './message-dialog.component';
@@ -42,6 +41,7 @@ import {EditTableDialogComponent} from './edit-table-dialog.component';
 import {InsertTableDialogComponent} from './insert-table-dialog.component';
 import {InsertVideoDialogComponent} from './insert-video-dialog.component';
 import {SelectOption} from './ae-select/ae-select.component';
+import {SetColumnWidthsDialogComponent} from './set-column-widths-dialog.component';
 
 @Component({
     selector: 'angular-editor',
@@ -286,6 +286,8 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                 this.deleteColumn();
             } else if (command === 'deleteRow') {
                 this.deleteRow();
+            } else if (command === 'setColumnWidths') {
+                this.setColumnWidths();
             } else {
                 this.editorService.executeCommand(command);
             }
@@ -907,6 +909,41 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                     }
                 }
 
+                this.onContentChange(this.textArea.nativeElement);
+            })
+    }
+
+    private setColumnWidths(): void {
+        const t: HTMLTableElement = <HTMLTableElement>document.getElementById(this.selObject.id);
+        const columns = t.rows[0].cells;
+        let widths: string[] = [];
+
+        for (let i = 0; i < columns.length; i++) {
+            const col = columns[i];
+            const w = col.style.width;
+            widths.push(w);
+        }
+
+        const dialogRef = this.dialog.open(SetColumnWidthsDialogComponent, {
+            width: '575px',
+            height: 'auto',
+            data: {
+                senDialogTitle: this.sen['setColumnWidths'],
+                senCancel: this.sen['cancel'],
+                columnWidths: widths
+            }
+        });
+
+        dialogRef.afterClosed()
+            .pipe(take(1))
+            .subscribe((res: string[]) => {
+                if (res) {
+                    for (let i = 0; i < t.rows.length; i++) {
+                        for (let j = 0; j < t.rows[i].cells.length; j++) {
+                            t.rows[i].cells[j].style.width = res[j];
+                        }
+                    }
+                }
                 this.onContentChange(this.textArea.nativeElement);
             })
     }

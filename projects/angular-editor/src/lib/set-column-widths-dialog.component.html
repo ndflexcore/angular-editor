@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>{{data.senDialogTitle}}</h1>
+<div mat-dialog-content [formGroup]="columnForm">
+    <mat-label class="description-label">
+        Zadejte šířku ve formátu číslo + jednotka bez mezery, např. 200px, 55%
+    </mat-label>
+    <div formArrayName="widths">
+        <mat-form-field class="column-size-field" *ngFor="let width of widths.controls; let i = index">
+            <mat-label>{{i + 1}}.</mat-label>
+            <input matInput [formControlName]="i" type="text">
+        </mat-form-field>
+    </div>
+</div>
+<div mat-dialog-actions class="pull-right dialog-actions">
+    <button mat-raised-button (click)="onCancelClick()">{{data.senCancel}}</button>
+    <button mat-raised-button color="primary" (click)="ok()" cdkFocusInitial>OK</button>
+</div>

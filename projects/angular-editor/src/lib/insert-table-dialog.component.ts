@@ -42,7 +42,7 @@ export class InsertTableDialogComponent {
             rows: [2, [Validators.required]],
             cols: [2, [Validators.required]],
             stroke: true,
-            fullWidth: false,
+            fullWidth: true,
             vAlign: ['top']
         });
     }

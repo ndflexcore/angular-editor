@@ -100,6 +100,10 @@ export class AngularEditorToolbarComponent {
             value: null
         },
         {
+            label: this.sen['setColumnWidths'],
+            value: 'setColumnWidths'
+        },
+        {
             label: this.sen['addRowBellow'],
             value: 'addRowBellow'
         },

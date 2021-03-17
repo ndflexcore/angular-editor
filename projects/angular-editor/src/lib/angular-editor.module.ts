@@ -22,6 +22,7 @@ import {InsertColorDialogComponent} from './insert-color-dialog.component';
 import {InsertVideoDialogComponent} from './insert-video-dialog.component';
 import {ColorPickerModule} from 'ngx-color-picker';
 import {MatIconModule} from '@angular/material/icon';
+import {SetColumnWidthsDialogComponent} from './set-column-widths-dialog.component';
 
 @NgModule({
     imports: [
@@ -50,7 +51,8 @@ import {MatIconModule} from '@angular/material/icon';
         InsertVideoDialogComponent,
         MessageDialogComponent,
         EditImageDialogComponent,
-        EditTableDialogComponent
+        EditTableDialogComponent,
+        SetColumnWidthsDialogComponent
     ],
     entryComponents: [
         InsertTableDialogComponent,
@@ -59,7 +61,8 @@ import {MatIconModule} from '@angular/material/icon';
         InsertVideoDialogComponent,
         MessageDialogComponent,
         EditImageDialogComponent,
-        EditTableDialogComponent
+        EditTableDialogComponent,
+        SetColumnWidthsDialogComponent
     ],
     exports: [
         AngularEditorComponent,
@@ -70,7 +73,8 @@ import {MatIconModule} from '@angular/material/icon';
         InsertLinkDialogComponent,
         MessageDialogComponent,
         EditImageDialogComponent,
-        EditTableDialogComponent
+        EditTableDialogComponent,
+        SetColumnWidthsDialogComponent
     ]
 })
 export class AngularEditorModule {
