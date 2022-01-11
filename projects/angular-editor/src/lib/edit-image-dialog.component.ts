@@ -1,6 +1,6 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {EditImageDialogData, TableDialogResult} from './common/common-interfaces';
+import {EditImageDialogData} from './common/common-interfaces';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
@@ -13,7 +13,10 @@ import {takeUntil} from 'rxjs/operators';
 export class EditImageDialogComponent implements OnInit, OnDestroy {
 
     imageForm: FormGroup;
+    // aspect ratio of original image
     private ratio: number;
+    // aspect ratio of current image
+    private currenRatio: number;
     private ngUnsubscribe: Subject<any> = new Subject<any>();
 
     constructor(public dialogRef: MatDialogRef<EditImageDialogComponent>,
@@ -22,6 +25,8 @@ export class EditImageDialogComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.measureCurrent(this.data.width, this.data.height);
+
         if (!this.data.oldImageBrowser) {
             this.measureOriginal(this.data.orig);
         } else {
@@ -63,6 +68,12 @@ export class EditImageDialogComponent implements OnInit, OnDestroy {
         this.imageForm.get('height').patchValue(newVal);
     }
 
+    private forceRecountHeight(): void {
+        if (!this.imageForm.get('keepRatio').value || !this.imageForm.get('width').valid) return;
+        const newVal = Math.round(this.imageForm.get('width').value / this.ratio);
+        this.imageForm.get('height').patchValue(newVal);
+    }
+
     private recountWidth(): void {
         if (!this.imageForm.dirty || !this.imageForm.get('keepRatio').value || !this.imageForm.get('height').dirty || !this.imageForm.get('height').valid) return;
         const newVal = Math.round(this.imageForm.get('height').value * this.ratio);
@@ -83,14 +94,13 @@ export class EditImageDialogComponent implements OnInit, OnDestroy {
             alt: [this.data.alt, [Validators.required]],
             title: [this.data.title],
             crop: [this.data.crop],
-            keepRatio: [true]
+            keepRatio: false
         });
 
         this.imageForm.get('keepRatio').valueChanges
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
-                if (!res) return;
-                this.recountHeight();
+                this.forceRecountHeight()
             })
     }
 
@@ -98,8 +108,23 @@ export class EditImageDialogComponent implements OnInit, OnDestroy {
         const img: HTMLImageElement = new Image();
         img.onload = () => {
             this.ratio = img.width / img.height;
+            const keepRatioChecked = this.isRatioRoughlyOrig();
+            if (keepRatioChecked) {
+                this.imageForm.get('keepRatio').patchValue({
+                    keepRatio: keepRatioChecked
+                });
+            }
         }
         img.src = imageSrc;
     }
 
+    private measureCurrent(w: number, h: number): void {
+        this.currenRatio = w / h;
+    }
+
+    private isRatioRoughlyOrig(): boolean {
+        const roundedRatio = Math.round((this.ratio + Number.EPSILON) * 100) / 100;
+        const roundedCurrentRatio = Math.round((this.currenRatio + Number.EPSILON) * 100) / 100;
+        return roundedRatio === roundedCurrentRatio;
+    }
 }
