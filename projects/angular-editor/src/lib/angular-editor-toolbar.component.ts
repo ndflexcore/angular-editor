@@ -1,12 +1,30 @@
-import {Component, ElementRef, EventEmitter, Inject, Input, Output, Renderer2, ViewChild} from '@angular/core';
+import {
+    Component,
+    ElementRef,
+    EventEmitter,
+    Inject,
+    Input,
+    OnDestroy,
+    Output,
+    Renderer2,
+    ViewChild
+} from '@angular/core';
 import {AngularEditorService} from './angular-editor.service';
 import {HttpResponse} from '@angular/common/http';
 import {DOCUMENT} from '@angular/common';
 import {CustomClass} from './config';
 import {SelectOption} from './ae-select/ae-select.component';
-import { MatDialog } from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 import {take, takeUntil} from 'rxjs/operators';
-import {ColorDialogResult, LinkDialogResult, LinkTargetType, SelectedObject} from './common/common-interfaces';
+import {
+    ColorDialogResult, ColorWhere,
+    CommandName,
+    CustomCommandName,
+    ICustomButtonConfig,
+    LinkDialogResult,
+    LinkTargetType,
+    SelectedObject
+} from './common/common-interfaces';
 import {InsertLinkDialogComponent} from './insert-link-dialog.component';
 import {LangService} from './services/lang.service';
 import {Subject} from 'rxjs';
@@ -18,7 +36,7 @@ import {InsertColorDialogComponent} from './insert-color-dialog.component';
     styleUrls: ['./angular-editor-toolbar.component.scss']
 })
 
-export class AngularEditorToolbarComponent {
+export class AngularEditorToolbarComponent implements OnDestroy {
     sen: { [p: string]: string } = this.langService.sen;
     htmlMode = false;
     unLinkDisabled = true;
@@ -27,6 +45,9 @@ export class AngularEditorToolbarComponent {
     fontSize = '3';
     foreColour;
     backColor;
+
+    commands = CommandName;
+    colorWheres = ColorWhere;
 
     headings: SelectOption[] = [
         {
@@ -169,6 +190,7 @@ export class AngularEditorToolbarComponent {
     @Input() fonts: SelectOption[] = [{label: '', value: ''}];
     @Input() selObject: SelectedObject = null;
     @Input() customColorPalette: string[] = [];
+    @Input() customButtons: Array<Array<ICustomButtonConfig>>;
 
     @Input()
     set customClasses(classes: CustomClass[]) {
@@ -195,7 +217,8 @@ export class AngularEditorToolbarComponent {
 
     @Input() hiddenButtons: string[][];
 
-    @Output() execute: EventEmitter<string> = new EventEmitter<string>();
+    @Output() execute: EventEmitter<CommandName> = new EventEmitter<CommandName>();
+    @Output() customButtonClicked = new EventEmitter<CustomCommandName>();
 
     @ViewChild('fileInput', {static: true}) myInputFile: ElementRef;
 
@@ -221,7 +244,7 @@ export class AngularEditorToolbarComponent {
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(() => {
                 this.setupButtons();
-            })
+            });
     }
 
     ngOnDestroy() {
@@ -233,9 +256,10 @@ export class AngularEditorToolbarComponent {
      * Trigger command from editor header buttons
      * @param command string from toolbar buttons
      */
-    triggerCommand(command: string) {
+    triggerCommand(command: CommandName) {
         this.execute.emit(command);
     }
+
 
     /**
      * highlight editor buttons when cursor moved or positioning
@@ -260,9 +284,11 @@ export class AngularEditorToolbarComponent {
      */
     setupButtons(): void {
         const selection: Selection = window.getSelection();
-        if (!selection.anchorNode || !selection.focusNode) return;
+        if (!selection.anchorNode || !selection.focusNode) {
+            return;
+        }
 
-        let shouldEnable = selection.anchorNode.parentElement.nodeName === 'A'
+        const shouldEnable = selection.anchorNode.parentElement.nodeName === 'A'
             && selection.focusNode.parentElement.nodeName === 'A'
             && selection.anchorNode['data'] === selection.focusNode['data']
             && selection.anchorNode['data'].length > 0
@@ -326,6 +352,10 @@ export class AngularEditorToolbarComponent {
         this.backColor = this.doc.queryCommandValue('backColor');
     }
 
+    executeCustomButtonCommand(command: CustomCommandName) {
+        this.customButtonClicked.emit(command);
+    }
+
     /**
      * insert URL link
      */
@@ -337,7 +367,7 @@ export class AngularEditorToolbarComponent {
             const parent = selection.commonAncestorContainer.parentElement as HTMLAnchorElement;
             if (parent.href !== '') {
                 url = parent.href;
-                target = <LinkTargetType>parent.target
+                target = parent.target as LinkTargetType;
             }
         }
         const dialogRef = this.dialog.open(InsertLinkDialogComponent, {
@@ -366,13 +396,14 @@ export class AngularEditorToolbarComponent {
             });
     }
 
+
     /**
      * set font Name/family
      * @param foreColor string
      */
     setFontName(foreColor: string): void {
         this.editorService.setFontName(foreColor);
-        this.execute.emit('');
+        this.execute.emit(null);
     }
 
     /**
@@ -381,7 +412,7 @@ export class AngularEditorToolbarComponent {
      */
     setFontSize(fontSize: string): void {
         this.editorService.setFontSize(fontSize);
-        this.execute.emit('');
+        this.execute.emit(null);
     }
 
     /**
@@ -427,13 +458,13 @@ export class AngularEditorToolbarComponent {
      */
     setCustomClass(classId: string) {
         if (classId === '-1') {
-            this.execute.emit('clear');
+            this.execute.emit(CommandName.clear);
         } else {
             this.editorService.createCustomClass(this._customClasses[+classId]);
         }
     }
 
-    isButtonHidden(name: string): boolean {
+    isButtonHidden(name: CommandName): boolean {
         if (!name) {
             return false;
         }
@@ -452,7 +483,7 @@ export class AngularEditorToolbarComponent {
         return result !== undefined;
     }
 
-    insertColorDialog(where: string): void {
+    insertColorDialog(where: ColorWhere): void {
         const dialogRef = this.dialog.open(InsertColorDialogComponent, {
             width: '275px',
             height: 'auto',
@@ -470,13 +501,16 @@ export class AngularEditorToolbarComponent {
                 if (res) {
                     this.insertColor(res.color, where);
                 }
-            })
+            });
     }
 
     /** insert color */
-    private insertColor(color: string, where: string) {
+    private insertColor(color: string, where: ColorWhere) {
         this.editorService.insertColor(color, where);
-        this.execute.emit('');
+        this.execute.emit(null);
     }
 
+    setHeading(block: string) {
+        this.triggerCommand(block as CommandName);
+    }
 }

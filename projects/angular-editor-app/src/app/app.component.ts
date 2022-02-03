@@ -1,7 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AngularEditorConfig} from '../../../angular-editor/src/public-api';
-import {DirectoryChild, DirectoryChildOldImageServer, FtpRequest} from '../../../angular-editor/src/lib/common/common-interfaces';
+import {
+    AngularEditorConfig, AngularEditorService,
+    CustomButtonClicked,
+    CustomCommandName,
+    LinkTargetType
+} from '../../../angular-editor/src/public-api';
+import {
+    DirectoryChild,
+    DirectoryChildOldImageServer,
+    FtpRequest
+} from '../../../angular-editor/src/lib/common/common-interfaces';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 
@@ -16,8 +25,8 @@ export class AppComponent implements OnInit {
     form: FormGroup;
     sensForm: FormGroup;
 
-    htmlContent1 = ''; //`<img id="editor1_46934" src="https://img.flexsrv.scdev.cz/preview_crop/320/240/800px-Tides_of_Vengeance_logo.png" alt="My inserted image ALT" title="My inserted image TITLE">`;
-    htmlContent2 = ''; //`<img id="editor2_69576" style="width: 200px;height:200px" src="https://img.marocz002.scostry.cz/fotocache/mid/images/produkty/313472/zehnder-aura-radiator-trubkovy-rovny-se-stredovym-pripojenim-1500-x-500-mm-407-w-chrom.jpg" alt="some alt old style" title="some title old style">`;
+    htmlContent1 = ''; // `<img id="editor1_46934" src="https://img.flexsrv.scdev.cz/preview_crop/320/240/800px-Tides_of_Vengeance_logo.png" alt="My inserted image ALT" title="My inserted image TITLE">`;
+    htmlContent2 = ''; // `<img id="editor2_69576" style="width: 200px;height:200px" src="https://img.marocz002.scostry.cz/fotocache/mid/images/produkty/313472/zehnder-aura-radiator-trubkovy-rovny-se-stredovym-pripojenim-1500-x-500-mm-407-w-chrom.jpg" alt="some alt old style" title="some title old style">`;
     langCode: 'cs' | 'en' = 'cs';
     selectedFtpLink: DirectoryChild;
     selectedFtpLinkOldStyle: DirectoryChildOldImageServer;
@@ -71,7 +80,8 @@ export class AppComponent implements OnInit {
         ],
         pasteEnabled: true,
         customColorPalette: ['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)'],
-        useOldImageBrowser: false
+        useOldImageBrowser: false,
+        customButtons: [[{icon: null, buttonText: 'Hello!', commandName: CustomCommandName.insertAnchor}]]
     };
 
     config2: AngularEditorConfig = {
@@ -122,10 +132,34 @@ export class AppComponent implements OnInit {
         ],
         pasteEnabled: false,
         customColorPalette: ['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)'],
-        useOldImageBrowser: true
+        useOldImageBrowser: true,
+        customButtons: [[{icon: 'fa-list-ul', buttonText: 'Hello there!', commandName: CustomCommandName.insertAnchor}]]
     };
 
     private ngUnsubscribe: Subject<any> = new Subject<any>();
+
+    private static insertAnchor(href: string, target: LinkTargetType, editorService: AngularEditorService): void {
+
+        const selection = editorService.savedSelection;
+        console.log(selection);
+
+        if (selection.startOffset === selection.endOffset) {
+            console.log('nn');
+            editorService.restoreSelection();
+            return;
+        }
+
+        if (selection && selection.commonAncestorContainer.parentElement.nodeName === 'A') {
+            const parent = selection.commonAncestorContainer.parentElement as HTMLAnchorElement;
+            if (parent.href !== '') {
+                href = parent.href;
+                target = parent.target as LinkTargetType;
+            }
+        }
+
+        editorService.restoreSelection();
+        editorService.createLink(href, target);
+    }
 
     constructor(private formBuilder: FormBuilder) {
         this.createForms();
@@ -135,15 +169,15 @@ export class AppComponent implements OnInit {
         // console.log(this.htmlContent1);
     }
 
-    onChange(event) {
+    onChange(/* event */) {
         // console.log(`(ngModelChange): ${event}`);
     }
 
-    onBlur(event) {
+    onBlur(/* event */) {
         // console.log('blur ' + event);
     }
 
-    onChange2(event) {
+    onChange2(/* event */) {
         // console.log(`(ngModelChange): ${event}`);
     }
 
@@ -195,7 +229,7 @@ export class AppComponent implements OnInit {
             alt: 'some alt old style',
             width: 200,
             height: 200
-        }
+        };
     }
 
     private createForms(): void {
@@ -217,6 +251,19 @@ export class AppComponent implements OnInit {
             .subscribe(res => {
                 this.config1.extensionsApiUrl = res;
                 this.config2.extensionsApiUrl = res;
-            })
+            });
     }
+
+    onCustomButtonClicked(event: CustomButtonClicked) {
+        if (!event || !event.commandName || !event.editorService) {
+            return;
+        }
+        if (event.commandName === CustomCommandName.insertAnchor) {
+            const href = '%URL_UNREGISTER%';
+            const target: LinkTargetType = '_blank';
+            AppComponent.insertAnchor(href, target, event.editorService);
+        }
+    }
+
+
 }

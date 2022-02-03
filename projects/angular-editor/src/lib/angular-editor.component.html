@@ -11,7 +11,10 @@
                           [hiddenButtons]="config.toolbarHiddenButtons"
                           [selObject]="selObject"
                           [customColorPalette]="config.customColorPalette"
-                          (execute)="executeCommand($event)"></angular-editor-toolbar>
+                          (customButtonClicked)="executeCustomButtonCommand($event)"
+                          (execute)="executeCommand($event)"
+                            [customButtons]="config.customButtons"
+  ></angular-editor-toolbar>
 
   <div class="angular-editor-wrapper" #editorWrapper>
     <div #editor class="angular-editor-textarea"
@@ -28,7 +31,7 @@
          (blur)="onTextAreaBlur($event)"
          (click)="exec()"
          (keyup)="exec()"
-         (mouseout)="onTextAreaMouseOut($event)"
+         (mouseout)="onTextAreaMouseOut()"
          (paste)="editorPaste()"
     >
     </div>

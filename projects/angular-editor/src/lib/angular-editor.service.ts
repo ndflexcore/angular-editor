@@ -3,9 +3,9 @@ import {HttpClient, HttpEvent} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {DOCUMENT} from '@angular/common';
 import {AngularEditorConfig, CustomClass} from './config';
-import { MatDialog } from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 import {takeUntil} from 'rxjs/operators';
-import {FtpRequest, LinkTargetType, TableDialogResult} from './common/common-interfaces';
+import {ColorWhere, FtpRequest, LinkTargetType, TableDialogResult} from './common/common-interfaces';
 import {LangService} from './services/lang.service';
 import {randomId} from './common/helpers';
 
@@ -26,7 +26,7 @@ export class AngularEditorService {
     intervalEmitter: EventEmitter<any> = new EventEmitter<any>();
     ftpLinkRequired: EventEmitter<FtpRequest> = new EventEmitter<FtpRequest>();
     ftpLinkGiven: EventEmitter<string> = new EventEmitter<string>();
-    private _linkDialogOpen: boolean = false;
+    private _linkDialogOpen = false;
     get linkDialogOpen(): boolean {
         return this._linkDialogOpen;
     }
@@ -35,6 +35,41 @@ export class AngularEditorService {
         this._linkDialogOpen = value;
     }
     private ngUnsubscribe: Subject<any> = new Subject<any>();
+
+
+    /**
+     * generates HTML table string for insertion
+     * @param definition .
+     * @param config .
+     * @param id .
+     */
+    static createTableHtml(definition: TableDialogResult, config: AngularEditorConfig, id: string): string[] {
+        const cls = definition.stroke ? config.tableStrokeClass : config.tableClass;
+
+        const colPct = Math.round(100 / definition.cols);
+
+        const ids = randomId(id);
+        const prefix =
+            `
+<table id="${ids}" class="${cls}">
+    <tbody>
+ `;
+        const suffix =
+            `
+    </tbody>
+</table>
+`;
+        let inner = ``;
+        for (let i = 0; i < definition.rows; i++) {
+            inner += `<tr>\n`;
+            for (let j = 0; j < definition.cols; j++) {
+                inner += `<td style="width: ${colPct}%"></td>\n`;
+            }
+            inner += `</tr>\n`;
+        }
+        return [prefix + inner + suffix, ids];
+    }
+
 
     constructor(private http: HttpClient, @Inject(DOCUMENT) private doc: any, private dialog: MatDialog,
                 private langService: LangService) {
@@ -62,7 +97,7 @@ export class AngularEditorService {
     /**
      * Create URL link
      * @param url string from UI prompt
-     * @param target
+     * @param target _blank or _self
      */
     createLink(url: string, target: LinkTargetType) {
         const newUrl = `<a href="${url}" target="${target}" rel="noopener">${this.selectedText}</a>`;
@@ -75,10 +110,10 @@ export class AngularEditorService {
      * @param color color to be inserted
      * @param where where the color has to be inserted either text/background
      */
-    insertColor(color: string, where: string): void {
+    insertColor(color: string, where: ColorWhere): void {
         const restored = this.restoreSelection();
         if (restored) {
-            if (where === 'textColor') {
+            if (where === ColorWhere.text) {
                 this.doc.execCommand('foreColor', false, color);
             } else {
                 this.doc.execCommand('hiliteColor', false, color);
@@ -108,7 +143,7 @@ export class AngularEditorService {
      */
     insertHtml(html: string): void {
         try {
-            const isHTMLInserted = this.doc.execCommand('insertHTML', false, html);
+            /*const isHTMLInserted = */this.doc.execCommand('insertHTML', false, html);
         } catch {
 
         }
@@ -118,38 +153,7 @@ export class AngularEditorService {
         // }
     }
 
-    /**
-     * generates HTML table string for insertion
-     * @param definition
-     * @param config
-     * @param id
-     */
-    static createTableHtml(definition: TableDialogResult, config: AngularEditorConfig, id: string): string[] {
-        const cls = definition.stroke ? config.tableStrokeClass : config.tableClass;
 
-        const colPct = Math.round(100 / definition.cols);
-
-        const ids = randomId(id);
-        const prefix =
- `
-<table id="${ids}" class="${cls}">
-    <tbody>
- `;
-        const suffix =
-`
-    </tbody>
-</table>
-`;
-        let inner: string = ``;
-        for (let i = 0; i < definition.rows; i++) {
-            inner += `<tr>\n`;
-            for (let j = 0; j < definition.cols; j++) {
-                inner += `<td style="width: ${colPct}%"></td>\n`
-            }
-            inner += `</tr>\n`;
-        }
-        return [prefix + inner + suffix, ids];
-    }
 
     /**
      * save selection when the editor is focussed out
@@ -166,7 +170,7 @@ export class AngularEditorService {
         } else {
             this.savedSelection = null;
         }
-    };
+    }
 
     /**
      * restore selection when the editor is focused in
@@ -197,6 +201,8 @@ export class AngularEditorService {
     }
 
     /** check any selection is made or not */
+
+    /* unused method ???
     private checkSelection(): any {
 
         const selectedText = this.savedSelection.toString();
@@ -205,7 +211,7 @@ export class AngularEditorService {
             throw new Error('No Selection Made');
         }
         return true;
-    }
+    }*/
 
     /**
      * Upload file to uploadUrl
@@ -309,11 +315,11 @@ export class AngularEditorService {
         while (el.hasChildNodes()) {
             parent.insertBefore(el.firstChild, el);
         }
-        if (parent) parent.removeChild(el);
+        if (parent) { parent.removeChild(el); }
     }
 
     removeSelectedElements(tagNames) {
-        if (!tagNames) return;
+        if (!tagNames) { return; }
 
         const tagNamesArray = tagNames.toLowerCase().split(',');
         this.getSelectedNodes().forEach((node) => {
@@ -324,5 +330,6 @@ export class AngularEditorService {
             }
         });
     }
+
 
 }

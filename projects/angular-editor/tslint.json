@@ -1,16 +1,28 @@
 {
-  "extends": "../../../tslint.json",
-  "rules": {
-    "directive-selector": [
-      true,
-      "attribute",
-      "lib",
-      "camelCase"
-    ],
-    "component-selector": [
-      true,
-      "element",
-      "kebab-case"
-    ]
-  }
+    "extends": "../../../tslint.json",
+    "rules": {
+        "no-string-literal": false,
+        "no-angle-bracket-type-assertion": false,
+        "object-literal-shorthand": false,
+        "max-line-length": false,
+        "prefer-for-of": false,
+        "variable-name": [
+            true,
+            "allow-leading-underscore"
+        ],
+        "radix": false,
+        "directive-selector": [
+            true,
+            "attribute",
+            "lib",
+            "camelCase"
+        ],
+        "component-selector": [
+            true,
+            "element",
+            "kebab-case"
+        ]
+    }
 }
+
+

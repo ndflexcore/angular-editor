@@ -9,12 +9,14 @@ import {
     HostBinding,
     HostListener,
     Inject,
-    Input, OnChanges,
+    Input,
+    OnChanges,
     OnDestroy,
     OnInit,
     Output,
     Renderer2,
-    SecurityContext, SimpleChanges,
+    SecurityContext,
+    SimpleChanges,
     ViewChild
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
@@ -28,12 +30,18 @@ import {LangService} from './services/lang.service';
 import {Subject} from 'rxjs';
 import {take, takeUntil} from 'rxjs/operators';
 import {
-    DirectoryChild, DirectoryChildOldImageServer,
+    CommandName, CustomButtonClicked,
+    CustomCommandName,
+    DirectoryChild,
+    DirectoryChildOldImageServer,
     EditImageDialogData,
-    EditTableDialogResult, FtpRequest,
-    SelectedObject, TableDialogResult, VideoDialogResult
+    EditTableDialogResult,
+    FtpRequest,
+    SelectedObject,
+    TableDialogResult,
+    VideoDialogResult
 } from './common/common-interfaces';
-import { MatDialog } from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 import {MessageDialogComponent} from './message-dialog.component';
 import {randomId} from './common/helpers';
 import {EditImageDialogComponent} from './edit-image-dialog.component';
@@ -56,88 +64,6 @@ import {SetColumnWidthsDialogComponent} from './set-column-widths-dialog.compone
     ]
 })
 export class AngularEditorComponent implements OnInit, ControlValueAccessor, AfterViewInit, OnChanges, OnDestroy {
-
-    onChange: (value: string) => void;
-    onTouched: () => void;
-
-    modeVisual = true;
-    showPlaceholder = false;
-    disabled = false;
-    focused = false;
-    touched = false;
-    changed = false;
-    focusInstance: any;
-    blurInstance: any;
-    sen: { [p: string]: string };
-    selObject: SelectedObject;
-    editorFonts: SelectOption[] = [{label: '', value: ''}];
-    timerHandle: any;
-    private ngUnsubscribe: Subject<any> = new Subject<any>();
-
-    @Input() id = '';
-    @Input() config: AngularEditorConfig = angularEditorConfig;
-    @Input() placeholder = '';
-    @Input() tabIndex: number | null;
-    @Input() ftpLink: DirectoryChild | null;
-    @Input() ftpLinkCk : DirectoryChildOldImageServer | null;
-
-    @Output() html;
-
-    @ViewChild('editor', {static: true}) textArea: ElementRef;
-    @ViewChild('editorWrapper', {static: true}) editorWrapper: ElementRef;
-    @ViewChild('editorToolbar') editorToolbar: AngularEditorToolbarComponent;
-
-    @Output() viewMode = new EventEmitter<boolean>();
-
-    /** emits `blur` event when focused out from the textarea */
-        // tslint:disable-next-line:no-output-native no-output-rename
-    @Output('blur') blurEvent: EventEmitter<FocusEvent> = new EventEmitter<FocusEvent>();
-
-    /** emits `focus` event when focused in to the textarea */
-        // tslint:disable-next-line:no-output-rename no-output-native
-    @Output('focus') focusEvent: EventEmitter<FocusEvent> = new EventEmitter<FocusEvent>();
-
-    /*
-    emits to trigger Image browser dialog
-    emits the editorId of the editor which needs it
-     */
-    @Output() ftpNeeded: EventEmitter<FtpRequest> = new EventEmitter<FtpRequest>();
-
-    @HostBinding('attr.tabindex') tabindex = -1;
-
-    @HostListener('focus')
-    onFocus() {
-        this.focus();
-    }
-
-    @HostListener('click', ['$event'])
-    onClick(evt: MouseEvent) {
-        const first: EventTarget = <EventTarget>evt.composedPath()[0];
-        if (first['nodeName'] == 'IMG') {
-            this.selObject = {
-                id: first['id'],
-                nodeName: 'IMG',
-                buttonTitle: this.sen['editImageDialogTitle']
-            };
-        }
-        else if (first['nodeName'] == 'TD') {
-            const rowIndex = <HTMLTableRowElement>first['parentElement']['rowIndex'];
-            const cellIndex = <HTMLTableCellElement>first['cellIndex'];
-            const tableId = AngularEditorComponent.getParentTableId(evt);
-            this.selObject = {
-                id: tableId,
-                nodeName: 'TABLE',
-                buttonTitle: this.sen['editTableDialogTitle'],
-                rowIndex: rowIndex,
-                cellIndex: cellIndex
-            }
-        }
-        else {
-            if (evt.composedPath().map(m => m['nodeName']).indexOf('ANGULAR-EDITOR-TOOLBAR') === -1) {
-                this.selObject = null;
-            }
-        }
-    }
 
     constructor(
         private r: Renderer2,
@@ -162,7 +88,100 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe((res) => {
                 this.ftpNeeded.emit(res);
-            })
+            });
+    }
+
+    onChange: (value: string) => void;
+    onTouched: () => void;
+
+    modeVisual = true;
+    showPlaceholder = false;
+    disabled = false;
+    focused = false;
+    touched = false;
+    changed = false;
+    focusInstance: any;
+    blurInstance: any;
+    sen: { [p: string]: string };
+    selObject: SelectedObject;
+    editorFonts: SelectOption[] = [{label: '', value: ''}];
+    timerHandle: any;
+    private ngUnsubscribe: Subject<any> = new Subject<any>();
+
+    @Input() id = '';
+    @Input() config: AngularEditorConfig = angularEditorConfig;
+    @Input() placeholder = '';
+    @Input() tabIndex: number | null;
+    @Input() ftpLink: DirectoryChild | null;
+    @Input() ftpLinkCk: DirectoryChildOldImageServer | null;
+
+    @Output() html;
+
+    @ViewChild('editor', {static: true}) textArea: ElementRef;
+    @ViewChild('editorWrapper', {static: true}) editorWrapper: ElementRef;
+    @ViewChild('editorToolbar') editorToolbar: AngularEditorToolbarComponent;
+
+    @Output() viewMode = new EventEmitter<boolean>();
+
+    /** emits `blur` event when focused out from the textarea */
+        // tslint:disable-next-line:no-output-native no-output-rename
+    @Output('blur') blurEvent: EventEmitter<FocusEvent> = new EventEmitter<FocusEvent>();
+
+    /** emits `focus` event when focused in to the textarea */
+        // tslint:disable-next-line:no-output-rename no-output-native
+    @Output('focus') focusEvent: EventEmitter<FocusEvent> = new EventEmitter<FocusEvent>();
+
+    /*
+    emits to trigger Image browser dialog
+    emits the editorId of the editor which needs it
+     */
+    @Output() ftpNeeded: EventEmitter<FtpRequest> = new EventEmitter<FtpRequest>();
+
+    @Output() customButtonClicked = new EventEmitter<CustomButtonClicked>();
+
+    @HostBinding('attr.tabindex') tabindex = -1;
+
+    private static getParentTableId(evt: MouseEvent): string {
+        const pathArray = evt.composedPath();
+        for (let i = 0; i < pathArray.length; i++) {
+            const el = pathArray[i];
+            if (el['nodeName'] === 'TABLE') {
+                return el['id'];
+            }
+        }
+        return null;
+    }
+
+    @HostListener('focus')
+    onFocus() {
+        this.focus();
+    }
+
+    @HostListener('click', ['$event'])
+    onClick(evt: MouseEvent) {
+        const first: EventTarget = <EventTarget> evt.composedPath()[0];
+        if (first['nodeName'] === 'IMG') {
+            this.selObject = {
+                id: first['id'],
+                nodeName: 'IMG',
+                buttonTitle: this.sen['editImageDialogTitle']
+            };
+        } else if (first['nodeName'] === 'TD') {
+            const rowIndex = <HTMLTableRowElement> first['parentElement']['rowIndex'];
+            const cellIndex = <HTMLTableCellElement> first['cellIndex'];
+            const tableId = AngularEditorComponent.getParentTableId(evt);
+            this.selObject = {
+                id: tableId,
+                nodeName: 'TABLE',
+                buttonTitle: this.sen['editTableDialogTitle'],
+                rowIndex: rowIndex,
+                cellIndex: cellIndex
+            };
+        } else {
+            if (evt.composedPath().map(m => m['nodeName']).indexOf('ANGULAR-EDITOR-TOOLBAR') === -1) {
+                this.selObject = null;
+            }
+        }
     }
 
     ngOnInit() {
@@ -243,50 +262,54 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         }
     }
 
+    executeCustomButtonCommand(command: CustomCommandName) {
+        this.customButtonClicked.emit({commandName: command, editorService: this.editorService});
+    }
+
     /**
      * Executed command from editor header buttons
      * @param command string from triggerCommand
      */
-    executeCommand(command: string) {
+    executeCommand(command: CommandName) {
         this.focus();
-        if (command === 'toggleEditorMode') {
+        if (command === CommandName.toggleEditorMode) {
             this.toggleEditorMode(this.modeVisual);
-        } else if (command !== '') {
-            if (command === 'clear') {
+        } else if (command !== null) {
+            if (command === CommandName.clear) {
                 this.editorService.removeSelectedElements(this.getCustomTags());
                 this.onContentChange(this.textArea.nativeElement);
-            } else if (command === 'default') {
+            } else if (command === CommandName.default) {
                 this.editorService.removeSelectedElements('h1,h2,h3,h4,h5,h6,p,pre');
                 this.onContentChange(this.textArea.nativeElement);
-            } else if (command === 'insertFtp') {
+            } else if (command === CommandName.insertFtp) {
                 const ftpRequest: FtpRequest = {
                     editorId: this.id,
                     presetFiles: false
-                }
+                };
                 this.ftpNeeded.emit(ftpRequest);
-            } else if (command === 'insertTable') {
+            } else if (command === CommandName.insertTable) {
                 this.insertTable(this.config, this.id);
-            } else if (command === 'insertVideo') {
+            } else if (command === CommandName.insertVideo) {
                 this.insertVideoDialog();
-            } else if (command === 'editObject') {
+            } else if (command === CommandName.editObject) {
                 this.editObject();
-            } else if (command === 'addRowBellow') {
+            } else if (command === CommandName.addRowBellow) {
                 this.addRow(false);
-            } else if (command === 'addRowUp') {
+            } else if (command === CommandName.addRowUp) {
                 this.addRow(true);
-            } else if (command === 'addColumnRight') {
+            } else if (command === CommandName.addColumnRight) {
                 this.addColumn(false);
-            } else if (command === 'addColumnLeft') {
+            } else if (command === CommandName.addColumnLeft) {
                 this.addColumn(true);
-            } else if (command === 'deleteTable') {
+            } else if (command === CommandName.deleteTable) {
                 this.deleteTable();
-            } else if (command === 'deleteImage') {
+            } else if (command === CommandName.deleteImage) {
                 this.deleteImage();
-            } else if (command === 'deleteColumn') {
+            } else if (command === CommandName.deleteColumn) {
                 this.deleteColumn();
-            } else if (command === 'deleteRow') {
+            } else if (command === CommandName.deleteRow) {
                 this.deleteRow();
-            } else if (command === 'setColumnWidths') {
+            } else if (command === CommandName.setColumnWidths) {
                 this.setColumnWidths();
             } else {
                 this.editorService.executeCommand(command);
@@ -315,7 +338,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     /**
      * @description fires when cursor leaves textarea
      */
-    public onTextAreaMouseOut(event: MouseEvent): void {
+    public onTextAreaMouseOut(/* event: MouseEvent */): void {
         this.editorService.saveSelection();
     }
 
@@ -359,7 +382,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
      * @param element html element from contenteditable
      */
     onContentChange(element: any): void {
-        let html = '';
+        let html: string;
         if (this.modeVisual) {
             html = element.innerHTML;
         } else {
@@ -526,6 +549,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
             /**
              * here you can try to experiment with focusNode, parents, children etc - e.g. set image attributes, table stroke etc...
              */
+            console.log(this.editorService);
             this.editorService.executeInNextQueueIteration(this.editorService.saveSelection);
         }
 
@@ -604,7 +628,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                 .pipe(takeUntil(this.ngUnsubscribe))
                 .subscribe(() => {
                     return false;
-                })
+                });
         }
 
         return this.config.pasteEnabled;
@@ -613,8 +637,11 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     editObject(): void {
         switch (this.selObject.nodeName) {
             case 'IMG':
-                if (this.config.useOldImageBrowser) this.editImageOld();
-                else this.editImage();
+                if (this.config.useOldImageBrowser) {
+                    this.editImageOld();
+                } else {
+                    this.editImage();
+                }
                 break;
             case 'TABLE':
                 this.editTable();
@@ -654,14 +681,14 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
 
                     this.editorService.restoreSelection();
                     this.editorService.insertHtml(html);
-                    const tab: HTMLTableElement = <HTMLTableElement>document.getElementById(tableId);
+                    const tab: HTMLTableElement = <HTMLTableElement> document.getElementById(tableId);
                     if (res.fullWidth) {
                         this.r.setStyle(tab, 'width', '100%');
                     } else {
                         this.r.setStyle(tab, 'width', 'auto');
                     }
                     for (let i = 0; i < tab.rows.length; i++) {
-                        let row = tab.rows[i];
+                        const row = tab.rows[i];
                         for (let j = 0; j < row.cells.length; j++) {
                             this.r.setStyle(row.cells[j], 'vertical-align', res.vAlign);
                         }
@@ -672,7 +699,9 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
 
     private editImage(): void {
         const imgEl = document.getElementById(this.selObject.id);
-        if (!imgEl) return;
+        if (!imgEl) {
+            return;
+        }
 
         const oldSrc = imgEl['currentSrc'];
         const oldAlt = imgEl['alt'];
@@ -680,11 +709,11 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
 
         const m = oldSrc.match(/\/\d+\/\d+\//);
         if (m && m[0]) {
-            const size = m[0].split('/').filter(f => f != '').map(m => parseInt(m));
+            const size = m[0].split('/').filter(f => f !== '').map(m1 => parseInt(m1));
             const crop = /_crop\//.test(oldSrc);
 
-            let width = size[0];
-            let height = size[1];
+            const width = size[0];
+            const height = size[1];
             const sourceSplit = oldSrc.split('/');
             const imageName = sourceSplit[sourceSplit.length - 1];
             const orig = `${this.config.imageServerUrl}/orig/${imageName}`;
@@ -714,7 +743,9 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
             dialogRef.afterClosed()
                 .pipe(take(1))
                 .subscribe((res: EditImageDialogData) => {
-                    if (!res) return;
+                    if (!res) {
+                        return;
+                    }
 
                     const imageType = res.crop
                         ? `${this.config.imageType}_crop`
@@ -727,18 +758,20 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                     this.r.setAttribute(imgEl, 'title', res.title);
 
                     this.onContentChange(this.textArea.nativeElement);
-                })
+                });
         }
     }
 
     private editImageOld(): void {
         const imgEl = document.getElementById(this.selObject.id);
-        if (!imgEl) return;
+        if (!imgEl) {
+            return;
+        }
 
         const oldAlt = imgEl['alt'];
         const oldTitle = imgEl['title'];
-        let width = imgEl.style.width;
-        let height = imgEl.style.height;
+        const width = imgEl.style.width;
+        const height = imgEl.style.height;
 
         const dialogRef = this.dialog.open(EditImageDialogComponent, {
             width: '475px',
@@ -765,7 +798,9 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         dialogRef.afterClosed()
             .pipe(take(1))
             .subscribe((res: EditImageDialogData) => {
-                if (!res) return;
+                if (!res) {
+                    return;
+                }
 
                 this.r.setAttribute(imgEl, 'alt', res.alt);
                 this.r.setAttribute(imgEl, 'title', res.title);
@@ -773,12 +808,12 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                 this.r.setStyle(imgEl, 'height', `${res.height}px`);
 
                 this.onContentChange(this.textArea.nativeElement);
-            })
+            });
     }
 
     private deleteImage(): void {
         try {
-            const i: HTMLImageElement = <HTMLImageElement>document.getElementById(this.selObject.id);
+            const i: HTMLImageElement = <HTMLImageElement> document.getElementById(this.selObject.id);
             i.remove();
             this.onContentChange(this.textArea.nativeElement);
         } finally {
@@ -786,22 +821,11 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         }
     }
 
-    private static getParentTableId(evt: MouseEvent): string {
-        const pathArray = evt.composedPath();
-        for (let i = 0; i < pathArray.length; i++) {
-            const el = pathArray[i];
-            if (el['nodeName'] === 'TABLE') {
-                return el['id'];
-            }
-        }
-        return null;
-    }
-
     private addRow(up: boolean): void {
-        const t: HTMLTableElement = <HTMLTableElement>document.getElementById(this.selObject.id);
+        const t: HTMLTableElement = <HTMLTableElement> document.getElementById(this.selObject.id);
         const currentRow = t.rows[this.selObject.rowIndex];
         const numColumns = currentRow.cells.length;
-        let newRow = up
+        const newRow = up
             ? t.insertRow(this.selObject.rowIndex)
             : t.insertRow(this.selObject.rowIndex + 1);
         for (let i = 0; i < numColumns; i++) {
@@ -811,7 +835,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     }
 
     private addColumn(left: boolean): void {
-        const t: HTMLTableElement = <HTMLTableElement>document.getElementById(this.selObject.id);
+        const t: HTMLTableElement = <HTMLTableElement> document.getElementById(this.selObject.id);
         const numRows = t.rows.length;
 
         const cellIndex = left
@@ -827,7 +851,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
             const width = Math.round(100 / numCols);
 
             for (let j = 0; j < numCols; j++) {
-                let theCell = t.rows[i].cells[j];
+                const theCell = t.rows[i].cells[j];
                 this.r.setStyle(theCell, 'width', `${width}%`);
             }
         }
@@ -835,7 +859,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     }
 
     private deleteColumn(): void {
-        const t: HTMLTableElement = <HTMLTableElement>document.getElementById(this.selObject.id);
+        const t: HTMLTableElement = <HTMLTableElement> document.getElementById(this.selObject.id);
         for (let i = 0; i < t.rows.length; i++) {
             const row = t.rows[i];
             row.deleteCell(this.selObject.cellIndex);
@@ -844,15 +868,17 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     }
 
     private deleteRow(): void {
-        const t: HTMLTableElement = <HTMLTableElement>document.getElementById(this.selObject.id);
+        const t: HTMLTableElement = <HTMLTableElement> document.getElementById(this.selObject.id);
         t.deleteRow(this.selObject.rowIndex);
-        if (t.rows.length === 0) this.deleteTable();
+        if (t.rows.length === 0) {
+            this.deleteTable();
+        }
         this.onContentChange(this.textArea.nativeElement);
     }
 
     private deleteTable(): void {
         try {
-            const t: HTMLTableElement = <HTMLTableElement>document.getElementById(this.selObject.id);
+            const t: HTMLTableElement = <HTMLTableElement> document.getElementById(this.selObject.id);
             t.remove();
             this.onContentChange(this.textArea.nativeElement);
         } finally {
@@ -861,7 +887,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     }
 
     private editTable(): void {
-        const t: HTMLTableElement = <HTMLTableElement>document.getElementById(this.selObject.id);
+        const t: HTMLTableElement = <HTMLTableElement> document.getElementById(this.selObject.id);
 
         const isBordered = /table-bordered/.test(t.className);
         const isFullWidth = /100%/.test(t.style.width);
@@ -888,7 +914,9 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         dialogRef.afterClosed()
             .pipe(take(1))
             .subscribe((res: EditTableDialogResult) => {
-                if (!res) return;
+                if (!res) {
+                    return;
+                }
 
                 if (res.fullWidth) {
                     this.r.setStyle(t, 'width', '100%');
@@ -903,20 +931,20 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                 }
 
                 for (let i = 0; i < t.rows.length; i++) {
-                    let row = t.rows[i];
+                    const row = t.rows[i];
                     for (let j = 0; j < row.cells.length; j++) {
                         this.r.setStyle(row.cells[j], 'vertical-align', res.vAlign);
                     }
                 }
 
                 this.onContentChange(this.textArea.nativeElement);
-            })
+            });
     }
 
     private setColumnWidths(): void {
-        const t: HTMLTableElement = <HTMLTableElement>document.getElementById(this.selObject.id);
+        const t: HTMLTableElement = <HTMLTableElement> document.getElementById(this.selObject.id);
         const columns = t.rows[0].cells;
-        let widths: string[] = [];
+        const widths: string[] = [];
 
         for (let i = 0; i < columns.length; i++) {
             const col = columns[i];
@@ -945,7 +973,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                     }
                 }
                 this.onContentChange(this.textArea.nativeElement);
-            })
+            });
     }
 
     insertVideoDialog(): void {
@@ -973,7 +1001,8 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
 
                     this.onContentChange(this.textArea.nativeElement);
                 }
-            })
+            });
     }
+
 
 }

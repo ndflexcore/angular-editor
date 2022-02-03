@@ -1,3 +1,5 @@
+import {AngularEditorService} from '../angular-editor.service';
+
 export type FtpLinkType = 'file' | 'image';
 
 export interface DirectoryChild {
@@ -22,7 +24,7 @@ export interface DirectoryChildOldImageServer {
     height: number;
     width: number;
     fullPath: string;
-    type: FtpLinkType
+    type: FtpLinkType;
 }
 
 export type VerticalCellAlignment = 'top' | 'middle' | 'bottom';
@@ -45,7 +47,7 @@ export type LinkTargetType = '_blank' | '_self';
 
 export interface LinkDialogResult {
     url: string;
-    target: LinkTargetType
+    target: LinkTargetType;
 }
 
 export interface ColorDialogResult {
@@ -80,3 +82,69 @@ export interface FtpRequest {
     presetFiles: boolean;
 }
 
+export interface ICustomButtonConfig {
+    icon: string;
+    buttonText: string;
+    commandName: CustomCommandName;
+}
+
+export enum CommandName {
+    toggleEditorMode = 'toggleEditorMode',
+    clear = 'clear',
+    default = 'default',
+    insertFtp = 'insertFtp',
+    insertTable = 'insertTable',
+    insertVideo = 'insertVideo',
+    editObject = 'editObject',
+    addRowBellow = 'addRowBellow',
+    addRowUp = 'addRowUp',
+    addColumnRight = 'addColumnRight',
+    addColumnLeft = 'addColumnLeft',
+    deleteTable = 'deleteTable',
+    deleteImage = 'deleteImage',
+    deleteColumn = 'deleteColumn',
+    deleteRow = 'deleteRow',
+    setColumnWidths = 'setColumnWidths',
+    insertUnorderedList = 'insertUnorderedList',
+    insertOrderedList = 'insertOrderedList',
+
+    undo = 'undo',
+    redo = 'redo',
+    bold = 'bold',
+    italic = 'italic',
+    underline = 'underline',
+    strikeThrough = 'strikeThrough',
+    subscript = 'subscript',
+    superscript = 'superscript',
+    justifyLeft = 'justifyLeft',
+    justifyCenter = 'justifyCenter',
+    justifyRight = 'justifyRight',
+    justifyFull = 'justifyFull',
+    indent = 'indent',
+    outdent = 'outdent',
+    heading = 'heading',
+    fontName = 'fontName',
+    fontSize = 'fontSize',
+    textColor = 'textColor',
+    backgroundColor = 'backgroundColor',
+    customClasses = 'customClasses',
+    link = 'link',
+    unlink = 'unlink',
+    insertImage = 'insertImage',
+    insertHorizontalRule = 'insertHorizontalRule',
+    removeFormat = 'removeFormat',
+}
+
+export enum CustomCommandName {
+    insertAnchor = 'insertAnchor'
+}
+
+export interface CustomButtonClicked {
+    commandName: CustomCommandName;
+    editorService: AngularEditorService;
+}
+
+export enum ColorWhere {
+    text,
+    background
+}
