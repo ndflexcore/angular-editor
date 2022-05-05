@@ -30,18 +30,21 @@ import {LangService} from './services/lang.service';
 import {Subject} from 'rxjs';
 import {take, takeUntil} from 'rxjs/operators';
 import {
-    CommandName, CustomButtonClicked,
+    CommandName,
+    CustomButtonClicked,
     CustomCommandName,
     DirectoryChild,
     DirectoryChildOldImageServer,
     EditImageDialogData,
     EditTableDialogResult,
     FtpRequest,
+    LinkDialogResult,
+    LinkTargetType,
     SelectedObject,
     TableDialogResult,
     VideoDialogResult
 } from './common/common-interfaces';
-import {MatDialog} from '@angular/material/dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {MessageDialogComponent} from './message-dialog.component';
 import {randomId} from './common/helpers';
 import {EditImageDialogComponent} from './edit-image-dialog.component';
@@ -50,6 +53,7 @@ import {InsertTableDialogComponent} from './insert-table-dialog.component';
 import {InsertVideoDialogComponent} from './insert-video-dialog.component';
 import {SelectOption} from './ae-select/ae-select.component';
 import {SetColumnWidthsDialogComponent} from './set-column-widths-dialog.component';
+import {InsertLinkDialogComponent} from './insert-link-dialog.component';
 
 @Component({
     selector: 'angular-editor',
@@ -303,6 +307,8 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                 this.addColumn(true);
             } else if (command === CommandName.deleteTable) {
                 this.deleteTable();
+            } else if (command === CommandName.insertImageUrl) {
+                this.insertImageUrl();
             } else if (command === CommandName.deleteImage) {
                 this.deleteImage();
             } else if (command === CommandName.deleteColumn) {
@@ -549,7 +555,6 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
             /**
              * here you can try to experiment with focusNode, parents, children etc - e.g. set image attributes, table stroke etc...
              */
-            console.log(this.editorService);
             this.editorService.executeInNextQueueIteration(this.editorService.saveSelection);
         }
 
@@ -819,6 +824,53 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         } finally {
             this.selObject = null;
         }
+    }
+
+    private openLinkDialog(target: LinkTargetType, url: string): MatDialogRef<InsertLinkDialogComponent> {
+        return this.dialog.open(InsertLinkDialogComponent, {
+            width: '405px',
+            height: 'auto',
+            data: {
+                editorId: this.id,
+                url: url,
+                target: target,
+                cancel: this.sen['cancel'],
+                title: this.sen['insertImageUrl'],
+                placeholder: this.sen['insertLinkPlaceholder'],
+                urlTitle: this.sen['insertLinkUrlTitle'],
+                openInNewWindow: this.sen['openInNewWindow'],
+                insertLinkValidatorRequired: this.sen['insertLinkValidatorRequired'],
+                insertLinkValidatorPattern: this.sen['insertLinkValidatorPattern']
+            }
+        });
+    }
+
+    private insertImageUrl(): void {
+        let url: string;
+        let target: LinkTargetType;
+        let parent: HTMLAnchorElement;
+        const i: HTMLImageElement = <HTMLImageElement> document.getElementById(this.selObject.id);
+        const workOnParent: boolean = i.parentElement.nodeName === 'A';
+        if (workOnParent) {
+            parent = i.parentElement as HTMLAnchorElement;
+            url = parent.href;
+            target = parent.target as LinkTargetType;
+        }
+        const dialogRef = this.openLinkDialog(target, url);
+        dialogRef.afterClosed()
+            .pipe(take(1))
+            .subscribe((res: LinkDialogResult) => {
+                if (res) {
+                    if (workOnParent) {
+                        parent.href = res.url;
+                        parent.target = res.target;
+                    } else {
+                        i.outerHTML = `<a href="${res.url}" target="${res.target}" rel="noopener"><img id="${i.id}" src="${i.src}" alt="${i.alt}" title="${i.title}"></a>`;
+                    }
+                    this.onContentChange(this.textArea.nativeElement);
+                    this.selObject = null;
+                }
+            })
     }
 
     private addRow(up: boolean): void {

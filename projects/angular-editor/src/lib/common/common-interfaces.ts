@@ -102,6 +102,7 @@ export enum CommandName {
     addColumnLeft = 'addColumnLeft',
     deleteTable = 'deleteTable',
     deleteImage = 'deleteImage',
+    insertImageUrl = 'insertImageUrl',
     deleteColumn = 'deleteColumn',
     deleteRow = 'deleteRow',
     setColumnWidths = 'setColumnWidths',

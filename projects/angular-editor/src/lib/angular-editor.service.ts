@@ -153,8 +153,6 @@ export class AngularEditorService {
         // }
     }
 
-
-
     /**
      * save selection when the editor is focussed out
      */

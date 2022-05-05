@@ -160,6 +160,10 @@ export class AngularEditorToolbarComponent implements OnDestroy {
             value: null
         },
         {
+            label: this.sen['insertImageUrl'],
+            value: 'insertImageUrl'
+        },
+        {
             label: this.sen['deleteImage'],
             value: 'deleteImage'
         }
@@ -359,7 +363,7 @@ export class AngularEditorToolbarComponent implements OnDestroy {
     /**
      * insert URL link
      */
-    insertUrl() {
+    insertUrl(): void {
         let url: string;
         let target: LinkTargetType;
         const selection = this.editorService.savedSelection;
@@ -395,7 +399,6 @@ export class AngularEditorToolbarComponent implements OnDestroy {
                 }
             });
     }
-
 
     /**
      * set font Name/family
