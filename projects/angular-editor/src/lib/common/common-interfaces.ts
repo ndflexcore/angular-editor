@@ -137,7 +137,12 @@ export enum CommandName {
 }
 
 export enum CustomCommandName {
-    insertAnchor = 'insertAnchor'
+    insertAnchor = 'insertAnchor',
+    insertAnchor1 = 'insertAnchor1',
+    insertAnchor2 = 'insertAnchor2',
+    insertAnchor3 = 'insertAnchor3',
+    unSubscribeLink = 'unSubscribeLink',
+    browserLink = 'browserLink'
 }
 
 export interface CustomButtonClicked {
