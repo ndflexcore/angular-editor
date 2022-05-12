@@ -199,6 +199,9 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         }
     }
 
+    /*
+    * Insert image or file from Image Server
+     */
     ngOnChanges(changes: SimpleChanges) {
         if (changes['config'] && changes['config'].currentValue) {
             this.editorFonts = this.getFonts();
@@ -228,14 +231,21 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                     const width = ftpLink.width ? ftpLink.width : this.config.presetWidth;
                     const height = ftpLink.height ? ftpLink.height : this.config.presetHeight;
                     const imageType = ftpLink.crop ? `${this.config.imageType}_crop` : this.config.imageType;
-                    const src = `${this.config.imageServerUrl}/${imageType}/${width}/${height}/${ftpLink.partialWebPath}`;
 
-                    const imageHtml = `<img id="${id}" src="${src}" alt="${alt}" ${title}>`;
+                    const srcOrig = `${this.config.imageServerUrl}/${imageType}/${width}/${height}/${ftpLink.partialWebPath}`;
+                    let imageHtml;
+
+                    const webpPath = AngularEditorComponent.renameToWebp(ftpLink.partialWebPath);
+                    const srcWebp = `${this.config.imageServerUrl}/${imageType}/${width}/${height}/${webpPath}`;
+                    const innerImage =  `<img id="${id}" src="${srcOrig}" alt="${alt}" ${title}>`;
+                    imageHtml = `<picture id="PIC_${id}"><source type="image/webp" srcset="${srcWebp}">${innerImage}</picture>`;
+
                     this.editorService.restoreSelection();
                     this.editorService.insertHtml(imageHtml);
                 }
             }
         }
+
         if (changes['ftpLinkCk'] && changes['ftpLinkCk'].currentValue) {
             const ftpLink = <DirectoryChildOldImageServer> changes['ftpLinkCk'].currentValue;
             if (ftpLink.editorId === this.id) {
@@ -264,6 +274,12 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                 }
             }
         }
+    }
+
+    private static renameToWebp(imageName: string): string {
+        const parts = imageName.split('.');
+        parts[parts.length - 1] = 'webp';
+        return parts.join('.');
     }
 
     executeCustomButtonCommand(command: CustomCommandName) {
@@ -703,14 +719,17 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     }
 
     private editImage(): void {
-        const imgEl = document.getElementById(this.selObject.id);
+
+        const imgEl: HTMLImageElement = <HTMLImageElement>document.getElementById(this.selObject.id);
+        const picEl: HTMLPictureElement = <HTMLPictureElement>document.getElementById(`PIC_${this.selObject.id}`);
+
         if (!imgEl) {
             return;
         }
 
-        const oldSrc = imgEl['currentSrc'];
-        const oldAlt = imgEl['alt'];
-        const oldTitle = imgEl['title'];
+        const oldSrc = imgEl.src;
+        const oldAlt = imgEl.alt;
+        const oldTitle = imgEl.title;
 
         const m = oldSrc.match(/\/\d+\/\d+\//);
         if (m && m[0]) {
@@ -720,7 +739,10 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
             const width = size[0];
             const height = size[1];
             const sourceSplit = oldSrc.split('/');
+            const source: HTMLSourceElement = <HTMLSourceElement> picEl.childNodes[0];
+            const webpSplit = source.srcset.split('/');
             const imageName = sourceSplit[sourceSplit.length - 1];
+            const webpName = webpSplit[webpSplit.length - 1];
             const orig = `${this.config.imageServerUrl}/orig/${imageName}`;
 
             const dialogRef = this.dialog.open(EditImageDialogComponent, {
@@ -757,10 +779,13 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                         : this.config.imageType;
 
                     const src = `${this.config.imageServerUrl}/${imageType}/${res.width}/${res.height}/${imageName}`;
+                    const webpSrc = `${this.config.imageServerUrl}/${imageType}/${res.width}/${res.height}/${webpName}`;
 
                     this.r.setAttribute(imgEl, 'src', src);
                     this.r.setAttribute(imgEl, 'alt', res.alt);
                     this.r.setAttribute(imgEl, 'title', res.title);
+
+                    this.r.setAttribute(source, 'srcset', webpSrc);
 
                     this.onContentChange(this.textArea.nativeElement);
                 });
@@ -819,7 +844,11 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     private deleteImage(): void {
         try {
             const i: HTMLImageElement = <HTMLImageElement> document.getElementById(this.selObject.id);
+            const p = document.getElementById(`PIC_${this.selObject.id}`);
             i.remove();
+            if (p) {
+                p.remove();
+            }
             this.onContentChange(this.textArea.nativeElement);
         } finally {
             this.selObject = null;
@@ -849,7 +878,8 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         let url: string;
         let target: LinkTargetType;
         let parent: HTMLAnchorElement;
-        const i: HTMLImageElement = <HTMLImageElement> document.getElementById(this.selObject.id);
+        const i: HTMLPictureElement = <HTMLPictureElement> document.getElementById(`PIC_${this.selObject.id}`);
+        const picInner = i.outerHTML;
         const workOnParent: boolean = i.parentElement.nodeName === 'A';
         if (workOnParent) {
             parent = i.parentElement as HTMLAnchorElement;
@@ -865,7 +895,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                         parent.href = res.url;
                         parent.target = res.target;
                     } else {
-                        i.outerHTML = `<a href="${res.url}" target="${res.target}" rel="noopener"><img id="${i.id}" src="${i.src}" alt="${i.alt}" title="${i.title}"></a>`;
+                        i.outerHTML = `<a href="${res.url}" target="${res.target}" rel="noopener">${picInner}</a>`;
                     }
                     this.onContentChange(this.textArea.nativeElement);
                     this.selObject = null;

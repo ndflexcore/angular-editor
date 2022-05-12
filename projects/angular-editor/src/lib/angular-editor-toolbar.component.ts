@@ -288,7 +288,7 @@ export class AngularEditorToolbarComponent implements OnDestroy {
      */
     setupButtons(): void {
         const selection: Selection = window.getSelection();
-        if (!selection.anchorNode || !selection.focusNode) {
+        if (!selection.anchorNode || !selection.focusNode || !selection.anchorNode['data']) {
             return;
         }
 
