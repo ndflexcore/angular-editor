@@ -77,7 +77,6 @@ export class AppComponent implements OnInit {
         ],
         pasteEnabled: true,
         customColorPalette: ['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)'],
-        useOldImageBrowser: false,
         customButtons: [[{icon: null, buttonText: 'Hello!', commandName: CustomCommandName.insertAnchor}]]
     };
 
@@ -129,7 +128,6 @@ export class AppComponent implements OnInit {
         ],
         pasteEnabled: false,
         customColorPalette: ['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)'],
-        useOldImageBrowser: true,
         customButtons: [[{icon: 'fa-list-ul', buttonText: 'Hello there!', commandName: CustomCommandName.insertAnchor}]]
     };
 

@@ -627,11 +627,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     editObject(): void {
         switch (this.selObject.nodeName) {
             case 'IMG':
-                if (this.config.useOldImageBrowser) {
-                    this.editImageOld();
-                } else {
-                    this.editImage();
-                }
+                this.editImage();
                 break;
             case 'TABLE':
                 this.editTable();
@@ -759,55 +755,6 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                     this.onContentChange(this.textArea.nativeElement);
                 });
         }
-    }
-
-    private editImageOld(): void {
-        const imgEl = document.getElementById(this.selObject.id);
-        if (!imgEl) {
-            return;
-        }
-
-        const oldAlt = imgEl['alt'];
-        const oldTitle = imgEl['title'];
-        const width = imgEl.style.width;
-        const height = imgEl.style.height;
-
-        const dialogRef = this.dialog.open(EditImageDialogComponent, {
-            width: '475px',
-            height: 'auto',
-            data: {
-                oldImageBrowser: true,
-                width: width,
-                height: height,
-                alt: oldAlt,
-                title: oldTitle,
-                crop: null,
-                orig: null,
-                senDialogTitle: this.sen['editImageDialogTitle'],
-                senCancel: this.sen['cancel'],
-                senWidth: this.sen['width'],
-                senHeight: this.sen['height'],
-                senKeepRatio: this.sen['keepRatio'],
-                senCrop: this.sen['crop'],
-                senAlt: this.sen['alt'],
-                senTitle: this.sen['title']
-            }
-        });
-
-        dialogRef.afterClosed()
-            .pipe(take(1))
-            .subscribe((res: EditImageDialogData) => {
-                if (!res) {
-                    return;
-                }
-
-                this.r.setAttribute(imgEl, 'alt', res.alt);
-                this.r.setAttribute(imgEl, 'title', res.title);
-                this.r.setStyle(imgEl, 'width', `${res.width}px`);
-                this.r.setStyle(imgEl, 'height', `${res.height}px`);
-
-                this.onContentChange(this.textArea.nativeElement);
-            });
     }
 
     private deleteImage(): void {
