@@ -54,16 +54,6 @@ import {SetColumnWidthsDialogComponent} from './set-column-widths-dialog.compone
         EditTableDialogComponent,
         SetColumnWidthsDialogComponent
     ],
-    entryComponents: [
-        InsertTableDialogComponent,
-        InsertLinkDialogComponent,
-        InsertColorDialogComponent,
-        InsertVideoDialogComponent,
-        MessageDialogComponent,
-        EditImageDialogComponent,
-        EditTableDialogComponent,
-        SetColumnWidthsDialogComponent
-    ],
     exports: [
         AngularEditorComponent,
         AngularEditorToolbarComponent,
