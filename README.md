@@ -1,6 +1,20 @@
 # ND Flex Core AngularEditor
 Fork of @kolkov/angular-editor modified for specific needs of our company. Please use the original repo at https://github.com/kolkov/angular-editor.
 
+### Important versions
+
+**Latest**  
+This version introduces several breaking changes:
+* uses Ivy compiler
+* does not support projects with older CkFinder component for inserting images / files
+* requires at least Angular 14
+* this version is intended for projects based on Flex Core from 2023
+
+**1.0.81**  
+From this version on, all inserted images are  automatically inserted to ```<picture>``` element,
+thus webp images will be used, if possible on the target project.  
+If you do not plan using webp, use 1.0.80.
+
 ## Getting Started
 
 ### Installation

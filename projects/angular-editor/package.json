@@ -13,11 +13,11 @@
     "tslib": "^2.0.0"
   },
   "peerDependencies": {
-    "@angular/common": ">=9.0.0 <16",
-    "@angular/core": ">=9.0.0 <16",
-    "@angular/forms": ">=9.0.0 <16",
-    "@angular/material": ">=9.0.0 <16",
-    "@angular/platform-browser": ">=9.0.0 <16",
+    "@angular/common": ">=14.0.0 <16",
+    "@angular/core": ">=14.0.0 <16",
+    "@angular/forms": ">=14.0.0 <16",
+    "@angular/material": ">=14.0.0 <16",
+    "@angular/platform-browser": ">=14.0.0 <16",
     "ngx-color-picker": "11.0.0",
     "rxjs": "^6.x.x"
   }
