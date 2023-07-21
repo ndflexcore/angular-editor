@@ -8,7 +8,6 @@ import {
 } from '../../../angular-editor/src/public-api';
 import {
     DirectoryChild,
-    DirectoryChildOldImageServer,
     FtpRequest
 } from '../../../angular-editor/src/lib/common/common-interfaces';
 import {takeUntil} from 'rxjs/operators';
@@ -26,10 +25,8 @@ export class AppComponent implements OnInit {
     sensForm: UntypedFormGroup;
 
     htmlContent1 = ''; // `<img id="editor1_46934" src="https://img.flexsrv.scdev.cz/preview_crop/320/240/800px-Tides_of_Vengeance_logo.png" alt="My inserted image ALT" title="My inserted image TITLE">`;
-    htmlContent2 = ''; // `<img id="editor2_69576" style="width: 200px;height:200px" src="https://img.marocz002.scostry.cz/fotocache/mid/images/produkty/313472/zehnder-aura-radiator-trubkovy-rovny-se-stredovym-pripojenim-1500-x-500-mm-407-w-chrom.jpg" alt="some alt old style" title="some title old style">`;
     langCode: 'cs' | 'en' = 'cs';
     selectedFtpLink: DirectoryChild;
-    selectedFtpLinkOldStyle: DirectoryChildOldImageServer;
 
     config1: AngularEditorConfig = {
         editable: true,
@@ -221,15 +218,6 @@ export class AppComponent implements OnInit {
         //     height: null
         // }
         // simulates image
-        this.selectedFtpLinkOldStyle = {
-            editorId: ftpRequest.editorId,
-            type: 'image',
-            fullPath: 'https://img.marocz002.scostry.cz/fotocache/mid/images/produkty/313472/zehnder-aura-radiator-trubkovy-rovny-se-stredovym-pripojenim-1500-x-500-mm-407-w-chrom.jpg',
-            title: 'some title old style',
-            alt: 'some alt old style',
-            width: 200,
-            height: 200
-        };
     }
 
     private createForms(): void {

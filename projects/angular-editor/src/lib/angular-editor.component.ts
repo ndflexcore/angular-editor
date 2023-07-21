@@ -34,7 +34,6 @@ import {
     CustomButtonClicked,
     CustomCommandName,
     DirectoryChild,
-    DirectoryChildOldImageServer,
     EditImageDialogData,
     EditTableDialogResult,
     FtpRequest,
@@ -117,7 +116,6 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     @Input() placeholder = '';
     @Input() tabIndex: number | null;
     @Input() ftpLink: DirectoryChild | null;
-    @Input() ftpLinkCk: DirectoryChildOldImageServer | null;
 
     @Output() html;
 
@@ -242,35 +240,6 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
 
                     this.editorService.restoreSelection();
                     this.editorService.insertHtml(imageHtml);
-                }
-            }
-        }
-
-        if (changes['ftpLinkCk'] && changes['ftpLinkCk'].currentValue) {
-            const ftpLink = <DirectoryChildOldImageServer> changes['ftpLinkCk'].currentValue;
-            if (ftpLink.editorId === this.id) {
-                switch (ftpLink.type) {
-                    case 'file':
-                        if (!this.editorService.linkDialogOpen) {
-                            const linkHtml = `<a href="${ftpLink.fullPath}">${ftpLink.title}</a>`;
-                            this.editorService.restoreSelection();
-                            this.editorService.insertHtml(linkHtml);
-                        } else {
-                            this.editorService.ftpLinkGiven.emit(ftpLink.fullPath);
-                        }
-                        break;
-                    case 'image':
-                        const id = randomId(this.id);
-                        const alt = ftpLink.alt;
-                        const title = `title="${ftpLink.title}"`;
-                        const width = ftpLink.width ? ftpLink.width : this.config.presetWidth;
-                        const height = ftpLink.height ? ftpLink.height : this.config.presetHeight;
-                        const src = `${ftpLink.fullPath}`;
-
-                        const imageHtml = `<img id="${id}" style="width: ${width}px;height:${height}px" src="${src}" alt="${alt}" ${title}>`;
-                        this.editorService.restoreSelection();
-                        this.editorService.insertHtml(imageHtml);
-                        break;
                 }
             }
         }

@@ -17,16 +17,6 @@ export interface DirectoryChild {
     crop?: boolean;
 }
 
-export interface DirectoryChildOldImageServer {
-    editorId: string;
-    alt: string;
-    title: string;
-    height: number;
-    width: number;
-    fullPath: string;
-    type: FtpLinkType;
-}
-
 export type VerticalCellAlignment = 'top' | 'middle' | 'bottom';
 
 export interface TableDialogResult {
