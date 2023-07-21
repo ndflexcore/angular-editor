@@ -25,6 +25,9 @@
       "angular-editor/*": [
         "dist/angular-editor/*"
       ]
-    }
+    },
+      "angularCompilerOptions": {
+          "compilationMode": "partial"
+      }
   }
 }
