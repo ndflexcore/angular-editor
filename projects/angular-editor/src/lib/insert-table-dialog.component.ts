@@ -1,7 +1,7 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {Component, Inject} from '@angular/core';
 import {TableDialogResult} from './common/common-interfaces';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 
 @Component({
     selector: 'dialog-insert-table',
@@ -10,7 +10,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 })
 export class InsertTableDialogComponent {
 
-    tableForm: FormGroup;
+    tableForm: UntypedFormGroup;
     vAlignOptions = [
         { name: this.data.senVAlignTop, value: 'top' },
         { name: this.data.senVAlignMiddle, value: 'middle' },
@@ -18,7 +18,7 @@ export class InsertTableDialogComponent {
     ];
 
     constructor(public dialogRef: MatDialogRef<InsertTableDialogComponent>,
-                @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder) {
+                @Inject(MAT_DIALOG_DATA) public data: any, private fb: UntypedFormBuilder) {
         this.createForm();
     }
 

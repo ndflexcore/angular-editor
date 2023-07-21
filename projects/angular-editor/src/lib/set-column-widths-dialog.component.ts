@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormArray, UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {TableDialogResult} from './common/common-interfaces';
 
 @Component({
@@ -11,13 +11,13 @@ import {TableDialogResult} from './common/common-interfaces';
 
 export class SetColumnWidthsDialogComponent {
 
-    columnForm: FormGroup;
+    columnForm: UntypedFormGroup;
     get widths() {
-        return this.columnForm.get('widths') as FormArray;
+        return this.columnForm.get('widths') as UntypedFormArray;
     }
 
     constructor(public dialogRef: MatDialogRef<SetColumnWidthsDialogComponent>,
-                @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder) {
+                @Inject(MAT_DIALOG_DATA) public data: any, private fb: UntypedFormBuilder) {
         this.createForm();
     }
 

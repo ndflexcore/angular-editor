@@ -1,7 +1,7 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {FtpRequest, LinkDialogResult} from './common/common-interfaces';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {AngularEditorService} from './angular-editor.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
@@ -13,11 +13,11 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class InsertLinkDialogComponent implements OnInit, OnDestroy {
 
-    linkForm: FormGroup;
+    linkForm: UntypedFormGroup;
     private ngUnsubscribe: Subject<any> = new Subject<any>();
 
     constructor(public dialogRef: MatDialogRef<InsertLinkDialogComponent>,
-                @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder, private editorService: AngularEditorService) {
+                @Inject(MAT_DIALOG_DATA) public data: any, private fb: UntypedFormBuilder, private editorService: AngularEditorService) {
         this.createForm();
         this.editorService.ftpLinkGiven
             .pipe(takeUntil(this.ngUnsubscribe))

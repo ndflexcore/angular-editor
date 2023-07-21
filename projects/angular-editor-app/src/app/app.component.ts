@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {
     AngularEditorConfig, AngularEditorService,
     CustomButtonClicked,
@@ -22,8 +22,8 @@ import {Subject} from 'rxjs';
 export class AppComponent implements OnInit {
     title = 'app';
 
-    form: FormGroup;
-    sensForm: FormGroup;
+    form: UntypedFormGroup;
+    sensForm: UntypedFormGroup;
 
     htmlContent1 = ''; // `<img id="editor1_46934" src="https://img.flexsrv.scdev.cz/preview_crop/320/240/800px-Tides_of_Vengeance_logo.png" alt="My inserted image ALT" title="My inserted image TITLE">`;
     htmlContent2 = ''; // `<img id="editor2_69576" style="width: 200px;height:200px" src="https://img.marocz002.scostry.cz/fotocache/mid/images/produkty/313472/zehnder-aura-radiator-trubkovy-rovny-se-stredovym-pripojenim-1500-x-500-mm-407-w-chrom.jpg" alt="some alt old style" title="some title old style">`;
@@ -161,7 +161,7 @@ export class AppComponent implements OnInit {
         editorService.createLink(href, target);
     }
 
-    constructor(private formBuilder: FormBuilder) {
+    constructor(private formBuilder: UntypedFormBuilder) {
         this.createForms();
     }
 

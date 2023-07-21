@@ -1,7 +1,7 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {EditImageDialogData} from './common/common-interfaces';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
@@ -12,7 +12,7 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class EditImageDialogComponent implements OnInit, OnDestroy {
 
-    imageForm: FormGroup;
+    imageForm: UntypedFormGroup;
     // aspect ratio of original image
     private ratio: number;
     // aspect ratio of current image
@@ -20,7 +20,7 @@ export class EditImageDialogComponent implements OnInit, OnDestroy {
     private ngUnsubscribe: Subject<any> = new Subject<any>();
 
     constructor(public dialogRef: MatDialogRef<EditImageDialogComponent>,
-                @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder) {
+                @Inject(MAT_DIALOG_DATA) public data: any, private fb: UntypedFormBuilder) {
         this.createForm();
     }
 

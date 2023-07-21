@@ -1,7 +1,7 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {Component, Inject, OnDestroy} from '@angular/core';
 import {VideoDialogResult} from './common/common-interfaces';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {merge, Subject} from 'rxjs';
 import {finalize, take, takeUntil} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
@@ -26,14 +26,14 @@ interface VideoInfo {
 })
 export class InsertVideoDialogComponent implements OnDestroy {
 
-    videoForm: FormGroup;
+    videoForm: UntypedFormGroup;
     videoInfo: VideoInfo;
     gettingSize: boolean;
     sizeMode: SizeMode;
     private ngUnsubscribe: Subject<any> = new Subject<any>();
 
     constructor(public dialogRef: MatDialogRef<InsertVideoDialogComponent>,
-                @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder, private http: HttpClient) {
+                @Inject(MAT_DIALOG_DATA) public data: any, private fb: UntypedFormBuilder, private http: HttpClient) {
         this.createForm();
     }
 

@@ -1,7 +1,7 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {Component, Inject} from '@angular/core';
 import {EditTableDialogResult} from './common/common-interfaces';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 
 @Component({
     selector: 'dialog-insert-table',
@@ -10,7 +10,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 })
 export class EditTableDialogComponent {
 
-    tableForm: FormGroup;
+    tableForm: UntypedFormGroup;
     vAlignOptions = [
         { name: this.data.senVAlignTop, value: 'top' },
         { name: this.data.senVAlignMiddle, value: 'middle' },
@@ -18,7 +18,7 @@ export class EditTableDialogComponent {
     ];
 
     constructor(public dialogRef: MatDialogRef<EditTableDialogComponent>,
-                @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder) {
+                @Inject(MAT_DIALOG_DATA) public data: any, private fb: UntypedFormBuilder) {
         this.createForm();
     }
 
