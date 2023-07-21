@@ -224,17 +224,18 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                     image link
                      */
                     const id = randomId(this.id);
+                    const qryStr: string = randomId('qry');
                     const alt = ftpLink.alt || ftpLink.name;
                     const title = ftpLink.title ? `title="${ftpLink.title}"` : '';
                     const width = ftpLink.width ? ftpLink.width : this.config.presetWidth;
                     const height = ftpLink.height ? ftpLink.height : this.config.presetHeight;
                     const imageType = ftpLink.crop ? `${this.config.imageType}_crop` : this.config.imageType;
 
-                    const srcOrig = `${this.config.imageServerUrl}/${imageType}/${width}/${height}/${ftpLink.partialWebPath}`;
+                    const srcOrig = `${this.config.imageServerUrl}/${imageType}/${width}/${height}/${ftpLink.partialWebPath}?q=${qryStr}`;
                     let imageHtml;
 
                     const webpPath = AngularEditorComponent.renameToWebp(ftpLink.partialWebPath);
-                    const srcWebp = `${this.config.imageServerUrl}/${imageType}/${width}/${height}/${webpPath}`;
+                    const srcWebp = `${this.config.imageServerUrl}/${imageType}/${width}/${height}/${webpPath}?q=${qryStr}`;
                     const innerImage =  `<img id="${id}" src="${srcOrig}" alt="${alt}" ${title}>`;
                     imageHtml = `<picture id="PIC_${id}"><source type="image/webp" srcset="${srcWebp}">${innerImage}</picture>`;
 
@@ -743,8 +744,12 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                         ? `${this.config.imageType}_crop`
                         : this.config.imageType;
 
-                    const src = `${this.config.imageServerUrl}/${imageType}/${res.width}/${res.height}/${imageName}`;
-                    const webpSrc = `${this.config.imageServerUrl}/${imageType}/${res.width}/${res.height}/${webpName}`;
+                    let src = `${this.config.imageServerUrl}/${imageType}/${res.width}/${res.height}/${imageName}`;
+                    let webpSrc = `${this.config.imageServerUrl}/${imageType}/${res.width}/${res.height}/${webpName}`;
+
+                    const qryStr = `?q=${randomId('qry')}`;
+                    src = src.replace(/\?q=.+$/, qryStr);
+                    webpSrc = webpSrc.replace(/\?q=.+$/, qryStr);
 
                     this.r.setAttribute(imgEl, 'src', src);
                     this.r.setAttribute(imgEl, 'alt', res.alt);
