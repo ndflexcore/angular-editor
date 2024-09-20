@@ -1,6 +1,6 @@
 {
   "name": "@ndflexcore/angular-editor",
-  "version": "1.0.83",
+  "version": "1.0.84",
   "description": "Fork of @kolkov/angular-editor modified for specific needs of our company. Please use the original repo at https://github.com/kolkov/angular-editor",
   "author": "Petr Humplík <humplikpetr@gmail.com>",
   "repository": "https://github.com/ndflexcore/angular-editor",
@@ -13,12 +13,12 @@
     "tslib": "^2.0.0"
   },
   "peerDependencies": {
-    "@angular/common": ">=14.0.0 <16",
-    "@angular/core": ">=14.0.0 <16",
-    "@angular/forms": ">=14.0.0 <16",
-    "@angular/material": ">=14.0.0 <16",
-    "@angular/platform-browser": ">=14.0.0 <16",
-    "ngx-color-picker": "11.0.0",
+    "@angular/common": ">=14.0.0 <19",
+    "@angular/core": ">=14.0.0 <19",
+    "@angular/forms": ">=14.0.0 <19",
+    "@angular/material": ">=14.0.0 <19",
+    "@angular/platform-browser": ">=14.0.0 <19",
+    "ngx-color-picker": ">= 16.0.0",
     "rxjs": "^6.x.x"
   }
 }
