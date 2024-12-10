@@ -43,7 +43,7 @@ import {
     TableDialogResult,
     VideoDialogResult
 } from './common/common-interfaces';
-import {MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {MessageDialogComponent} from './message-dialog.component';
 import {randomId} from './common/helpers';
 import {EditImageDialogComponent} from './edit-image-dialog.component';
