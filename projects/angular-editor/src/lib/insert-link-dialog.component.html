@@ -12,7 +12,7 @@
         <mat-checkbox formControlName="openInNew">{{data.openInNewWindow}}</mat-checkbox>
     </div>
 </div>
-<div mat-dialog-actions class="pull-right insert-table-actions">
+<div mat-dialog-actions align="end">
     <button mat-raised-button (click)="onCancelClick()">{{data.cancel}}</button>
     <button mat-raised-button color="primary" [disabled]="linkForm.pristine || linkForm.invalid" (click)="ok()" cdkFocusInitial>OK</button>
 </div>

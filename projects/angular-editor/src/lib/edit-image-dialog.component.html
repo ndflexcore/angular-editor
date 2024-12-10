@@ -27,7 +27,7 @@
         <mat-checkbox formControlName="keepRatio">{{data.senKeepRatio}}</mat-checkbox>
     </div>
 </div>
-<div mat-dialog-actions class="pull-right insert-table-actions">
+<div mat-dialog-actions align="end">
     <button mat-raised-button (click)="onCancelClick()">{{data.senCancel}}</button>
     <button mat-raised-button [disabled]="imageForm.invalid" color="primary" (click)="ok()" cdkFocusInitial>OK</button>
 </div>

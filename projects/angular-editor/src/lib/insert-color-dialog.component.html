@@ -10,7 +10,7 @@
         [cpPresetColors]="data.customColorPalette"
         [(colorPicker)]="color"/>
 </div>
-<div mat-dialog-actions class="pull-right insert-table-actions">
+<div mat-dialog-actions align="end">
     <button mat-raised-button (click)="onCancelClick()">{{data.senCancel}}</button>
     <button mat-raised-button color="primary" (click)="ok()" cdkFocusInitial>OK</button>
 </div>
