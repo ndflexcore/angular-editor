@@ -3,7 +3,7 @@ import {HttpClient, HttpEvent} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {DOCUMENT} from '@angular/common';
 import {AngularEditorConfig, CustomClass} from './config';
-import {MatDialog} from '@angular/material/dialog';
+import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
 import {takeUntil} from 'rxjs/operators';
 import {ColorWhere, FtpRequest, LinkTargetType, TableDialogResult} from './common/common-interfaces';
 import {LangService} from './services/lang.service';
