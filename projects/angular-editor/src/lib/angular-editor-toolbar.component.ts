@@ -243,6 +243,7 @@ export class AngularEditorToolbarComponent implements OnDestroy {
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
                 this.sen = res;
+                console.log(this.sen['p']); // todo remove
             });
         this.editorService.intervalEmitter
             .pipe(takeUntil(this.ngUnsubscribe))

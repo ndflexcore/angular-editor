@@ -1,4 +1,5 @@
 import {EventEmitter, Injectable} from '@angular/core';
+import {LangCode} from '../common/common-interfaces';
 
 const sen_en: { [p: string]: string } = {
     undo: 'Undo',
@@ -114,7 +115,7 @@ const sen_cs: { [p: string]: string } = {
     placeholder: 'Sem zadejte text...',
     notice: 'Upozornění',
     pasteDisabled: 'Funkce vkládání ze schránky je zakázána.',
-    cancel: 'Storno',
+    cancel: 'Zrušit',
     numRows: 'Počet řádků',
     numCols: 'Počet sloupců',
     stroke: 'Ohraničení',
@@ -166,11 +167,94 @@ const sen_cs: { [p: string]: string } = {
     vAlignBottom: 'Dolů'
 };
 
+const sen_sk: { [p: string]: string } = {
+    undo: 'Späť',
+    redo: 'Znovu',
+    bold: 'Tučné',
+    italic: 'Kurzíva',
+    underline: 'Podčiarknuté',
+    strikethrough: 'Prečiarknuté',
+    subscript: 'Dolný index',
+    superscript: 'Horný index',
+    justifyLeft: 'Zarovnať vľavo',
+    justifyCenter: 'Zarovnať do stredu',
+    justifyRight: 'Zarovnať vpravo',
+    justifyFull: 'Zarovnať do bloku',
+    indent: 'Odsadenie',
+    outdent: 'Zmenšiť odsadenie',
+    unorderedList: 'Nezotriedený zoznam',
+    orderedList: 'Zotriedený zoznam',
+    insertLink: 'Vložiť odkaz',
+    unlink: 'Zrušiť odkaz',
+    insertImage: 'Vložiť obrázok',
+    insertFtp: 'Vložiť súbor/obrázok z FTP',
+    insertVideo: 'Vložiť video',
+    horizontalLine: 'Vodorovná čiara',
+    insertTable: 'Vložiť tabuľku',
+    clearFormatting: 'Zrušiť formátovanie',
+    HTMLCode: 'HTML kód',
+    textColor: 'Farba textu',
+    backgroundColor: 'Farba pozadia',
+    placeholder: 'Sem zadajte text...',
+    notice: 'Upozornenie',
+    pasteDisabled: 'Funkcia vkladania zo schránky je zakázaná.',
+    cancel: 'Zrušiť',
+    numRows: 'Počet riadkov',
+    numCols: 'Počet stĺpcov',
+    stroke: 'Ohraničenie',
+    insertLinkPlaceholder: '"https://www.neco.cz" alebo "/c/moda"',
+    insertLinkUrlTitle: 'URL odkazu',
+    insertLinkValidatorRequired: 'Musíte zadať hodnotu.',
+    insertLinkValidatorPattern: 'Neplatný formát URL.',
+    insertVideoValidatorRequired: 'Musíte zadať URL videa.',
+    insertVideoValidatorPattern: 'URL videa má nesprávny formát.',
+    insertVideoUrlLabel: 'Zadajte Url videá',
+    insertVideoUseOrigSize: 'Použiť pôvodnú veľkosť náhľadu',
+    insertVideoUseManualSize: 'Zadať vlastnú veľkosť náhľadu',
+    width: 'Šírka',
+    height: 'Výška',
+    keepRatio: 'Zachovať pomer strán originálu',
+    crop: 'Orezať',
+    alt: 'Alt',
+    title: 'Titulok',
+    editImageDialogTitle: 'Vlastnosti obrázku',
+    editTableDialogTitle: 'Upraviť tabuľku',
+    insertColorDialogTitle: 'Nastaviť farbu',
+    insertVideoDialogTitle: 'Vložiť video',
+    fullWidth: '100% šírka',
+    tableActions: 'Akcia tabuľky',
+    addRowBellow: 'Pridať riadok pod',
+    addRowUp: 'Pridať riadok nad',
+    addColumnRight: 'Pridať stĺpec vpravo',
+    addColumnLeft: 'Pridať stĺpec vľavo',
+    deleteColumn: 'Zmazať stĺpec',
+    deleteRow: 'Zmazať riadok',
+    deleteTable: 'Zmazať tabuľku',
+    setColumnWidths: 'Nastaviť šírky stĺpcov',
+    h1: 'Nadpis 1',
+    h2: 'Nadpis 2',
+    h3: 'Nadpis 3',
+    h4: 'Nadpis 4',
+    h5: 'Nadpis 5',
+    h6: 'Nadpis 6',
+    p: 'Odsek',
+    clear: 'Predvolené',
+    imageActions: 'Akcia obrázku',
+    deleteImage: 'Zmazať obrázok',
+    insertImageUrl: 'Nastaviť odkaz',
+    openInNewWindow: 'Otvoriť v novom okne',
+    presetColors: 'Prednastavené farby',
+    verticalCellAlignment: 'Zvislé zarovnanie buniek',
+    vAlignTop: 'Hore',
+    vAlignMiddle: 'Doprostred',
+    vAlignBottom: 'Dole'
+};
+
 @Injectable({
     providedIn: 'root'
 })
 export class LangService {
-    set lang(value: 'cs' | 'en') {
+    set lang(value: LangCode) {
         this.switchLang(value);
     }
 
@@ -190,7 +274,7 @@ export class LangService {
         this.switchLang('cs');
     }
 
-    private switchLang(val: 'cs' | 'en'): void {
+    private switchLang(val: LangCode): void {
         switch (val) {
             case 'cs':
                 this.sen = sen_cs;
@@ -198,8 +282,8 @@ export class LangService {
             case 'en':
                 this.sen = sen_en;
                 break;
-            default:
-                this.sen = sen_cs;
+            case 'sk':
+                this.sen = sen_sk;
         }
         this.languageChanged.emit(this.sen);
     }

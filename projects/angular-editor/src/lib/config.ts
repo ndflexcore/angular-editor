@@ -33,7 +33,6 @@ export interface AngularEditorConfig {
     toolbarPosition?: 'top' | 'bottom';
     outline?: boolean;
     toolbarHiddenButtons?: string[][];
-    language: 'cs' | 'en';
     imageServerUrl: string;
     extensionsApiUrl: string;
     imageType: string;
@@ -66,7 +65,6 @@ export const angularEditorConfig: AngularEditorConfig = {
     sanitize: true,
     toolbarPosition: 'top',
     outline: true,
-    language: 'cs',
     imageServerUrl: '',
     extensionsApiUrl: '',
     imageType: 'preview',

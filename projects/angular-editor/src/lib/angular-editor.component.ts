@@ -36,7 +36,7 @@ import {
     DirectoryChild,
     EditImageDialogData,
     EditTableDialogResult,
-    FtpRequest,
+    FtpRequest, LangCode,
     LinkDialogResult,
     LinkTargetType,
     SelectedObject,
@@ -113,9 +113,10 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
 
     @Input() id = '';
     @Input() config: AngularEditorConfig = angularEditorConfig;
-    @Input() placeholder = '';
     @Input() tabIndex: number | null;
+    @Input() cultureId: number = 34;
     @Input() ftpLink: DirectoryChild | null;
+    @Input() placeholder = '';
 
     @Output() html;
 
@@ -203,7 +204,9 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     ngOnChanges(changes: SimpleChanges) {
         if (changes['config'] && changes['config'].currentValue) {
             this.editorFonts = this.getFonts();
-            this.langService.lang = changes['config'].currentValue['language'];
+        }
+        if (changes['cultureId'] && changes['cultureId'].currentValue) {
+            this.langService.lang = AngularEditorComponent.getLanCodeFromCultureId(this.cultureId);
         }
         if (changes['ftpLink'] && changes['ftpLink'].currentValue) {
             const ftpLink = <DirectoryChild> changes['ftpLink'].currentValue;
@@ -243,6 +246,19 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
                     this.editorService.insertHtml(imageHtml);
                 }
             }
+        }
+    }
+
+    private static getLanCodeFromCultureId(cultureId: number): LangCode {
+        switch (cultureId) {
+            case 34:
+                return 'cs';
+            case 50:
+                return 'en';
+            case 102:
+                return 'sk';
+            default:
+                return 'cs';
         }
     }
 

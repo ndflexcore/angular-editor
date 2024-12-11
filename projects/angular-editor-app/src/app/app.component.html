@@ -16,6 +16,7 @@
     <form [formGroup]="form">
         <angular-editor id="editor1" formControlName="html"
                         [config]="config1" (ngModelChange)="onChange()"
+                        [cultureId]="cultureId"
                         (blur)="onBlur()"
                         (ftpNeeded)="onFtpNeeded($event)"
                         [ftpLink]="selectedFtpLink"
@@ -29,6 +30,12 @@
     <p>
         Form Status: {{ form.status }}
     </p>
+
+    <div>
+        <button (click)="changeCulture(34)" style="margin-right: 12px">CZ</button>
+        <button (click)="changeCulture(50)" style="margin-right: 12px">EN</button>
+        <button (click)="changeCulture(102)" style="margin-right: 12px">SK</button>
+    </div>
 
 </div>
 

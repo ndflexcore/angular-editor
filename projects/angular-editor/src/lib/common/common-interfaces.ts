@@ -144,3 +144,5 @@ export enum ColorWhere {
     text,
     background
 }
+
+export type LangCode = 'en' | 'cs' | 'sk';

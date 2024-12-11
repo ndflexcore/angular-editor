@@ -3,8 +3,7 @@ import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {
     AngularEditorConfig, AngularEditorService,
     CustomButtonClicked,
-    CustomCommandName,
-    LinkTargetType
+    CustomCommandName, LinkTargetType
 } from '../../../angular-editor/src/public-api';
 import {
     DirectoryChild,
@@ -25,7 +24,7 @@ export class AppComponent implements OnInit {
     sensForm: UntypedFormGroup;
 
     htmlContent1 = ''; // `<img id="editor1_46934" src="https://img.flexsrv.scdev.cz/preview_crop/320/240/800px-Tides_of_Vengeance_logo.png" alt="My inserted image ALT" title="My inserted image TITLE">`;
-    langCode: 'cs' | 'en' = 'cs';
+    cultureId: number = 34;
     selectedFtpLink: DirectoryChild;
 
     config1: AngularEditorConfig = {
@@ -41,7 +40,6 @@ export class AppComponent implements OnInit {
         defaultFontSize: '3',
         showToolbar: true,
         defaultParagraphSeparator: 'p',
-        language: this.langCode,
         imageServerUrl: '',
         extensionsApiUrl: '',
         imageType: 'preview',
@@ -92,7 +90,6 @@ export class AppComponent implements OnInit {
         defaultFontName: 'Roboto, sans-serif',
         defaultFontSize: '5',
         defaultParagraphSeparator: 'p',
-        language: this.langCode,
         imageServerUrl: '',
         extensionsApiUrl: '',
         imageType: 'preview',
@@ -172,10 +169,6 @@ export class AppComponent implements OnInit {
         // console.log('blur ' + event);
     }
 
-    onChange2(/* event */) {
-        // console.log(`(ngModelChange): ${event}`);
-    }
-
     onFtpNeeded(ftpRequest: FtpRequest): void {
         // simulates file
         // this.selectedFtpLink = {
@@ -202,20 +195,6 @@ export class AppComponent implements OnInit {
             title: 'My inserted image TITLE',
             crop: true
         };
-    }
-
-    onFtpNeeded2(ftpRequest: FtpRequest): void {
-        // simulates file
-        // this.selectedFtpLinkOldStyle = {
-        //     editorId: ftpRequest.editorId,
-        //     type: 'file',
-        //     fullPath: 'https://img.marocz002.scostry.cz/files/dokumenty/OP2021.pdf',
-        //     title: 'some title old style',
-        //     alt: null,
-        //     width: null,
-        //     height: null
-        // }
-        // simulates image
     }
 
     private createForms(): void {
@@ -251,5 +230,8 @@ export class AppComponent implements OnInit {
         }
     }
 
+    changeCulture(cid: number): void {
+        this.cultureId = cid;
+    }
 
 }
