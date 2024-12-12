@@ -49,41 +49,7 @@ export class AngularEditorToolbarComponent implements OnDestroy {
     commands = CommandName;
     colorWheres = ColorWhere;
 
-    headings: SelectOption[] = [
-        {
-            label: this.sen['h1'],
-            value: 'h1',
-        },
-        {
-            label: this.sen['h2'],
-            value: 'h2',
-        },
-        {
-            label: this.sen['h3'],
-            value: 'h3',
-        },
-        {
-            label: this.sen['h4'],
-            value: 'h4',
-        },
-        {
-            label: this.sen['h5'],
-            value: 'h5',
-        },
-        {
-            label: this.sen['h6'],
-            value: 'h6',
-        },
-        {
-            label: this.sen['p'],
-            value: 'p',
-        },
-        {
-            label: this.sen['clear'],
-            value: 'default'
-        }
-    ];
-
+    headings: SelectOption[] = [];
     fontSizes: SelectOption[] = [
         {
             label: '1',
@@ -115,59 +81,8 @@ export class AngularEditorToolbarComponent implements OnDestroy {
         }
     ];
 
-    tableActions: SelectOption[] = [
-        {
-            label: this.sen['tableActions'],
-            value: null
-        },
-        {
-            label: this.sen['setColumnWidths'],
-            value: 'setColumnWidths'
-        },
-        {
-            label: this.sen['addRowBellow'],
-            value: 'addRowBellow'
-        },
-        {
-            label: this.sen['addRowUp'],
-            value: 'addRowUp'
-        },
-        {
-            label: this.sen['addColumnRight'],
-            value: 'addColumnRight'
-        },
-        {
-            label: this.sen['addColumnLeft'],
-            value: 'addColumnLeft'
-        },
-        {
-            label: this.sen['deleteColumn'],
-            value: 'deleteColumn'
-        },
-        {
-            label: this.sen['deleteRow'],
-            value: 'deleteRow'
-        },
-        {
-            label: this.sen['deleteTable'],
-            value: 'deleteTable'
-        }
-    ];
-
-    imageActions: SelectOption[] = [
-        {
-            label: this.sen['imageActions'],
-            value: null
-        },
-        {
-            label: this.sen['insertImageUrl'],
-            value: 'insertImageUrl'
-        },
-        {
-            label: this.sen['deleteImage'],
-            value: 'deleteImage'
-        }
-    ];
+    tableActions: SelectOption[] = [];
+    imageActions: SelectOption[] = [];
 
     tableAction: string = null;
     imageAction: string = null;
@@ -239,11 +154,13 @@ export class AngularEditorToolbarComponent implements OnDestroy {
         @Inject(DOCUMENT) private doc: any,
         private dialog: MatDialog
     ) {
+        this.initSelectValues();
+
         this.langService.languageChanged
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
                 this.sen = res;
-                console.log(this.sen['p']); // todo remove
+                this.initSelectValues();
             });
         this.editorService.intervalEmitter
             .pipe(takeUntil(this.ngUnsubscribe))
@@ -517,4 +434,106 @@ export class AngularEditorToolbarComponent implements OnDestroy {
     setHeading(block: string) {
         this.triggerCommand(block as CommandName);
     }
+
+    private initSelectValues(): void {
+        this.initHeadings();
+        this.initTableActions();
+        this.initImageActions();
+    }
+
+    private initHeadings(): void {
+        this.headings = [
+            {
+                label: this.sen['h1'],
+                value: 'h1',
+            },
+            {
+                label: this.sen['h2'],
+                value: 'h2',
+            },
+            {
+                label: this.sen['h3'],
+                value: 'h3',
+            },
+            {
+                label: this.sen['h4'],
+                value: 'h4',
+            },
+            {
+                label: this.sen['h5'],
+                value: 'h5',
+            },
+            {
+                label: this.sen['h6'],
+                value: 'h6',
+            },
+            {
+                label: this.sen['p'],
+                value: 'p',
+            },
+            {
+                label: this.sen['clear'],
+                value: 'default'
+            }
+        ];
+    }
+
+    private initTableActions(): void {
+        this.tableActions = [
+            {
+                label: this.sen['tableActions'],
+                value: null
+            },
+            {
+                label: this.sen['setColumnWidths'],
+                value: 'setColumnWidths'
+            },
+            {
+                label: this.sen['addRowBellow'],
+                value: 'addRowBellow'
+            },
+            {
+                label: this.sen['addRowUp'],
+                value: 'addRowUp'
+            },
+            {
+                label: this.sen['addColumnRight'],
+                value: 'addColumnRight'
+            },
+            {
+                label: this.sen['addColumnLeft'],
+                value: 'addColumnLeft'
+            },
+            {
+                label: this.sen['deleteColumn'],
+                value: 'deleteColumn'
+            },
+            {
+                label: this.sen['deleteRow'],
+                value: 'deleteRow'
+            },
+            {
+                label: this.sen['deleteTable'],
+                value: 'deleteTable'
+            }
+        ];
+    }
+
+    private initImageActions(): void {
+        this.imageActions = [
+            {
+                label: this.sen['imageActions'],
+                value: null
+            },
+            {
+                label: this.sen['insertImageUrl'],
+                value: 'insertImageUrl'
+            },
+            {
+                label: this.sen['deleteImage'],
+                value: 'deleteImage'
+            }
+        ];
+    }
+
 }

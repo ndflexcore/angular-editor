@@ -25,6 +25,8 @@ export class AppComponent implements OnInit {
 
     htmlContent1 = ''; // `<img id="editor1_46934" src="https://img.flexsrv.scdev.cz/preview_crop/320/240/800px-Tides_of_Vengeance_logo.png" alt="My inserted image ALT" title="My inserted image TITLE">`;
     cultureId: number = 34;
+    private cultureIdKey: string = 'cultureId';
+
     selectedFtpLink: DirectoryChild;
 
     config1: AngularEditorConfig = {
@@ -155,6 +157,9 @@ export class AppComponent implements OnInit {
 
     constructor(private formBuilder: UntypedFormBuilder) {
         this.createForms();
+        if (sessionStorage.getItem(this.cultureIdKey)) {
+            this.cultureId = parseInt(sessionStorage.getItem(this.cultureIdKey), 10);
+        }
     }
 
     ngOnInit() {
@@ -232,6 +237,8 @@ export class AppComponent implements OnInit {
 
     changeCulture(cid: number): void {
         this.cultureId = cid;
+        sessionStorage.setItem(this.cultureIdKey, cid.toString());
+        location.reload();
     }
 
 }
